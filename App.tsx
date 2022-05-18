@@ -1,11 +1,26 @@
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+interface LoggedIn {
+  status: string;
+  screen: string;
+}
+
 export default function App() {
+  const [loggedIn, setLoggedIn] = useState<LoggedIn>({
+    status: "",
+    screen: "splash",
+  });
   return (
     <View style={styles.container}>
-      <Text style={{ fontWeight: "bold", fontSize: 30 }}>Karot</Text>
-      <Text>Saving Smart.</Text>
+      {loggedIn.status!=="success"?
+      <Text>Splash screen</Text>
+    : loggedIn.screen === "login" ?
+      <Text>Login screen</Text>
+      : <Text>Overview</Text>
+      
+    }
       <StatusBar style="auto" />
     </View>
   );
