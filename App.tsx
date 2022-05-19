@@ -11,18 +11,14 @@ interface LoggedIn {
 export default function App() {
   const [loggedIn, setLoggedIn] = useState<LoggedIn>({
     status: "",
-    screen: "splash",
+    screen: "login",
   });
   return (
     <SplashScreenAnimation>
       <View style={styles.container}>
-        {loggedIn.status!=="success"?
-        <Text>Splash screen</Text>
-      : loggedIn.screen === "login" ?
-        <Text>Login screen</Text>
-        : <Text>Overview</Text>
-        
-      }
+        {loggedIn.screen === "login"
+          ? <Text style={{ fontWeight: 'bold', fontSize: 28 }}>Login screen</Text>
+          : <Text style={{ fontWeight: 'bold', fontSize: 28 }}>Overview</Text>}
         <StatusBar style="auto" />
       </View>
     </SplashScreenAnimation>
