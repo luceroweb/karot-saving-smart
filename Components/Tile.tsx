@@ -9,7 +9,7 @@ export default function Tile() {
   return (
     <View style={styles.container}>
       <MaterialCommunityIcons style={styles.tileEdit} name="lead-pencil" size={20} color="black" />
-      <Text style={ styles.tileText }>$1,100 </Text>
+      <Text style={ styles.tileText }>$1,100</Text>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import BudgetTile from '../Components/BudgetTile';
 import Tile from '../Components/Tile';
 
@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
     width: 320,
   },
   tileRow: {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable, TouchableOpacity, Platform } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   useFonts,
@@ -33,7 +33,7 @@ export default function Tile() {
           Based on your fixed expenses
         </Text>
       </View>
-      {budgetDetails ? (
+      {budgetDetails ?
         <View style={styles.incomeContainer}>
           <View style={styles.incomeRow}>
             <Text style={styles.incomeText}>Rent</Text>
@@ -55,8 +55,18 @@ export default function Tile() {
             <Text style={styles.incomeText}>$390</Text>
             <Text style={styles.dateText}>Due on 05/07/2022</Text>
           </View>
+          {
+          Platform.OS === "ios" ?
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={styles.editText}>Edit</Text>
+            </TouchableOpacity>
+            :
+            <Pressable style={styles.editButton}>
+              <Text style={styles.editText}>Edit</Text>
+            </Pressable>
+          }
         </View>
-      ) : null}
+       : null}
     </View>
   );
 }
@@ -64,7 +74,8 @@ export default function Tile() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    border: "2px solid black",
+    boxShadow: "0px 5px 15px gray",
+    elevation: 10,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -72,7 +83,6 @@ const styles = StyleSheet.create({
     padding: 40,
     minHeight: 180,
     width: 380,
-    // width: "90%",
   },
   tileEdit: {
     position: "absolute",
@@ -113,4 +123,19 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun_400Regular",
     width: 180,
   },
+  editButton: {
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    backgroundColor: "lightgray",
+    margin: 30,
+    padding: 15,
+    width: 180,
+  },
+  editText: {
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Sarabun_400Regular",
+  }
 });
