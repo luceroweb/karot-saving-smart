@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import SplashScreenAnimation from './components/SplashScreenAnimation';
+import SplashScreenAnimation from './Components/SplashScreenAnimation';
 import { LinearGradient } from 'expo-linear-gradient';
 interface LoggedIn {
   status: string;
