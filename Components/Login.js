@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import { StyleSheet, Text, View, Button, Image, TouchableOpacity, } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png"
 import karotSlogan from "../Images/karot-slogan.png"
 
