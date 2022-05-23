@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "deploy": "gh-pages -d web-build",
-    "predeploy": "expo build:web"
+    "predeploy": "expo build:web",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "expo": "~45.0.0",
@@ -20,10 +21,13 @@
     "expo-status-bar": "~1.3.0",
     "expo-web-browser": "^10.2.0",
     "gh-pages": "^4.0.0",
+    "patch-package": "^6.4.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
-    "react-native-web": "0.17.7"
+    "react-native-web": "0.17.7",
+    "webpack-dev-server": "~3.11.0",
+    "@expo/webpack-config": "~0.16.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
