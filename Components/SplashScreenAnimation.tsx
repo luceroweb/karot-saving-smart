@@ -5,6 +5,7 @@ import { Asset } from "expo-asset";
 import splashScreenImage from '../Images/splash-screen.png';
 import logoImage from '../Images/logo/logo_white-and-gold-bunny.png';
 import titleImage from '../Images/logo/title_karot-saving-smart.png';
+import logoCombinedImage from '../Images/logo/logo_combined.png';
 import { LoggedInType } from '../Utils/types';
 interface Props {
   setLoggedIn: ({ status, screen }: LoggedInType) => void;
@@ -34,7 +35,8 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
         await Asset.loadAsync([
           require("../Images/splash-screen.png"),
           require("../Images/logo/logo_white-and-gold-bunny.png"),
-          require("../Images/logo/title_karot-saving-smart.png")
+          require("../Images/logo/title_karot-saving-smart.png"),
+          require("../Images/logo/logo_combined.png")
         ])
         // Load any fonts, sounds, images, addtional assets here
         await new Promise(resolve => setTimeout(() => resolve(null), 2000));
@@ -70,23 +72,12 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
       >
         <Image 
           style={{
-            width: 173,
-            height: 190,
-            marginBottom: space,
+            maxWidth: 215,
+            width: "50%",
+            height: 352,
           }}
           resizeMode="contain"
-          source={logoImage}
-          fadeDuration={0}
-        />
-        <Image 
-          style={{
-            marginTop: space,
-            width: 200,
-            height: 80,
-          }}
-
-          resizeMode="contain"
-          source={titleImage}
+          source={logoCombinedImage}
           fadeDuration={0}
         />
       </Animated.View>
