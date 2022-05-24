@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import ContactForm from "./Components/ContactForm";
 
 interface LoggedIn {
   status: string;
@@ -13,15 +14,17 @@ export default function App() {
     screen: "splash",
   });
   return (
-    <View style={styles.container}>
-      {loggedIn.status!=="success"?
+    <View >
+      {/* {loggedIn.status!=="success"?
       <Text>Splash screen</Text>
     : loggedIn.screen === "login" ?
       <Text>Login screen</Text>
       : <Text>Overview</Text>
       
-    }
-      <StatusBar style="auto" />
+    } */}
+      <StatusBar style="auto" /> 
+      
+    <ContactForm />
     </View>
   );
 }
