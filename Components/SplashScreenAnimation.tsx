@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
-import { Animated, StyleSheet, View, Image } from 'react-native';
+import { Animated, Easing, StyleSheet, View, Image } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { Asset } from "expo-asset";
 import splashScreenImage from '../Images/splash-screen.png';
@@ -22,9 +22,10 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
       await SplashScreen.hideAsync();
       // start animated SplashScreen image
       Animated.timing(splashImagesAnimation, {
-        toValue: -150,
+        toValue: -100,
         duration: 2000,
         useNativeDriver: true,
+        easing: Easing.bezier(0.65, 0, 0.35, 1)
       }).start(() => setLoggedIn({ status: '', screen: 'login' }));
     }
     const loadAssets = async () => {
