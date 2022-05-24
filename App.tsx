@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Overview from "./Screens/Overview";
+import BudgetCard from "./Components/BudgetCard";
 
 interface LoggedIn {
   status: string;
@@ -23,7 +23,7 @@ export default function App() {
       
     }
       <StatusBar style="auto" /> */}
-      <Overview />
+      <BudgetCard />
     </View>
   );
 }
