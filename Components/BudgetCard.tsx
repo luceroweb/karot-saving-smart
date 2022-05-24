@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Pressable, TouchableOpacity, Platform } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   useFonts,
@@ -7,6 +7,7 @@ import {
   Sarabun_400Regular,
   Sarabun_300Light,
 } from "@expo-google-fonts/sarabun";
+import * as Progress from 'react-native-progress';
 
 export default function Tile() {
   let [fontsLoaded] = useFonts({
@@ -15,6 +16,8 @@ export default function Tile() {
     Sarabun_300Light,
   });
   const [budgetDetails, setBudgetDetails] = useState(false);
+  const [moneyRem, setMoneyRem] = useState(346.13);
+  const [moneyTotal, setMoneyTotal] = useState(475);
 
   return (
     <View style={styles.container}>
@@ -22,17 +25,25 @@ export default function Tile() {
         {budgetDetails ? <Text>Accounts List Component here</Text> : null}
         <Text style={styles.budgetTextTop}>Balance:</Text>
         <Text style={styles.budgetText}>
-          $346.13
+          ${moneyRem}
         </Text>
         <Text style={styles.budgetTextBottom}>
-          $346.13 left of $475
+          ${moneyRem} left of ${moneyTotal}
         </Text>
-        <MaterialIcons
+        <View style={styles.bar}>
+          <Progress.Bar
+            progress={moneyRem / moneyTotal}
+            width={235}
+            height={10}
+          />
+          <MaterialIcons
+            style={styles.toggleArrow}
             name={budgetDetails ? "keyboard-arrow-up":"keyboard-arrow-down"}
             size={24}
             color="black"
             onPress={() => setBudgetDetails(!budgetDetails)}
-          />
+            />
+        </View>
       </View>
     </View>
   );
@@ -41,7 +52,8 @@ export default function Tile() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    borderBottom: "4px solid black",
+    borderBottomColor: "black",
+    borderBottomWidth: 4,
     alignItems: "center",
     justifyContent: "center",
     margin: 10,
@@ -66,4 +78,14 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun_300Light",
     padding: 10,
   },
+  toggleArrow: {
+    marginLeft: 22,
+  },
+  bar: {
+    flexDirection: "row",
+    height: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 46,
+  }
 });
