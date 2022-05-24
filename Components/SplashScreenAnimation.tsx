@@ -5,7 +5,7 @@ import { Asset } from "expo-asset";
 import splashScreenImage from '../Images/splash-screen.png';
 import logoImage from '../Images/logo/logo_white-and-gold-bunny.png';
 import titleImage from '../Images/logo/title_karot-saving-smart.png';
-import { LoggedInType } from '../Util/types';
+import { LoggedInType } from '../Utils/types';
 interface Props {
   setLoggedIn: ({ status, screen }: LoggedInType) => void;
 }
