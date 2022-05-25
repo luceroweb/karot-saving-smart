@@ -14,9 +14,8 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
 
   useEffect(() => {
     const playSplashAnimation = async (): Promise<void> => {
-      // app is ready, hide the static SplashScreen image
+      // app is ready, hide SplashScreen, start animation
       await SplashScreen.hideAsync();
-      // start animated SplashScreen image
       Animated.timing(splashImagesAnimation, {
         toValue: -100,
         duration: 2000,
@@ -28,11 +27,11 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
       try {
         // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
         await SplashScreen.preventAutoHideAsync();
-        // preload any images for use in the app
+        // preload any images, fonts, sounds, addtional assets
         await Asset.loadAsync([
           require("../Images/logo/logo_combined.png")
         ])
-        // Load any fonts, sounds, addtional assets here
+        // wait two seconds to simulate loading
         await new Promise(resolve => setTimeout(() => resolve(null), 2000));
       } catch (e) {
         // handle errors
