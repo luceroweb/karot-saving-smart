@@ -11,7 +11,7 @@ interface LoggedIn {
 export default function App() {
   const [loggedIn, setLoggedIn] = useState<LoggedIn>({
     status: "",
-    screen: "splash",
+    screen: "login",
   });
   return (
     <View style={styles.container}>
@@ -21,8 +21,11 @@ export default function App() {
         end={{ x: 1.8, y: 1.1 }}
         style={StyleSheet.absoluteFill}
       />
-      {loggedIn.screen === "splash" ? <SplashScreenAnimation setLoggedIn={setLoggedIn} />
-       : <Text style={{ fontWeight: 'bold', fontSize: 28 }}>Login screen</Text>}
+      {
+        loggedIn.screen === "login"
+          ? <SplashScreenAnimation setLoggedIn={setLoggedIn} />
+          : <Text style={{ fontWeight: 'bold', fontSize: 28 }}>Overview Screen</Text>
+      }
       <StatusBar style="auto" />
     </View>
   );
