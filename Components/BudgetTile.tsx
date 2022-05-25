@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useFonts, Sarabun_700Bold, Sarabun_400Regular, Sarabun_300Light } from "@expo-google-fonts/sarabun";
+import ProgressBar from './ProgressBar';
 
 export default function Tile() {
   let [fontsLoaded] = useFonts ({ Sarabun_700Bold, Sarabun_400Regular, Sarabun_300Light });
@@ -39,6 +40,7 @@ export default function Tile() {
             <Text style={styles.incomeText}>$390</Text>
             <Text style={styles.incomeText}>Due on 05/07/2022</Text>
         </View>
+        <ProgressBar />
       </View>
       :
         null
