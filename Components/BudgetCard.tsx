@@ -9,7 +9,7 @@ import {
 } from "@expo-google-fonts/sarabun";
 import * as Progress from 'react-native-progress';
 
-export default function Tile() {
+export default function BudgetCard() {
   let [fontsLoaded] = useFonts({
     Sarabun_700Bold,
     Sarabun_400Regular,
