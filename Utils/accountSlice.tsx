@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AccountType } from "./types";
 
-const initialState = {
+interface InitialStateType {
+  accounts: AccountType[];
+}
+
+const initialState: InitialStateType = {
   accounts: [],
 };
 
