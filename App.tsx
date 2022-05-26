@@ -15,16 +15,14 @@ export default function App() {
   });
   return (
     <View >
-      {/* {loggedIn.status!=="success"?
+      {loggedIn.status!=="success"?
       <Text>Splash screen</Text>
     : loggedIn.screen === "login" ?
       <Text>Login screen</Text>
       : <Text>Overview</Text>
       
-    } */}
+    }
       <StatusBar style="auto" /> 
-      
-    <ContactForm />
     </View>
   );
 }
