@@ -26,9 +26,8 @@ export default function App() {
         ) : loggedIn.screen === "login" ? (
           <Text>Login screen</Text>
         ) : (
-          <Text>Overview</Text>
+          <Overview />
         )}
-        <Overview />
         <StatusBar style="auto" />
       </View>
     </Provider>
