@@ -5,6 +5,7 @@ import SplashScreenAnimation from './Components/SplashScreenAnimation';
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import ReduxStateTest from "./Components/ReduxStateTest";
+import Overview from "./Screens/Overview";
 
 interface LoggedIn {
   status: string;
@@ -26,7 +27,7 @@ export default function App() {
         ) : loggedIn.screen === "login" ? (
           <Text>Login screen</Text>
         ) : (
-          <Text>Overview</Text>
+          <Overview />
         )}
         <StatusBar style="auto" />
       </View>
