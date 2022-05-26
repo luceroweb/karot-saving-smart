@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     accounts: accountReducer,
     expenses: expenseReducer,
-    remainingBudget: remainingBudgetReducer,
-    userData: userDataReducer,
+    budgets: remainingBudgetReducer,
+    user: userDataReducer,
   },
 });

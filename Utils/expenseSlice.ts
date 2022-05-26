@@ -2,19 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ExpenseType } from "./types";
 
 interface InitialStateType {
-  expenses: ExpenseType[];
+  list: ExpenseType[];
 }
 
 const initialState: InitialStateType = {
-  expenses: [],
+  list: [],
 };
 
 export const expenseSlice = createSlice({
-  name: "expenses",
+  name: "expense",
   initialState,
   reducers: {
     addExpense: (state, action) => {
-      state.expenses = [...state.expenses, action.payload];
+      state.list = [...state.list, action.payload];
     },
   },
 });
