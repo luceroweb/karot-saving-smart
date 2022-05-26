@@ -21,7 +21,7 @@ export default function App() {
       <View style={styles.container}>
         {/* Uncomment ReduxStateTetst to test various state actions and reducers */}
         {/* <ReduxStateTest /> */}
-        {loggedIn.status === "splash" ? (
+        {loggedIn.screen === "splash" ? (
           <SplashScreenAnimation setLoggedIn={setLoggedIn} />
         ) : loggedIn.screen === "login" ? (
           <Text>Login screen</Text>
