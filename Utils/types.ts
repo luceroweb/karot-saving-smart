@@ -34,8 +34,8 @@ export interface RemainingBudgetType {
 }
 
 export interface GlobalStateType {
-  userData: {userData: UserDataType};
-  accounts: {accounts: AccountType[]};
-  expenses: {expenses: ExpenseType[]};
-  remainingBudget: {remainingBudget: RemainingBudgetType};
+  user: {data: UserDataType};
+  accounts: {list: AccountType[]};
+  expenses: {list: ExpenseType[]};
+  budgets: {remaining: RemainingBudgetType};
 }

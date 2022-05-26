@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { UserDataType } from "./types";
 
 interface InitialStateType {
-  userData: UserDataType;
+  data: UserDataType;
 }
 
 const initialState: InitialStateType = {
-  userData: {
+  data: {
     firstName: "",
     lastName: "",
     avatar: "",
@@ -19,7 +19,7 @@ export const userDataSlice = createSlice({
   initialState,
   reducers: {
     setUserData: (state, action) => {
-      state.userData = action.payload;
+      state.data = action.payload;
     },
   },
 });
