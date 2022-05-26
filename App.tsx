@@ -1,6 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import SplashScreenAnimation from './Components/SplashScreenAnimation';
+import { store } from "./Utils/store";
+import { Provider } from "react-redux";
+import ReduxStateTest from "./Components/ReduxStateTest";
+import Overview from "./Screens/Overview";
 
 interface LoggedIn {
   status: string;
@@ -13,24 +18,28 @@ export default function App() {
     screen: "splash",
   });
   return (
-    <View style={styles.container}>
-      {loggedIn.status!=="success"?
-      <Text>Splash screen</Text>
-    : loggedIn.screen === "login" ?
-      <Text>Login screen</Text>
-      : <Text>Overview</Text>
-      
-    }
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <View style={styles.container}>
+        {/* Uncomment ReduxStateTetst to test various state actions and reducers */}
+        {/* <ReduxStateTest /> */}
+        {loggedIn.screen === "splash" ? (
+          <SplashScreenAnimation setLoggedIn={setLoggedIn} />
+        ) : loggedIn.screen === "login" ? (
+          <Text>Login screen</Text>
+        ) : (
+          <Overview />
+        )}
+        <StatusBar style="auto" />
+      </View>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
 });
+
