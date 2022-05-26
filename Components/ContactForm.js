@@ -7,8 +7,21 @@ import {
   Pressable,
   Linking,
 } from "react-native";
+import {
+  useFonts,
+  Sarabun_700Bold,
+  Sarabun_400Regular,
+  Sarabun_300Light,
+} from "@expo-google-fonts/sarabun";
 
 const contactForm = () => {
+  let [fontsLoaded] = useFonts({
+    Sarabun_700Bold,
+    Sarabun_400Regular,
+    Sarabun_300Light,
+  });
+  
+  
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -68,15 +81,15 @@ const styles = StyleSheet.create({
         marginTop: 120
     },
     header:{
-        fontWeight: '700',
         fontSize: 28,
-        marginBottom: 25
+        marginBottom: 25,
+        fontFamily: "Sarabun_700Bold"
     },
     inputHeaders:{
         alignSelf: 'flex-start',
         fontSize: 16,
-        fontWeight: '700',
         color: '#828282',
+        fontFamily: "Sarabun_700Bold"
     },
     textInputs:{
         width: 350,
@@ -84,7 +97,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#E9E9E9',
         borderRadius: 10,
         marginTop: 8,
-        marginBottom: 20
+        marginBottom: 20,
+        fontFamily: "Sarabun_300Light"
     },
     submitButton:{
         marginTop: 31,
@@ -99,12 +113,13 @@ const styles = StyleSheet.create({
         width: 350,
         height: 190,
         backgroundColor: '#E9E9E9',
-        borderRadius: 10
+        borderRadius: 10,
+        fontFamily: "Sarabun_300Light"
     },
     buttonText:{
         color: 'white',
-        fontWeight: '700',
         fontSize: 24,
+        fontFamily: "Sarabun_700Bold"
     },
 });
 
