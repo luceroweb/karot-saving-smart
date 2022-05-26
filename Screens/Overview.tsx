@@ -17,11 +17,12 @@ function Overview() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     alignItems: "center",
+    width: "100%",
   },
   budgetCardHolder: {
     marginTop: 30,
+    width: "100%",
   },
   expenseCardHolder: {
     marginTop: 20,

@@ -38,6 +38,7 @@ export default function BudgetCard() {
         <View style={styles.bar}>
           <Progress.Bar
             progress={moneyRem / moneyTotal}
+            unfilledColor="#DBDBDB"
             width={235}
             height={10}
           />
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     alignItems: "center",
     justifyContent: "center",
-    margin: 10,
     padding: 40,
     minHeight: 180,
   },
