@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, FC } from 'react';
 import { Animated, Easing, StyleSheet, Image } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { Asset } from "expo-asset";
+import { LinearGradient } from 'expo-linear-gradient';
 import logoCombinedImage from '../Images/logo/logo_combined.png';
 import { LoggedInType } from '../Utils/types';
 interface Props {
@@ -9,14 +10,16 @@ interface Props {
 }
 
 const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
-  const splashImagesAnimation: Animated.Value = useRef<Animated.Value>(new Animated.Value(0)).current;
+  const splashImagesAnimation = useRef(new Animated.Value(0)).current;
   const [appReady, setAppReady] = useState<boolean>(false);
 
   useEffect(() => {
     const playSplashAnimation = async (): Promise<void> => {
       // app is ready, hide SplashScreen, start animation
       await SplashScreen.hideAsync();
+      
       Animated.timing(splashImagesAnimation, {
+        delay: 2000,
         toValue: -100,
         duration: 2000,
         useNativeDriver: true,
@@ -31,8 +34,6 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
         await Asset.loadAsync([
           require("../Images/logo/logo_combined.png")
         ])
-        // wait two seconds to simulate loading
-        await new Promise(resolve => setTimeout(() => resolve(null), 2000));
       } catch (e) {
         // handle errors
       } finally {
@@ -49,6 +50,12 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
 
   return (
     <>
+      <LinearGradient
+        colors={['#2383C9', '#5A1E70']}
+        start={{ x: 0.0, y: 0.0 }}
+        end={{ x: 1.8, y: 1.1 }}
+        style={StyleSheet.absoluteFill}
+      />
       <Animated.View style={[styles.splashImageContainer,
         {
           transform: [
