@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { GlobalStateType } from "../Utils/types";
 import {
   useFonts,
   Sarabun_700Bold,
   Sarabun_400Regular,
   Sarabun_300Light,
 } from "@expo-google-fonts/sarabun";
+// cannot deep require import according to
+// https://github.com/oblador/react-native-progress#progressbar
 import * as Progress from 'react-native-progress';
 
 export default function BudgetCard() {
@@ -15,9 +19,10 @@ export default function BudgetCard() {
     Sarabun_400Regular,
     Sarabun_300Light,
   });
-  const [budgetDetails, setBudgetDetails] = useState(false);
-  const [moneyRem, setMoneyRem] = useState(346.13);
-  const [moneyTotal, setMoneyTotal] = useState(475);
+
+  const [budgetDetails, setBudgetDetails] = useState<boolean>(false);
+  const moneyRem = useSelector((state: GlobalStateType) => state.budgets.remaining.totalRemaining);
+  const moneyTotal = useSelector((state: GlobalStateType) => state.budgets.remaining.accountsTotal);
 
   return (
     <View style={styles.container}>
@@ -59,7 +64,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 40,
     minHeight: 180,
-    width: 380,
   },
   budgetText: {
     textAlign: "center",
