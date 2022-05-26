@@ -1,10 +1,10 @@
 export interface LoggedInType {
-	status: string;
-	screen: string;
+  status: string;
+  screen: string;
 }
 export interface LoginPropsType {
-	loggedIn: LoggedInType;
-	setLoggedIn: ({ status, screen }: LoggedInType) => void;
+  loggedIn: LoggedInType;
+  setLoggedIn: ({ status, screen }: LoggedInType) => void;
 }
 export interface UserDataType {
   firstName: string;
@@ -17,7 +17,8 @@ export interface AccountType {
   label: string;
   saved: number;
   goal: number;
-  date: Date;
+  // ** Change this back to Date
+  date: any;
 }
 
 export interface ExpenseType {
@@ -34,8 +35,8 @@ export interface RemainingBudgetType {
 }
 
 export interface GlobalStateType {
-  user: {data: UserDataType};
-  accounts: {list: AccountType[]};
-  expenses: {list: ExpenseType[]};
-  budgets: {remaining: RemainingBudgetType};
+  user: { data: UserDataType };
+  accounts: { list: AccountType[] };
+  expenses: { list: ExpenseType[] };
+  budgets: { remaining: RemainingBudgetType };
 }

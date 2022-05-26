@@ -6,7 +6,7 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  list: [],
+  list: [{ label: "Wells Fargo", saved: 500, goal: 1000, date: Date.now() }, { label: "Wells Fargo", saved: 500, goal: 1000, date: Date.now() }],
 };
 
 export const accountSlice = createSlice({
