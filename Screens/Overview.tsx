@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
+import BudgetCard from "../Components/BudgetCard";
 
 function Overview() {
   return (
     <View style={styles.container}>
       <View style={styles.budgetCardHolder}>
-        <Text>Budget Card Goes Here</Text>
+        <BudgetCard />
       </View>
       <View style={styles.expenseCardHolder}>
         <Text>Expense Card Goes Here</Text>
