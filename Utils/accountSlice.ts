@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AccountType } from "./types";
 
-const initialState = {
-  accounts: [],
+interface InitialStateType {
+  list: AccountType[];
+}
+
+const initialState: InitialStateType = {
+  list: [],
 };
 
 export const accountSlice = createSlice({
@@ -9,7 +14,7 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     addAccount: (state, action) => {
-      state.accounts = [...state.accounts, action.payload];
+      state.list = [...state.list, action.payload];
     },
   },
 });
