@@ -37,16 +37,8 @@ const contactForm = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Contact Us</Text>
 
-      {/* Email Text Input */}
-      <View>
-      <Text style={styles.inputHeaders}>Email</Text>
-      <TextInput
-        style={styles.textInputs}
-        onChangeText={(e) => setEmail(e)}
-        value={email}
-      />
-
       {/* Subject Text Input */}
+      <View>
       <Text style={styles.inputHeaders}>Subject</Text>
       <TextInput
         style={styles.textInputs}
@@ -89,7 +81,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         fontSize: 16,
         color: '#828282',
-        fontFamily: "Sarabun_700Bold"
+        fontFamily: "Sarabun_700Bold",
     },
     textInputs:{
         width: 350,
