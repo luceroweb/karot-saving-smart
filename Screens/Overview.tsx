@@ -16,14 +16,14 @@ function Overview() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+
     alignItems: "center",
   },
   budgetCardHolder: {
-    marginTop: 40,
+    marginTop: 30,
   },
   expenseCardHolder: {
-    marginTop: 40,
+    marginTop: 20,
   },
 });
 
