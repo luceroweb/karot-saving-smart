@@ -17,8 +17,7 @@ export interface AccountType {
   label: string;
   saved: number;
   goal: number;
-  // ** Change this back to Date
-  date: any;
+  date: Date;
 }
 
 export interface ExpenseType {

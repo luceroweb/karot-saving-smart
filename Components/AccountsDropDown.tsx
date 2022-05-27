@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
-import { useFonts, Sarabun_300Light, Sarabun_600SemiBold } from "@expo-google-fonts/sarabun";
+import { useFonts, Sarabun_300Light, Sarabun_600SemiBold, Sarabun_700Bold } from "@expo-google-fonts/sarabun";
 
 const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
@@ -11,7 +11,8 @@ const AccountsDropDown: FC = () => {
 
   let [fontsLoaded] = useFonts({
     Sarabun_300Light,
-    Sarabun_600SemiBold
+    Sarabun_600SemiBold,
+    Sarabun_700Bold,
   });
 
   listOfAccounts && console.log(listOfAccounts);
@@ -25,6 +26,8 @@ const AccountsDropDown: FC = () => {
 
   return (
     <View>
+      <Text style={styles.heading}>Income</Text>
+      <View style={styles.horizontalRule}></View>
       {generateList}
     </View>
   );
@@ -33,18 +36,28 @@ const AccountsDropDown: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginTop: 12,
   },
   label: {
     fontFamily: "Sarabun_300Light",
     width: 160,
+    lineHeight: 24,
   },
   saved: {
     color: "#05C473",
     fontFamily: "Sarabun_600SemiBold",
     width: 80,
     textAlign: "right",
+    lineHeight: 24,
   },
+  heading: {
+    fontFamily: "Sarabun_700Bold",
+    fontSize: 18,
+  },
+  horizontalRule: {
+    height: 1,
+    width:240,
+    backgroundColor: "#212121",
+  }
 });
 
 export default AccountsDropDown;

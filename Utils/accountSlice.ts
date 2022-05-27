@@ -7,18 +7,18 @@ interface InitialStateType {
 
 const initialState: InitialStateType = {
   list: [
-    { label: "Wells Fargo", saved: 500, goal: 1000, date: Date.now() },
+    { label: "Wells Fargo", saved: 500, goal: 1000, date: new Date(Date.now()) },
     {
       label: "Bank of America",
-      saved: 15000000000,
+      saved: 15000000,
       goal: 1000,
-      date: Date.now(),
+      date: new Date(Date.now()),
     },
     {
       label: "A Coffee can buried in my back yard behind the fig tree",
       saved: 1500,
       goal: 1000,
-      date: Date.now(),
+      date: new Date(Date.now()),
     },
   ],
 };
