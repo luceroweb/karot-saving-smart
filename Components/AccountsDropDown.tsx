@@ -15,8 +15,6 @@ const AccountsDropDown: FC = () => {
     Sarabun_700Bold,
   });
 
-  listOfAccounts && console.log(listOfAccounts);
-
   const generateList = listOfAccounts.map((account, index) => (
     <View key={index} style={styles.container}>
       <Text style={styles.label}>{account.label}</Text>
