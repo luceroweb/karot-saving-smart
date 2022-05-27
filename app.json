@@ -9,7 +9,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./Images/splash-screen.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {

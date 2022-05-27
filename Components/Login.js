@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const Login = () => {
+const Login = ({ loggedIn, setLoggedIn }) => {
   let [fontsLoaded] = useFonts({
     Sarabun_700Bold,
     Sarabun_400Regular,
@@ -30,14 +30,23 @@ const Login = () => {
       "1038262737574-iddu4aellun0nlvpd5auvie2o35p39pu.apps.googleusercontent.com",
   });
 
-  const [loggedIn, setLoggedIn] = React.useState("");
-
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication, type } = response;
-      setLoggedIn(type);
+      setLoggedIn({
+        status: type,
+        screen: type === "success" ? "overview" : "login",
+      });
     }
   }, [response]);
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
