@@ -2,7 +2,12 @@ import { View, StyleSheet, Text } from "react-native";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
-import { useFonts, Sarabun_300Light, Sarabun_600SemiBold, Sarabun_700Bold } from "@expo-google-fonts/sarabun";
+import {
+  useFonts,
+  Sarabun_300Light,
+  Sarabun_600SemiBold,
+  Sarabun_700Bold,
+} from "@expo-google-fonts/sarabun";
 
 const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
@@ -23,7 +28,7 @@ const AccountsDropDown: FC = () => {
   ));
 
   return (
-    <View>
+    <View style={styles.dropDownWrapper}>
       <Text style={styles.heading}>Income</Text>
       <View style={styles.horizontalRule}></View>
       {generateList}
@@ -47,15 +52,20 @@ const styles = StyleSheet.create({
     textAlign: "right",
     lineHeight: 24,
   },
+  dropDownWrapper: {
+    alignSelf: "center",
+    marginBottom: 10,
+  },
   heading: {
     fontFamily: "Sarabun_700Bold",
     fontSize: 18,
+    lineHeight: 28,
   },
   horizontalRule: {
     height: 1,
-    width:240,
+    width: 240,
     backgroundColor: "#212121",
-  }
+  },
 });
 
 export default AccountsDropDown;

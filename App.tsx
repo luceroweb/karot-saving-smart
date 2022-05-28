@@ -5,7 +5,6 @@ import SplashScreenAnimation from "./Components/SplashScreenAnimation";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
-import AccountsDropDown from "./Components/AccountsDropDown";
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
@@ -32,7 +31,6 @@ export default function App() {
         ) : (
           <Overview />
         )}
-        <AccountsDropDown />
         <StatusBar style="auto" />
       </View>
     </Provider>
