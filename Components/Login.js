@@ -24,10 +24,10 @@ const Login = ({ loggedIn, setLoggedIn }) => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     // This URI includes a localhost url
     webClientId:
-      "1038262737574-j0un3526ir5mkdo2cno1fl7o0v3jlnla.apps.googleusercontent.com",
+      "1098154763008-7sg0nm9rp6dp1ub0sjqn718hndmkgd2l.apps.googleusercontent.com",
     // This URI includes a expo.go uri
     expoClientId:
-      "1038262737574-iddu4aellun0nlvpd5auvie2o35p39pu.apps.googleusercontent.com",
+      "1098154763008-5r7d0gjqbt1it07ikg8ssssn95hd6jh4.apps.googleusercontent.com",
   });
 
   useEffect(() => {
