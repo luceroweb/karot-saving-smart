@@ -1,31 +1,65 @@
-import { FC, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import { useState } from "react";
+import { 
+    View, 
+    Text, 
+    TextInput, 
+    StyleSheet, 
+    Pressable,
+    Button,
+    Platform 
+} from "react-native";
 import { useSelector, useDispatch} from "react-redux";
-import { ExpenseType, GlobalStateType } from "../Utils/types";
+import { GlobalStateType } from "../Utils/types";
 import { addExpense } from "../Utils/expenseSlice";
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const ExpensesForm = () => {
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [label, setLabel] = useState("");
     const [amount, setAmount] = useState(0);
     const [date, setDate] = useState("");
     const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
     const dispatch = useDispatch();
-    console.log(label);
-    console.log(amount);
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+    
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+    
+    const handleConfirm = () => {
+        setDate(date);
+        hideDatePicker();
+    };    
 
     const formSubmit = () => {
-        dispatch(addExpense({ label, goal: amount, date: Date() }))
-    }
+        setLabel(label);
+        setAmount(amount);
+        dispatch(
+            addExpense({ 
+                label: label,
+                saved: amount,
+                goal: amount, 
+                date: Date.parse(date) 
+            })
+        );
+    };
     console.log(expenses);
 
     return(
         <View style={styles.container}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.titleText}>
+                    Add Expenses
+                </Text>
+            </View>
+
             <View style={styles.subContainer}>
                 <Text style={styles.textContainer}>Label:</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder=""
+                    placeholder="put label here"
                     value={label}
                     onChangeText={(text) => {
                         setLabel(text)
@@ -46,8 +80,27 @@ const ExpensesForm = () => {
             </View>
 
             <View style={styles.subContainer}>
-                <Text style={styles.textContainer}>Due Date:</Text>               
-                <Text>{Date()}</Text>
+                <Text style={styles.textContainer}>Due Date:</Text>
+                {Platform.OS !== "web" ? (
+                    <View>
+                        <Button title="Pick the date" onPress={showDatePicker} />
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={handleConfirm}
+                            onCancel={hideDatePicker}
+                        />
+                    </View>
+                ) : (
+                    <TextInput
+                        style={styles.input}
+                        placeholder='put date here'
+                        value={date}
+                        onChangeText={(text) => {
+                            setDate(text);
+                        }}
+                    />
+                )}
             </View>
             <Pressable
                 style={styles.input}
@@ -58,14 +111,23 @@ const ExpensesForm = () => {
                 <Text>Confirm</Text>
             </Pressable>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
+    },
+    titleContainer: {        
+        alignItems: "center",
+        justifyContent: "center",
+        paddingBottom: 20
+    },
+    titleText: {
+        fontSize: 30,
+        fontWeight: "bold",
     },
     input: {
         padding: 12,
