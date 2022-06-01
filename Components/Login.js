@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
@@ -21,7 +21,12 @@ const Login = ({ loggedIn, setLoggedIn }) => {
     Sarabun_300Light,
   });
 
+  const [accessToken, setAccessToken] = useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
+    // This URI includea a android package uri
+    androidClientId: "1038262737574-t53u185855hs2de5kdvjbtgd9blfaq76.apps.googleusercontent.com",
+    // This URI is for IOS
+    iosClientId: "1038262737574-abo7o8m77nrrqtor9kgd0mcrq5p4mdq4.apps.googleusercontent.com",
     // This URI includes a localhost url
     webClientId:
       "1098154763008-7sg0nm9rp6dp1ub0sjqn718hndmkgd2l.apps.googleusercontent.com",

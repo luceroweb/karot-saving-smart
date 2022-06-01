@@ -1,12 +1,11 @@
 {
   "name": "karot-saving-smart",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "homepage": "https://luceroweb.github.io/karot-saving-smart",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "deploy": "gh-pages -d web-build",
@@ -32,7 +31,8 @@
     "react-native": "0.68.2",
     "react-native-web": "0.17.7",
     "react-redux": "^8.0.2",
-    "webpack-dev-server": "~3.11.0"
+    "webpack-dev-server": "~3.11.0",
+    "expo-updates": "~0.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
