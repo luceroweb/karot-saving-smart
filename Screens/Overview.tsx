@@ -1,16 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, View } from "react-native";
-import BudgetTile from '../Components/BudgetTile';
-import Tile from '../Components/Tile';
+import { View, Text, StyleSheet } from "react-native";
 
-export default function Overview() {
+function Overview() {
   return (
     <View style={styles.container}>
-      <BudgetTile />
-      <View style={styles.tileRow}>
-            <Tile />
-            <Tile />
-        </View>
+      <View style={styles.budgetCardHolder}>
+        <Text>Budget Card Goes Here</Text>
+      </View>
+      <View style={styles.expenseCardHolder}>
+        <Text>Expense Card Goes Here</Text>
+      </View>
     </View>
   );
 }
@@ -18,12 +16,15 @@ export default function Overview() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+
     alignItems: "center",
-    justifyContent: "center",
-    width: 320,
   },
-  tileRow: {
-      flexDirection: "row",
-  }
+  budgetCardHolder: {
+    marginTop: 30,
+  },
+  expenseCardHolder: {
+    marginTop: 20,
+  },
 });
+
+export default Overview;
