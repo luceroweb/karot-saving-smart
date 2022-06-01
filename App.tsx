@@ -6,6 +6,7 @@ import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
 import Login from "./Components/Login";
+import ExpensesForm from "./Components/ExpensesForm";
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
@@ -21,6 +22,7 @@ export default function App() {
       <View style={styles.container}>
         {/* Uncomment ReduxStateTest to test various state actions and reducers */}
         {/* <ReduxStateTest /> */}
+        {/* <ExpensesForm /> */}
         {loggedIn.screen === "splash" ? (
           <SplashScreenAnimation setLoggedIn={setLoggedIn} />
         ) : loggedIn.screen === "login" ? (
@@ -28,7 +30,7 @@ export default function App() {
         ) : (
           <Overview />
         )}
-        <StatusBar style="auto" />
+        <StatusBar style="auto" />        
       </View>
     </Provider>
   );
