@@ -37,7 +37,7 @@ export default function BudgetCard() {
         </Text>
         <View style={styles.bar}>
           <Progress.Bar
-            progress={moneyRem / moneyTotal}
+            progress={(moneyRem / moneyTotal) || 0}
             unfilledColor="#DBDBDB"
             width={235}
             height={10}
