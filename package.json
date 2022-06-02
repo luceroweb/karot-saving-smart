@@ -13,6 +13,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@expo-google-fonts/raleway": "^0.2.2",
     "@expo-google-fonts/sarabun": "^0.2.2",
     "expo-font": "~10.1.0",
     "@expo/webpack-config": "~0.16.2",
