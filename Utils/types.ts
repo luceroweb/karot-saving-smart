@@ -2,10 +2,16 @@ export interface LoggedInType {
   status: string;
   screen: string;
 }
+
+export interface SetLoggedInType {
+  setLoggedIn: (loggedIn: LoggedInType) => void;
+}
+
 export interface LoginPropsType {
   loggedIn: LoggedInType;
   setLoggedIn: ({ status, screen }: LoggedInType) => void;
 }
+
 export interface UserDataType {
   firstName: string;
   lastName: string;
