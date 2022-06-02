@@ -15,6 +15,7 @@
   "dependencies": {
     "@expo-google-fonts/raleway": "^0.2.2",
     "@expo-google-fonts/sarabun": "^0.2.2",
+    "expo-font": "~10.1.0",
     "@expo/webpack-config": "~0.16.2",
     "@reduxjs/toolkit": "^1.8.1",
     "expo": "~45.0.0",
@@ -30,6 +31,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
+    "react-native-progress": "^5.0.0",
     "react-native-modal-datetime-picker": "^13.1.2",
     "react-native-web": "0.17.7",
     "react-redux": "^8.0.2",
