@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
@@ -14,14 +14,19 @@ import { LinearGradient } from "expo-linear-gradient";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const Login = () => {
+const Login = ({ loggedIn, setLoggedIn }) => {
   let [fontsLoaded] = useFonts({
     Sarabun_700Bold,
     Sarabun_400Regular,
     Sarabun_300Light,
   });
 
+  const [accessToken, setAccessToken] = useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
+    // This URI includea a android package uri
+    androidClientId: "1038262737574-t53u185855hs2de5kdvjbtgd9blfaq76.apps.googleusercontent.com",
+    // This URI is for IOS
+    iosClientId: "1038262737574-abo7o8m77nrrqtor9kgd0mcrq5p4mdq4.apps.googleusercontent.com",
     // This URI includes a localhost url
     webClientId:
       "1038262737574-j0un3526ir5mkdo2cno1fl7o0v3jlnla.apps.googleusercontent.com",
@@ -30,14 +35,23 @@ const Login = () => {
       "1038262737574-iddu4aellun0nlvpd5auvie2o35p39pu.apps.googleusercontent.com",
   });
 
-  const [loggedIn, setLoggedIn] = React.useState("");
-
   useEffect(() => {
     if (response?.type === "success") {
       const { authentication, type } = response;
-      setLoggedIn(type);
+      setLoggedIn({
+        status: type,
+        screen: type === "success" ? "overview" : "login",
+      });
     }
   }, [response]);
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
