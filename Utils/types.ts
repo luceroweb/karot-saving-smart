@@ -1,6 +1,6 @@
 export interface LoggedInType {
-	status: string;
-	screen: string;
+  status: string;
+  screen: string;
 }
 
 export interface SetLoggedInType {
@@ -8,8 +8,8 @@ export interface SetLoggedInType {
 }
 
 export interface LoginPropsType {
-	loggedIn: LoggedInType;
-	setLoggedIn: ({ status, screen }: LoggedInType) => void;
+  loggedIn: LoggedInType;
+  setLoggedIn: ({ status, screen }: LoggedInType) => void;
 }
 
 export interface UserDataType {
@@ -40,8 +40,8 @@ export interface RemainingBudgetType {
 }
 
 export interface GlobalStateType {
-  user: {data: UserDataType};
-  accounts: {list: AccountType[]};
-  expenses: {list: ExpenseType[]};
-  budgets: {remaining: RemainingBudgetType};
+  user: { data: UserDataType };
+  accounts: { list: AccountType[] };
+  expenses: { list: ExpenseType[] };
+  budgets: { remaining: RemainingBudgetType };
 }
