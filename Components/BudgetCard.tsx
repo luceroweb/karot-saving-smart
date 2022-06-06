@@ -11,7 +11,8 @@ import {
 } from "@expo-google-fonts/sarabun";
 // cannot deep require import according to
 // https://github.com/oblador/react-native-progress#progressbar
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
+import AccountsDropDown from "./AccountsDropDown";
 
 export default function BudgetCard() {
   let [fontsLoaded] = useFonts({
@@ -21,34 +22,36 @@ export default function BudgetCard() {
   });
 
   const [budgetDetails, setBudgetDetails] = useState<boolean>(false);
-  const moneyRem = useSelector((state: GlobalStateType) => state.budgets.remaining.totalRemaining);
-  const moneyTotal = useSelector((state: GlobalStateType) => state.budgets.remaining.accountsTotal);
+  const moneyRem = useSelector(
+    (state: GlobalStateType) => state.budgets.remaining.totalRemaining
+  );
+  const moneyTotal = useSelector(
+    (state: GlobalStateType) => state.budgets.remaining.accountsTotal
+  );
 
   return (
     <View style={styles.container}>
       <View>
-        {budgetDetails ? <Text>Accounts List Component here</Text> : null}
+        {budgetDetails ? <AccountsDropDown /> : null}
         <Text style={styles.budgetTextTop}>Balance:</Text>
-        <Text style={styles.budgetText}>
-          ${moneyRem}
-        </Text>
+        <Text style={styles.budgetText}>${moneyRem}</Text>
         <Text style={styles.budgetTextBottom}>
           ${moneyRem} left of ${moneyTotal}
         </Text>
         <View style={styles.bar}>
           <Progress.Bar
-            progress={(moneyRem / moneyTotal) || 0}
+            progress={moneyRem / moneyTotal || 0}
             unfilledColor="#DBDBDB"
             width={235}
             height={10}
           />
           <MaterialIcons
             style={styles.toggleArrow}
-            name={budgetDetails ? "keyboard-arrow-up":"keyboard-arrow-down"}
+            name={budgetDetails ? "keyboard-arrow-up" : "keyboard-arrow-down"}
             size={24}
             color="black"
             onPress={() => setBudgetDetails(!budgetDetails)}
-            />
+          />
         </View>
       </View>
     </View>
@@ -91,5 +94,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 46,
-  }
+  },
 });

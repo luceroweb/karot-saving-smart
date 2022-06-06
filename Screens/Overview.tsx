@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import ExpenseCard from "../Components/ExpenseCard";
 import BudgetCard from "../Components/BudgetCard";
 
 function Overview() {
@@ -8,7 +9,7 @@ function Overview() {
         <BudgetCard />
       </View>
       <View style={styles.expenseCardHolder}>
-        <Text>Expense Card Goes Here</Text>
+        <ExpenseCard />
       </View>
     </View>
   );
