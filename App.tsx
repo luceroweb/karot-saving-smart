@@ -11,7 +11,7 @@ import SplashScreenAnimation from "./Components/SplashScreenAnimation";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
-import Login from "./Components/Login";
+import Login from "./Screens/Login";
 import ExpensesForm from "./Components/ExpensesForm";
 import AddAccountModal from "./Components/AddAccountModal";
 
