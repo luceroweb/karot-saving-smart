@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { useFonts, Sarabun_700Bold } from "@expo-google-fonts/sarabun";
-import { Raleway_400Regular, Raleway_600SemiBold } from "@expo-google-fonts/raleway";
+import {
+  Raleway_400Regular,
+  Raleway_600SemiBold,
+} from "@expo-google-fonts/raleway";
 
 export default function ExpenseCard() {
-  let [fontsLoaded] = useFonts ({
-        Sarabun_700Bold,
-        Raleway_400Regular,
-        Raleway_600SemiBold
-        });
+  let [fontsLoaded] = useFonts({
+    Sarabun_700Bold,
+    Raleway_400Regular,
+    Raleway_600SemiBold,
+  });
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const generateExpenses = expenses.map((expense, index) => (
     <View style={styles.container} key={index}>
-        <Text style={styles.expenseAmount}>${expense.saved}</Text>
-        <Text style={styles.expenseLabel}>{expense.label}</Text>
-        <Text style={styles.expenseDate}>{expense.date}</Text>
+      <Text style={styles.expenseAmount}>${expense.saved}</Text>
+      <Text style={styles.expenseLabel}>{expense.label}</Text>
+      <Text style={styles.expenseDate}>
+        {new Date(expense.date).toLocaleDateString()}
+      </Text>
     </View>
+  ));
 
-  ))
-
-  return (
-    <>
-    {generateExpenses}
-    </>
-  );
+  return <>{generateExpenses}</>;
 }
 
 const styles = StyleSheet.create({
