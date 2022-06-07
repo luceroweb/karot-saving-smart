@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
 import { Animated, Easing, StyleSheet, Image } from 'react-native';
+import {Sarabun_300Light,Sarabun_600SemiBold,Sarabun_700Bold,
+} from "@expo-google-fonts/sarabun";
+import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Asset } from "expo-asset";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -31,6 +34,9 @@ const SplashScreenAnimation: FC<Props> = ({ setLoggedIn }) => {
         // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
         await SplashScreen.preventAutoHideAsync();
         // preload any images, fonts, sounds, addtional assets
+        await Font.loadAsync({Sarabun_300Light,
+          Sarabun_600SemiBold,
+          Sarabun_700Bold,});
         await Asset.loadAsync([
           require("../Images/logo/logo_combined.png")
         ])
