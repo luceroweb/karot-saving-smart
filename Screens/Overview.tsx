@@ -1,24 +1,25 @@
-import { FC, useEffect } from "react";
-import { View, Text, StyleSheet,TouchableOpacity, Image} from "react-native";
+import { View, StyleSheet,TouchableOpacity, Image} from "react-native";
 import ExpenseCard from "../Components/ExpenseCard";
 import BudgetCard from "../Components/BudgetCard";
-import { useSelector, useDispatch } from "react-redux";
+import ExpenseModal from "../Components/ExpenseModal";
+import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 
 function Overview() {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
   return (
-    <View style={styles.container}>
-    
+    <View style={styles.container}>    
       <TouchableOpacity style={styles.icon}>
-      <Image source={{ uri: userData.avatar }} style={styles.profileImage} />
+        <Image source={{ uri: userData.avatar }} style={styles.profileImage} />
       </TouchableOpacity>
-      <View style={styles.budgetCardHolder}>
-      
+      <View style={styles.budgetCardHolder}>      
         <BudgetCard />
       </View>
       <View style={styles.expenseCardHolder}>
         <ExpenseCard />
+      </View>
+      <View>
+        <ExpenseModal />
       </View>
     </View>
   );
