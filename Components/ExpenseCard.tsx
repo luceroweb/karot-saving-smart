@@ -30,7 +30,6 @@ export default function ExpenseCard() {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
