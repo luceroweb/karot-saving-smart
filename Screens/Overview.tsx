@@ -1,20 +1,17 @@
-import { View, StyleSheet,TouchableOpacity, Image, Platform} from "react-native";
+import { View, StyleSheet, Platform} from "react-native";
 import ExpenseCard from "../Components/ExpenseCard";
 import BudgetCard from "../Components/BudgetCard";
 import ExpenseModal from "../Components/ExpenseModal";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
-
+import ProfileIcon from "../Components/ProfileIcon";
 function Overview() {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
   return (
-    <View style={styles.container}>    
-      <TouchableOpacity style={styles.icon}>
-        <Image 
-          source={{ uri: userData.avatar }} 
-          style={styles.profileImage} 
-        />
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.icon}>
+				<ProfileIcon/>
+			</View>
       <View style={styles.budgetCardHolder}>      
         <BudgetCard />
       </View>
@@ -25,7 +22,7 @@ function Overview() {
         <ExpenseModal />
       </View>
     </View>
-  );
+  );		
 }
 
 const styles = StyleSheet.create({
@@ -40,12 +37,6 @@ const styles = StyleSheet.create({
   },
   expenseCardHolder: {
     marginTop: 20,
-  },
-  profileImage: {
-    width: 30,
-    height: 30,
-    borderRadius: 100,
-    alignSelf:"center"
   },
   icon:{
     alignSelf:"flex-start",
