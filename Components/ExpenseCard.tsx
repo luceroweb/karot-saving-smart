@@ -17,7 +17,7 @@ export default function ExpenseCard() {
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const generateExpenses = expenses.map((expense, index) => (
     <View style={styles.container} key={index}>
-      <Text style={styles.expenseAmount}>${expense.saved}</Text>
+      <Text style={styles.expenseAmount}>${expense.saved.toLocaleString()}</Text>
       <Text style={styles.expenseLabel}>{expense.label}</Text>
       <Text style={styles.expenseDate}>
         {new Date(expense.date).toLocaleDateString()}
