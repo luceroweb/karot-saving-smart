@@ -4,25 +4,23 @@ import {
     Text, 
     TextInput, 
     StyleSheet, 
-    Pressable,
+    TouchableOpacity,
     Button,
-    Platform 
+    Platform,
+    Modal 
 } from "react-native";
+import { AntDesign, Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch} from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { addExpense } from "../Utils/expenseSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Modal from "react-native-modal";
 
 const ExpenseModal= () => {    
     const [label, setLabel] = useState("");
     const [amount, setAmount] = useState(0);
     const [date, setDate] = useState("");
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const toggleModal = () => {
-        setIsModalVisible(!isModalVisible);
-    };
+    const [modalVisible, setModalVisible] = useState(false);
     const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
     const dispatch = useDispatch();
     const showDatePicker = () => {
@@ -49,34 +47,41 @@ const ExpenseModal= () => {
     };
 
     return(        
-        <View style={styles.container}>
+        <View 
+            style={styles.container}
+        >
             <Modal
-                isVisible={isModalVisible}
-                coverScreen={true}
-                hasBackdrop={true}
-                backdropColor="black"
-                backdropOpacity={0.7}
-            >                
-                <View>
-                    {/* This is where the Form starts */}
+                visible={modalVisible}
+                transparent={true}               
+            >           
+                {/* This is where the Form starts */}             
+                <View style={styles.modalSize}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.titleText}>
-                            Add Expenses
-                        </Text>
-                        <Pressable
-                            style={styles.inputStyle}
-                            onPress={() => {                                
-                                toggleModal()
-                            }}
-                        >
-                            <Text>X</Text>
-                        </Pressable>                        
+                        <View style={{alignSelf: "flex-end"}}>
+                            <TouchableOpacity
+                                style={styles.xIcon}
+                                onPress={() => {                                
+                                    setModalVisible(!modalVisible)
+                                }}
+                            >
+                                <Feather 
+                                    name="x-circle" 
+                                    size={30} 
+                                    color="black" 
+                                    style={{paddingRight: 10}}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <Text style={styles.titleText}>
+                                Add Expense
+                            </Text>
+                        </View>
                     </View>
                     <View style={styles.subContainer}>
-                        <Text style={styles.textContainer}>Label:</Text>
+                        <Text style={[styles.textContainer, {paddingRight: 40}]}>Label:</Text>
                         <TextInput
                             style={styles.inputStyle}
-                            placeholder="put label here"
                             value={label}
                             onChangeText={(text) => {
                                 setLabel(text)
@@ -84,18 +89,17 @@ const ExpenseModal= () => {
                         />
                     </View>
                     <View style={styles.subContainer}>
-                        <Text style={styles.textContainer}>Amount:</Text>
+                        <Text style={[styles.textContainer, {paddingRight: 20}]}>Amount:</Text>
                         <TextInput
                             style={styles.inputStyle}
-                            placeholder=""
                             value={"" + amount}
                             onChangeText={(number) => {
-                                setAmount(Number(number) || 0)
+                                setAmount(Number(number))
                             }}
                         />
                     </View>
                     <View style={styles.subContainer}>
-                        <Text style={styles.textContainer}>Due Date:</Text>
+                        <Text style={[styles.textContainer, {paddingRight: 5}]}>Due Date:</Text>
                         {Platform.OS !== "web" ? (
                             <View>
                                 <Button title="Pick the date" onPress={showDatePicker} />
@@ -109,7 +113,6 @@ const ExpenseModal= () => {
                         ) : (
                             <TextInput
                                 style={styles.inputStyle}
-                                placeholder='put date here'
                                 value={date}
                                 onChangeText={(text) => {
                                     setDate(text);
@@ -117,29 +120,32 @@ const ExpenseModal= () => {
                             />
                         )}
                     </View>
-                    <Pressable
-                        style={styles.buttonStyle}
+                    <TouchableOpacity                       
                         onPress={() => {
                             formSubmit()
                             setLabel("")
                             setAmount(0)
                             setDate("")
-                            toggleModal()
+                            setModalVisible(false)
                         }}
+                        style={styles.buttonStyle}
                     >
-                        <Text>Confirm</Text>
-                    </Pressable>
+                        <Text style={{fontSize: 16}}>Confirm</Text>
+                    </TouchableOpacity>
                     {/* This is where the form ends */}
                 </View>
             </Modal>
-            <Pressable
-                style={styles.iconStyle}
+            <TouchableOpacity
                 onPress={() => {
-                    toggleModal()
+                    setModalVisible(true)
                 }}
             >
-                <Text>+</Text>
-            </Pressable> 
+                <AntDesign 
+                    name="pluscircle" 
+                    size={48} 
+                    color="#4D62BF" 
+                />
+            </TouchableOpacity> 
         </View>
     );
 };
@@ -150,47 +156,70 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    titleContainer: {
-        flexDirection: "row",        
+    titleContainer: {        
         alignItems: "center",
-        justifyContent: "center",
-        paddingBottom: 20
+        paddingBottom: 30
     },
     titleText: {
-        fontSize: 30,
-        fontWeight: "bold",
+        fontSize: 25,
     },
     inputStyle: {
-        padding: 12,
-        borderRadius: 10,
+        width: 150,
+        height: 30,
         borderWidth: 1,
-        marginBottom: 5,
         borderColor: "#000",
+        fontSize: 20,
+        fontWeight: "bold",
+        backgroundColor: "#fff",
+        paddingLeft: 10
+    },
+    xIcon: {
+        alignSelf: "flex-end",
     },
     buttonStyle: {
-        padding: 12,
-        borderRadius: 10,
+        alignSelf: "center",
+        width: 80,
+        height: 40,        
+        padding: 10,
         borderWidth: 1,
-        marginBottom: 5,
         borderColor: "#000",
+        backgroundColor: "#828282"
     },
     iconStyle: {
-        color: 'blue',
-        padding: 12,
-        borderRadius: 10,
-        borderWidth: 1,
-        marginBottom: 5,
+        height: 40,
+		width: 40,
+        borderRadius: 20,
+		justifyContent: "center",
+        alignSelf: "center",
+        backgroundColor: "blue",
         borderColor: "#000",
+        marginRight:"2%",
+        marginBottom:"2%",
+    },
+    iconTextStyle: {
+        color: "#fff",
+        textAlign: "center",
+        fontSize: 30
     },
     subContainer: {
         flexDirection: "row",
         paddingBottom: 10
     },
     textContainer: {
+        paddingLeft: 20,
+        fontSize: 20,        
+    },
+    modalSize: {
+        justifyContent: "center",
         alignSelf: "center",
-        paddingRight: 20,
-        fontSize: 20,
-        fontWeight: "bold"
+        width: 350,
+        height: 300,
+        borderWidth: 1,
+        borderRadius: 20,
+        marginTop: 210,
+        padding: 10,
+        borderColor: "#000",
+        backgroundColor: "#DADADA"
     }
 });
 
