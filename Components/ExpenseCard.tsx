@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     aspectRatio: 1,
     margin: 15,
-    padding: 22,
     height: 180,
   },
   expenseAmount: {
@@ -48,6 +47,7 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     fontFamily: "Raleway_600SemiBold",
     alignSelf: "flex-start",
+    marginLeft: 22,
     position: "absolute",
     bottom: 37,
   },
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Raleway_400Regular",
     alignSelf: "flex-start",
+    marginLeft: 22,
     position: "absolute",
     bottom: 17,
   },
