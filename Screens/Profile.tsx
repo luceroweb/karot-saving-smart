@@ -1,6 +1,6 @@
-import { FC, useEffect } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { FC } from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
+import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import {
   useFonts,
