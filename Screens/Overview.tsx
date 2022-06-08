@@ -1,9 +1,11 @@
-import { View, StyleSheet} from "react-native";
-import ExpenseCard from "../Components/ExpenseCard";
+import { View, StyleSheet } from "react-native";
+import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
 import { useSelector} from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import ProfileIcon from "../Components/ProfileIcon";
+
+
 function Overview() {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
   return (
@@ -15,7 +17,7 @@ function Overview() {
 				<BudgetCard />
 			</View>
 			<View style={styles.expenseCardHolder}>
-				<ExpenseCard />
+        <ExpenseList />
 			</View>
 		</View>
 	);
