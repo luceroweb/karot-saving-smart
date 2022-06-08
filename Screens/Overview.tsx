@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import ExpenseCard from "../Components/ExpenseCard";
+// import ExpenseCard from "../Components/ExpenseCard";
+import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
 
 function Overview() {
@@ -9,7 +10,7 @@ function Overview() {
         <BudgetCard />
       </View>
       <View style={styles.expenseCardHolder}>
-        <ExpenseCard />
+        <ExpenseList />
       </View>
     </View>
   );
