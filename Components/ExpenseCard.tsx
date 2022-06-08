@@ -17,7 +17,7 @@ export default function ExpenseCard() {
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const generateExpenses = expenses.map((expense, index) => (
     <View style={styles.container} key={index}>
-      <Text style={styles.expenseAmount}>${expense.saved}</Text>
+      <Text style={styles.expenseAmount}>${expense.saved.toLocaleString()}</Text>
       <Text style={styles.expenseLabel}>{expense.label}</Text>
       <Text style={styles.expenseDate}>
         {new Date(expense.date).toLocaleDateString()}
@@ -30,14 +30,12 @@ export default function ExpenseCard() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
     borderRadius: 23,
     aspectRatio: 1,
     margin: 15,
-    padding: 22,
     height: 180,
   },
   expenseAmount: {
@@ -54,6 +52,7 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     fontFamily: "Raleway_600SemiBold",
     alignSelf: "flex-start",
+    marginLeft: 22,
     position: "absolute",
     bottom: 37,
   },
@@ -62,6 +61,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Raleway_400Regular",
     alignSelf: "flex-start",
+    marginLeft: 22,
     position: "absolute",
     bottom: 17,
   },
