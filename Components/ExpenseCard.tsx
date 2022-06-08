@@ -5,7 +5,6 @@ import {
   Raleway_400Regular,
   Raleway_600SemiBold,
 } from "@expo-google-fonts/raleway";
-import { ExpenseType, GlobalStateType } from "../Utils/types";
 
 export default function ExpenseCard(expense: any, index: number) {
   let [fontsLoaded] = useFonts({
@@ -13,7 +12,6 @@ export default function ExpenseCard(expense: any, index: number) {
     Raleway_400Regular,
     Raleway_600SemiBold,
   });
-console.log("asdaf: ", expense)
   return (
     <>
       <View style={styles.container}>

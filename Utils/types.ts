@@ -23,14 +23,14 @@ export interface AccountType {
   label: string;
   saved: number;
   goal: number;
-  date: Date;
+  date: number;
 }
 
 export interface ExpenseType {
   label: string;
   saved: number;
   goal: number;
-  date: Date;
+  date: number;
 }
 
 export interface RemainingBudgetType {
