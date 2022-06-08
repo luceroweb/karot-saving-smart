@@ -1,4 +1,4 @@
-import { View, StyleSheet,TouchableOpacity, Image} from "react-native";
+import { View, StyleSheet,TouchableOpacity, Image, Platform} from "react-native";
 import ExpenseCard from "../Components/ExpenseCard";
 import BudgetCard from "../Components/BudgetCard";
 import ExpenseModal from "../Components/ExpenseModal";
@@ -10,7 +10,10 @@ function Overview() {
   return (
     <View style={styles.container}>    
       <TouchableOpacity style={styles.icon}>
-        <Image source={{ uri: userData.avatar }} style={styles.profileImage} />
+        <Image 
+          source={{ uri: userData.avatar }} 
+          style={styles.profileImage} 
+        />
       </TouchableOpacity>
       <View style={styles.budgetCardHolder}>      
         <BudgetCard />
@@ -18,7 +21,7 @@ function Overview() {
       <View style={styles.expenseCardHolder}>
         <ExpenseCard />
       </View>
-      <View>
+      <View style={[styles.plusModal, {paddingTop: Platform.OS === "web" ?  550 : 30}, {paddingRight: Platform.OS === "web" ? 100 : 30}]}>
         <ExpenseModal />
       </View>
     </View>
@@ -48,6 +51,10 @@ const styles = StyleSheet.create({
     alignSelf:"flex-start",
     marginLeft:"2%",
     marginTop:"2%",
+  },
+  plusModal: {
+    alignSelf: "flex-end",
+    padding: 30
   }
 });
 
