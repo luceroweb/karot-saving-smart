@@ -4,12 +4,6 @@ import * as Google from "expo-auth-session/providers/google";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
-import {
-	useFonts,
-	Sarabun_700Bold,
-	Sarabun_400Regular,
-	Sarabun_300Light,
-} from "@expo-google-fonts/sarabun";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoginPropsType, GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,11 +15,6 @@ const Login: FC<LoginPropsType> = ({
 	loggedIn,
 	setLoggedIn,
 }: LoginPropsType) => {
-	let [fontsLoaded] = useFonts({
-		Sarabun_700Bold,
-		Sarabun_400Regular,
-		Sarabun_300Light,
-	});
 	const userData = useSelector<GlobalStateType>((state) => state.user.data);
 	const dispatch = useDispatch();
 	const [accessToken, setAccessToken] = useState<string | undefined>();

@@ -2,23 +2,11 @@ import { View, StyleSheet, Text } from "react-native";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
-import {
-  useFonts,
-  Sarabun_300Light,
-  Sarabun_600SemiBold,
-  Sarabun_700Bold,
-} from "@expo-google-fonts/sarabun";
 
 const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
-
-  let [fontsLoaded] = useFonts({
-    Sarabun_300Light,
-    Sarabun_600SemiBold,
-    Sarabun_700Bold,
-  });
 
   const generateList = listOfAccounts.map((account, index) => (
     <View key={index} style={styles.container}>

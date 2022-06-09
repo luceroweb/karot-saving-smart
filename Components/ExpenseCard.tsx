@@ -1,18 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import {
-  useFonts,
-  Sarabun_700Bold,
-  Sarabun_300Light,
-  Sarabun_600SemiBold
-} from "@expo-google-fonts/sarabun";
 
 export default function ExpenseCard(expense: any, index: number) {
-  let [fontsLoaded] = useFonts({
-    Sarabun_700Bold,
-    Sarabun_300Light,
-    Sarabun_600SemiBold,
-  });
   return (
     <>
       <View style={styles.container}>
