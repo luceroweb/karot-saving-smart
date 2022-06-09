@@ -1,6 +1,13 @@
 import React, { useEffect, FC, useState, useRef } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import {
+	Sarabun_300Light,
+	Sarabun_400Regular,
+	Sarabun_600SemiBold,
+	Sarabun_700Bold,
+  } from "@expo-google-fonts/sarabun";
+  import * as Font from 'expo-font';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
@@ -88,6 +95,11 @@ const Login: FC<LoginPropsType> = ({
         // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
         await SplashScreen.preventAutoHideAsync();
         // preload any images, fonts, sounds, addtional assets
+		await Font.loadAsync({Sarabun_300Light,
+			Sarabun_400Regular,
+			Sarabun_600SemiBold,
+			Sarabun_700Bold,
+		  });
         await Asset.loadAsync([
           require("../Images/logo/logo_combined.png")
         ])
