@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 30,
     lineHeight: 34,
-    fontWeight: "bold",
     fontFamily: "Sarabun_700Bold",
     position: "absolute",
     top: 52,
