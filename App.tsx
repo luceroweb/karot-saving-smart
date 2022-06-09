@@ -5,13 +5,13 @@ import {
   Text, 
   View, 
   SafeAreaView,
-  StatusBar as RNStatusBar 
+  StatusBar as RNStatusBar, 
 } from "react-native";
+import { Provider as PaperProvider } from 'react-native-paper';
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
 import Login from "./Screens/Login";
-import ExpensesForm from "./Components/ExpensesForm";
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
@@ -24,19 +24,21 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.safeAreaContainer}>
-        <View style={styles.container}>
-          {/* Uncomment ReduxStateTest to test various state actions and reducers */}
-          {/* <ReduxStateTest /> */}
-          {/* <ExpensesForm /> */}
-          {loggedIn.screen === "login" ? (
-            <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-          ) : (
-            <Overview />
-          )}
-          <StatusBar style="auto" />        
-        </View>
-      </SafeAreaView>
+      <PaperProvider>
+        <SafeAreaView style={styles.safeAreaContainer}>
+          <View style={styles.container}>
+            {/* Uncomment ReduxStateTest to test various state actions and reducers */}
+            {/* <ReduxStateTest /> */}
+            {/* <ExpensesForm /> */}
+            {loggedIn.screen === "login" ? (
+              <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            ) : (
+              <Overview />
+            )}
+            <StatusBar style="auto" />        
+          </View>
+        </SafeAreaView>
+      </PaperProvider>
     </Provider>
   );
 }
