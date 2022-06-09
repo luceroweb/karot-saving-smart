@@ -11,7 +11,7 @@ import { addAccount } from "../Utils/accountSlice";
 import { GlobalStateType } from "../Utils/types";
 import { Feather } from '@expo/vector-icons';
 
-const AddAccountModal = () => {
+const AccountModal = () => {
     const [amount, setAmount] = useState("");
     const [label, setLabel] = useState("");
     const dispatch = useDispatch();
@@ -44,9 +44,9 @@ const AddAccountModal = () => {
             onChangeText={setAmount}
             value={amount}
           />
-          {/* This will include the text input for the category */}
+          {/* This will include the text input for the label */}
           <TextInput 
-            style={styles.categoryInput} 
+            style={styles.labelInput} 
             placeholder="label"
             onChangeText={setLabel}
             value={label}
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     textAlign: "center"
   },
-  categoryInput: {
+  labelInput: {
     width: 130,
     height: 34,
     backgroundColor: "#FFFFFF",
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 17,
     color: "#000000",
-    width: 200,
     paddingTop: 7,
     paddingBottom: 7,
     paddingLeft: 20,
@@ -113,4 +112,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddAccountModal;
+export default AccountModal;

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import ExpenseCard from "../Components/ExpenseCard";
 import BudgetCard from "../Components/BudgetCard";
 
