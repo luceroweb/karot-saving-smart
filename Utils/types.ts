@@ -46,7 +46,7 @@ export interface GlobalStateType {
   budgets: { remaining: RemainingBudgetType };
 }
 
-export type RootStackParamList {
+export type RootStackParamList = {
   Login: undefined;
   Overview: undefined;
 }
