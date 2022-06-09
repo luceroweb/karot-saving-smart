@@ -5,16 +5,17 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } fro
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
 import logoCombinedImage from '../Images/logo/logo_combined.png';
-// import {
-// 	useFonts,
-// 	Sarabun_700Bold,
-// 	Sarabun_400Regular,
-// 	Sarabun_300Light,
-// } from "@expo-google-fonts/sarabun";
+import {
+	useFonts,
+	Sarabun_700Bold,
+	Sarabun_400Regular,
+	Sarabun_300Light,
+} from "@expo-google-fonts/sarabun";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoginPropsType, GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData } from "../Utils/userDataSlice";
+import * as SplashScreen from 'expo-splash-screen';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -22,12 +23,13 @@ const Login: FC<LoginPropsType> = ({
 	loggedIn,
 	setLoggedIn,
 }: LoginPropsType) => {
-	// let [fontsLoaded] = useFonts({
-	// 	Sarabun_700Bold,
-	// 	Sarabun_400Regular,
-	// 	Sarabun_300Light,
-	// });
+	let [fontsLoaded] = useFonts({
+		Sarabun_700Bold,
+		Sarabun_400Regular,
+		Sarabun_300Light,
+	});
   const splashImagesAnimation = useRef(new Animated.Value(0)).current;
+  const [appReady, setAppReady] = useState<boolean>(false);
 	const userData = useSelector<GlobalStateType>((state) => state.user.data);
 	const dispatch = useDispatch();
 	const [accessToken, setAccessToken] = useState<string | undefined>();
@@ -81,6 +83,7 @@ const Login: FC<LoginPropsType> = ({
 	useEffect(() => {
     const playSplashAnimation = async (): Promise<void> => {
       // app is ready, hide SplashScreen, start animation
+      await SplashScreen.hideAsync();
       
       Animated.timing(splashImagesAnimation, {
         delay: 2000,
@@ -90,8 +93,27 @@ const Login: FC<LoginPropsType> = ({
         easing: Easing.bezier(0.65, 0, 0.35, 1)
       }).start(() => setLoggedIn({ status: '', screen: 'login' }));
     }
-		playSplashAnimation();
-  }, []);
+    const loadAssets = async (): Promise<void> => {
+      try {
+        // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
+        await SplashScreen.preventAutoHideAsync();
+        // preload any images, fonts, sounds, addtional assets
+        await Asset.loadAsync([
+          require("../Images/logo/logo_combined.png")
+        ])
+      } catch (e) {
+        // handle errors
+      } finally {
+        setAppReady(true);
+      }
+    }
+
+    if (appReady) {
+      playSplashAnimation();
+    } else {
+      loadAssets();
+    }
+  }, [appReady]);
 
 	
 
