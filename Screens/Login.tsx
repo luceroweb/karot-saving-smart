@@ -1,16 +1,17 @@
 import React, { useEffect, FC, useState, useRef } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import {
+	Sarabun_300Light,
+	Sarabun_400Regular,
+	Sarabun_600SemiBold,
+	Sarabun_700Bold,
+  } from "@expo-google-fonts/sarabun";
+  import * as Font from 'expo-font';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
 import logoCombinedImage from '../Images/logo/logo_combined.png';
-import {
-	useFonts,
-	Sarabun_700Bold,
-	Sarabun_400Regular,
-	Sarabun_300Light,
-} from "@expo-google-fonts/sarabun";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoginPropsType, GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,11 +25,6 @@ const Login: FC<LoginPropsType> = ({
 	loggedIn,
 	setLoggedIn,
 }: LoginPropsType) => {
-	let [fontsLoaded] = useFonts({
-		Sarabun_700Bold,
-		Sarabun_400Regular,
-		Sarabun_300Light,
-	});
   const splashImagesAnimation = useRef(new Animated.Value(0)).current;
   const [appReady, setAppReady] = useState<boolean>(false);
 	const userData = useSelector<GlobalStateType>((state) => state.user.data);
@@ -99,6 +95,11 @@ const Login: FC<LoginPropsType> = ({
         // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
         await SplashScreen.preventAutoHideAsync();
         // preload any images, fonts, sounds, addtional assets
+		await Font.loadAsync({Sarabun_300Light,
+			Sarabun_400Regular,
+			Sarabun_600SemiBold,
+			Sarabun_700Bold,
+		  });
         await Asset.loadAsync([
           require("../Images/logo/logo_combined.png")
         ])
@@ -118,7 +119,7 @@ const Login: FC<LoginPropsType> = ({
 
 	
 
-	return (
+	return appReady ? (
 		<View style={styles.container}>
 			<LinearGradient
 				start={{ x: 0, y: 0 }}
@@ -156,7 +157,7 @@ const Login: FC<LoginPropsType> = ({
 				</TouchableOpacity>
 			</LinearGradient>
 		</View>
-	);
+	) : null;
 };
 
 const styles = StyleSheet.create({
