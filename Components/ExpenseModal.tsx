@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { 
     View, 
     Text, 
@@ -9,16 +9,18 @@ import {
     Platform,
     Modal 
 } from "react-native";
+import { DatePickerModal } from 'react-native-paper-dates'; //date picker for web
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { useSelector, useDispatch} from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { addExpense } from "../Utils/expenseSlice";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 
 const ExpenseModal= () => {    
     const [label, setLabel] = useState("");
     const [amount, setAmount] = useState(0);
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState(0);
+    const [open, setOpen] = useState(false);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
@@ -28,10 +30,21 @@ const ExpenseModal= () => {
     };    
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
-    };    
-    const handleConfirm = () => {
-        setDate(date);
+    };
+    const onDismissSingle = useCallback(() => {
+        setOpen(false);
+    }, [setOpen]);    
+    const onConfirmSingle = useCallback(
+        (params) => {
+            setOpen(false);
+            setDate(params.date);
+    },
+        [setOpen, setDate]
+    );   
+    const handleConfirm = (date: Date) => {
+        setDate(Number(date));
         hideDatePicker();
+        onDismissSingle;
     };
     const formSubmit = () => {
         setLabel(label);
@@ -41,7 +54,7 @@ const ExpenseModal= () => {
                 label: label,
                 saved: amount,
                 goal: amount, 
-                date: new Date(date) 
+                date: date 
             })
         );
     };
@@ -100,9 +113,27 @@ const ExpenseModal= () => {
                     </View>
                     <View style={styles.subContainer}>
                         <Text style={[styles.textContainer, {paddingRight: 5}]}>Due Date:</Text>
-                        {Platform.OS !== "web" ? (
+                        {Platform.OS === "web" ? (
                             <View>
-                                <Button title="Pick the date" onPress={showDatePicker} />
+                                <Button 
+                                    title="Pick the date" 
+                                    onPress={() => setOpen(true)} 
+                                />
+                                <DatePickerModal
+                                    locale="en"
+                                    mode="single"
+                                    visible={open}
+                                    onDismiss={onDismissSingle}
+                                    date={new Date()}
+                                    onConfirm={onConfirmSingle}
+                                />
+                            </View>
+                        ) : (
+                            <View>
+                                <Button 
+                                    title="Pick the date" 
+                                    onPress={showDatePicker} 
+                                />
                                 <DateTimePickerModal
                                     isVisible={isDatePickerVisible}
                                     mode="date"
@@ -110,14 +141,6 @@ const ExpenseModal= () => {
                                     onCancel={hideDatePicker}
                                 />
                             </View>
-                        ) : (
-                            <TextInput
-                                style={styles.inputStyle}
-                                value={date}
-                                onChangeText={(text) => {
-                                    setDate(text);
-                                }}
-                            />
                         )}
                     </View>
                     <TouchableOpacity                       
@@ -125,7 +148,7 @@ const ExpenseModal= () => {
                             formSubmit()
                             setLabel("")
                             setAmount(0)
-                            setDate("")
+                            setDate(0)
                             setModalVisible(false)
                         }}
                         style={styles.buttonStyle}
@@ -152,7 +175,6 @@ const ExpenseModal= () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -184,22 +206,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#000",
         backgroundColor: "#828282"
-    },
-    iconStyle: {
-        height: 40,
-		width: 40,
-        borderRadius: 20,
-		justifyContent: "center",
-        alignSelf: "center",
-        backgroundColor: "blue",
-        borderColor: "#000",
-        marginRight:"2%",
-        marginBottom:"2%",
-    },
-    iconTextStyle: {
-        color: "#fff",
-        textAlign: "center",
-        fontSize: 30
     },
     subContainer: {
         flexDirection: "row",
