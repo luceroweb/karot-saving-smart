@@ -5,8 +5,9 @@ import {
   Text, 
   View, 
   SafeAreaView,
-  StatusBar as RNStatusBar 
+  StatusBar as RNStatusBar, 
 } from "react-native";
+import { Provider as PaperProvider } from 'react-native-paper';
 import SplashScreenAnimation from "./Components/SplashScreenAnimation";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
@@ -24,20 +25,22 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.safeAreaContainer}>
-        <View style={styles.container}>
-          {/* Uncomment ReduxStateTest to test various state actions and reducers */}
-          {/* <ReduxStateTest /> */}
-          {loggedIn.screen === "splash" ? (
-            <SplashScreenAnimation setLoggedIn={setLoggedIn} />
-          ) : loggedIn.screen === "login" ? (
-            <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-          ) : (
-            <Overview />
-          )}
-          <StatusBar style="auto" />        
-        </View>
-      </SafeAreaView>
+      <PaperProvider>
+        <SafeAreaView style={styles.safeAreaContainer}>
+          <View style={styles.container}>
+            {/* Uncomment ReduxStateTest to test various state actions and reducers */}
+            {/* <ReduxStateTest /> */}
+            {loggedIn.screen === "splash" ? (
+              <SplashScreenAnimation setLoggedIn={setLoggedIn} />
+            ) : loggedIn.screen === "login" ? (
+              <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+            ) : (
+              <Overview />
+            )}
+            <StatusBar style="auto" />        
+          </View>
+        </SafeAreaView>
+      </PaperProvider> 
     </Provider>
   );
 }
