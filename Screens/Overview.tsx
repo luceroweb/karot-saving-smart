@@ -1,18 +1,26 @@
-import { View, Text, StyleSheet } from "react-native";
-import ExpenseCard from "../Components/ExpenseCard";
+import { View, StyleSheet } from "react-native";
+import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
+import { useSelector} from "react-redux";
+import { GlobalStateType } from "../Utils/types";
+import ProfileIcon from "../Components/ProfileIcon";
+
 
 function Overview() {
+  const userData = useSelector((state: GlobalStateType) => state.user.data);
   return (
-    <View style={styles.container}>
-      <View style={styles.budgetCardHolder}>
-        <BudgetCard />
-      </View>
-      <View style={styles.expenseCardHolder}>
-        <ExpenseCard />
-      </View>
-    </View>
-  );
+		<View style={styles.container}>
+			<View style={styles.icon}>
+				<ProfileIcon/>
+			</View>
+			<View style={styles.budgetCardHolder}>
+				<BudgetCard />
+			</View>
+			<View style={styles.expenseCardHolder}>
+        <ExpenseList />
+			</View>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
@@ -28,6 +36,11 @@ const styles = StyleSheet.create({
   expenseCardHolder: {
     marginTop: 20,
   },
+  icon:{
+    alignSelf:"flex-start",
+    marginLeft:"2%",
+    marginTop:"2%",
+  }
 });
 
 export default Overview;
