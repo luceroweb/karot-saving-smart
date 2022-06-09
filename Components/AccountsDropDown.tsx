@@ -8,6 +8,7 @@ import {
   Sarabun_600SemiBold,
   Sarabun_700Bold,
 } from "@expo-google-fonts/sarabun";
+import AddAccountButton from "./AddAccountButton";
 
 const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
@@ -21,10 +22,11 @@ const AccountsDropDown: FC = () => {
   });
 
   const generateList = listOfAccounts.map((account, index) => (
-    <View key={index} style={styles.container}>
-      <Text style={styles.label}>{account.label}</Text>
-      <Text style={styles.saved}>${account.saved.toLocaleString()}</Text>
-    </View>
+      <View key={index} style={styles.container}>
+        <Text style={styles.label}>{account.label}</Text>
+        <Text style={styles.saved}>${account.saved.toLocaleString()}</Text>
+        <AddAccountButton />
+      </View>
   ));
 
   return (
