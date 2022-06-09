@@ -119,7 +119,7 @@ const Login: FC<LoginPropsType> = ({
 
 	
 
-	return (
+	return appReady ? (
 		<View style={styles.container}>
 			<LinearGradient
 				start={{ x: 0, y: 0 }}
@@ -157,7 +157,7 @@ const Login: FC<LoginPropsType> = ({
 				</TouchableOpacity>
 			</LinearGradient>
 		</View>
-	);
+	) : null;
 };
 
 const styles = StyleSheet.create({
