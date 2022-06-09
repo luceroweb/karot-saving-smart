@@ -9,8 +9,6 @@ import {
   Sarabun_400Regular,
   Sarabun_300Light,
 } from "@expo-google-fonts/sarabun";
-// cannot deep require import according to
-// https://github.com/oblador/react-native-progress#progressbar
 import * as Progress from "react-native-progress";
 import AccountsDropDown from "./AccountsDropDown";
 
