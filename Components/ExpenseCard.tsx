@@ -1,16 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useFonts, Sarabun_700Bold } from "@expo-google-fonts/sarabun";
 import {
-  Raleway_400Regular,
-  Raleway_600SemiBold,
-} from "@expo-google-fonts/raleway";
+  useFonts,
+  Sarabun_700Bold,
+  Sarabun_300Light,
+  Sarabun_600SemiBold
+} from "@expo-google-fonts/sarabun";
 
 export default function ExpenseCard(expense: any, index: number) {
   let [fontsLoaded] = useFonts({
     Sarabun_700Bold,
-    Raleway_400Regular,
-    Raleway_600SemiBold,
+    Sarabun_300Light,
+    Sarabun_600SemiBold,
   });
   return (
     <>
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   expenseLabel: {
     fontSize: 20,
     lineHeight: 23,
-    fontFamily: "Raleway_600SemiBold",
+    fontFamily: "Sarabun_600SemiBold",
     alignSelf: "flex-start",
     marginLeft: 22,
     position: "absolute",
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   expenseDate: {
     fontSize: 17,
     lineHeight: 20,
-    fontFamily: "Raleway_400Regular",
+    fontFamily: "Sarabun_300Light",
     alignSelf: "flex-start",
     marginLeft: 22,
     position: "absolute",
