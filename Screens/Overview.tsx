@@ -1,4 +1,4 @@
-import { View, StyleSheet, Platform} from "react-native";
+import { View, StyleSheet, ScrollView} from "react-native";
 import ExpenseCard from "../Components/ExpenseCard";
 import BudgetCard from "../Components/BudgetCard";
 import ExpenseModal from "../Components/ExpenseModal";
@@ -12,13 +12,15 @@ function Overview() {
       <View style={styles.icon}>
 				<ProfileIcon/>
 			</View>
-      <View style={styles.budgetCardHolder}>      
-        <BudgetCard />
-      </View>
-      <View style={styles.expenseCardHolder}>
-        <ExpenseCard />
-      </View>
-      <View style={[styles.plusModal, {paddingTop: Platform.OS === "web" ?  550 : 30}, {paddingRight: Platform.OS === "web" ? 100 : 30}]}>
+      <ScrollView>
+        <View style={styles.budgetCardHolder}>      
+          <BudgetCard />
+        </View>
+        <View style={styles.expenseCardHolder}>
+          <ExpenseCard />
+        </View>
+      </ScrollView>
+      <View style={styles.plusModal}>
         <ExpenseModal />
       </View>
     </View>
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
   },
   expenseCardHolder: {
     marginTop: 20,
+    alignSelf: "center"
   },
   icon:{
     alignSelf:"flex-start",
