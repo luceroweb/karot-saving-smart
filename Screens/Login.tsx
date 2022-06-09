@@ -1,9 +1,10 @@
-import React, { useEffect, FC, useState } from "react";
+import React, { useEffect, FC, useState, useRef } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
+import logoCombinedImage from '../Images/logo/logo_combined.png';
 import {
 	useFonts,
 	Sarabun_700Bold,
@@ -14,6 +15,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { LoginPropsType, GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData } from "../Utils/userDataSlice";
+import * as SplashScreen from 'expo-splash-screen';
+import { Asset } from "expo-asset";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -26,6 +29,8 @@ const Login: FC<LoginPropsType> = ({
 		Sarabun_400Regular,
 		Sarabun_300Light,
 	});
+  const splashImagesAnimation = useRef(new Animated.Value(0)).current;
+  const [appReady, setAppReady] = useState<boolean>(false);
 	const userData = useSelector<GlobalStateType>((state) => state.user.data);
 	const dispatch = useDispatch();
 	const [accessToken, setAccessToken] = useState<string | undefined>();
@@ -76,6 +81,43 @@ const Login: FC<LoginPropsType> = ({
 		});
 	}
 
+	useEffect(() => {
+    const playSplashAnimation = async (): Promise<void> => {
+      // app is ready, hide SplashScreen, start animation
+      await SplashScreen.hideAsync();
+      
+      Animated.timing(splashImagesAnimation, {
+        delay: 2000,
+        toValue: -100,
+        duration: 2000,
+        useNativeDriver: true,
+        easing: Easing.bezier(0.65, 0, 0.35, 1)
+      }).start(() => setLoggedIn({ status: '', screen: 'login' }));
+    }
+    const loadAssets = async (): Promise<void> => {
+      try {
+        // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
+        await SplashScreen.preventAutoHideAsync();
+        // preload any images, fonts, sounds, addtional assets
+        await Asset.loadAsync([
+          require("../Images/logo/logo_combined.png")
+        ])
+      } catch (e) {
+        // handle errors
+      } finally {
+        setAppReady(true);
+      }
+    }
+
+    if (appReady) {
+      playSplashAnimation();
+    } else {
+      loadAssets();
+    }
+  }, [appReady]);
+
+	
+
 	return (
 		<View style={styles.container}>
 			<LinearGradient
@@ -84,8 +126,25 @@ const Login: FC<LoginPropsType> = ({
 				colors={["#2383C9", "#5A1E70"]}
 				style={styles.container}
 			>
-				<Image source={karotBunny} style={styles.bunnyLogo} />
-				<Image source={karotSlogan} style={styles.karotSlogan} />
+				<Animated.View style={[styles.splashImageContainer,
+        {
+          transform: [
+            { translateY: splashImagesAnimation }
+          ]
+        }
+      ]}
+      >
+        <Image 
+          style={{
+            maxWidth: 215,
+            width: "50%",
+            height: 352,
+          }}
+          resizeMode="contain"
+          source={logoCombinedImage}
+          fadeDuration={0}
+        />
+      </Animated.View>
 				<TouchableOpacity
 					disabled={!request}
 					onPress={() => {
@@ -131,6 +190,11 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontFamily: "Sarabun_700Bold",
 	},
+  splashImageContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default Login;

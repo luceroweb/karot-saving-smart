@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   StatusBar as RNStatusBar 
 } from "react-native";
-import SplashScreenAnimation from "./Components/SplashScreenAnimation";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
@@ -20,7 +19,7 @@ import ExpensesForm from "./Components/ExpensesForm";
 export default function App() {
   const [loggedIn, setLoggedIn] = useState({
     status: "",
-    screen: "splash",
+    screen: "login",
   });
 
   return (
@@ -30,9 +29,7 @@ export default function App() {
           {/* Uncomment ReduxStateTest to test various state actions and reducers */}
           {/* <ReduxStateTest /> */}
           {/* <ExpensesForm /> */}
-          {loggedIn.screen === "splash" ? (
-            <SplashScreenAnimation setLoggedIn={setLoggedIn} />
-          ) : loggedIn.screen === "login" ? (
+          {loggedIn.screen === "login" ? (
             <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
           ) : (
             <Overview />
