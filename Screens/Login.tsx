@@ -16,6 +16,7 @@ import { LoginPropsType, GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData } from "../Utils/userDataSlice";
 import * as SplashScreen from 'expo-splash-screen';
+import { Asset } from "expo-asset";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -144,8 +145,6 @@ const Login: FC<LoginPropsType> = ({
           fadeDuration={0}
         />
       </Animated.View>
-			{/* <Image source={logoCombinedImage} style={styles.bunnyLogo} />
-				<Image source={karotSlogan} style={styles.karotSlogan} /> */}
 				<TouchableOpacity
 					disabled={!request}
 					onPress={() => {
