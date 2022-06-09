@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   budgetTextTop: {
     textAlign: "center",
     fontSize: 16,
-    fontFamily: "Sarabun_400Regular",
+    fontFamily: "Sarabun_600SemiBold",
   },
   budgetTextBottom: {
     textAlign: "center",
