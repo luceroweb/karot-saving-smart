@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   StatusBar as RNStatusBar 
 } from "react-native";
-// import SplashScreenAnimation from "./Components/SplashScreenAnimation";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
