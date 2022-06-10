@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useSelector} from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import ExpenseCard from "./ExpenseCard";
@@ -11,10 +11,19 @@ const ExpenseList = () => {
     ))
   return (
       <>
-      <View style={{flexDirection: "row", flexWrap: 'wrap'}}>
+      <View style={styles.container}>
       {generateExpenses}
       </View>
       </>
   )
 }
 export default ExpenseList
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row", 
+        flexWrap: "wrap",
+        justifyContent: "center",
+    },   
+  });
+  
