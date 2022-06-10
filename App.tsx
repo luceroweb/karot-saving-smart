@@ -1,11 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import { useState} from "react";
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
+import { useState } from "react";
+import {
+  StyleSheet,
+  View,
   SafeAreaView,
-  StatusBar as RNStatusBar, 
+  StatusBar as RNStatusBar,
 } from "react-native";
 import { Provider as PaperProvider } from 'react-native-paper';
 import { store } from "./Utils/store";
@@ -46,7 +45,7 @@ export default function App() {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    paddingTop: RNStatusBar.currentHeight || 0
+    paddingTop: RNStatusBar.currentHeight || 0,
   },
   container: {
     alignItems: "center",
