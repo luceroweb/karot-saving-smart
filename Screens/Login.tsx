@@ -26,6 +26,7 @@ const Login: FC<LoginPropsType> = ({
 	setLoggedIn,
 }: LoginPropsType) => {
   const splashImagesAnimation = useRef(new Animated.Value(0)).current;
+  const loginButtonAnimation = useRef(new Animated.Value(0)).current;
   const [appReady, setAppReady] = useState<boolean>(false);
 	const userData = useSelector<GlobalStateType>((state) => state.user.data);
 	const dispatch = useDispatch();
@@ -36,7 +37,6 @@ const Login: FC<LoginPropsType> = ({
 		webClientId:
 			"1038262737574-j0un3526ir5mkdo2cno1fl7o0v3jlnla.apps.googleusercontent.com",
 	});
-
 	useEffect(() => {
 		if (response?.type === "success") {
 			setAccessToken(response?.authentication?.accessToken);
@@ -57,6 +57,7 @@ const Login: FC<LoginPropsType> = ({
 			});
 		}
 	}, [userData]);
+
 
 	async function getUserData() {
 		let userInfoResponse = await fetch(
@@ -89,6 +90,13 @@ const Login: FC<LoginPropsType> = ({
         useNativeDriver: true,
         easing: Easing.bezier(0.65, 0, 0.35, 1)
       }).start(() => setLoggedIn({ status: '', screen: 'login' }));
+
+			Animated.timing(loginButtonAnimation, {
+				delay: 4000,
+				toValue: 1,
+				duration: 1200,
+				useNativeDriver: true,
+			}).start(() => setLoggedIn({ status: '', screen: 'login' }));
     }
     const loadAssets = async (): Promise<void> => {
       try {
@@ -146,6 +154,9 @@ const Login: FC<LoginPropsType> = ({
           fadeDuration={0}
         />
       </Animated.View>
+			<Animated.View style={{
+				opacity: loginButtonAnimation,
+			}}>
 				<TouchableOpacity
 					disabled={!request}
 					onPress={() => {
@@ -155,6 +166,8 @@ const Login: FC<LoginPropsType> = ({
 				>
 					<Text style={styles.textLogin}>Login</Text>
 				</TouchableOpacity>
+			</Animated.View>
+			
 			</LinearGradient>
 		</View>
 	) : null;
