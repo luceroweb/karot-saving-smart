@@ -1,19 +1,16 @@
 import { StatusBar } from "expo-status-bar";
-import { useState} from "react";
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
+import { useState } from "react";
+import {
+  StyleSheet,
+  View,
   SafeAreaView,
-  StatusBar as RNStatusBar 
+  StatusBar as RNStatusBar,
 } from "react-native";
 import SplashScreenAnimation from "./Components/SplashScreenAnimation";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
 import Login from "./Screens/Login";
-import ExpensesForm from "./Components/ExpensesForm";
-import AddAccountModal from "./Components/AddAccountModal";
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
@@ -26,9 +23,18 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaView>
-        <View>
-          <AddAccountModal/>
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <View style={styles.container}>
+          {/* Uncomment ReduxStateTest to test various state actions and reducers */}
+          {/* <ReduxStateTest /> */}
+          {loggedIn.screen === "splash" ? (
+            <SplashScreenAnimation setLoggedIn={setLoggedIn} />
+          ) : loggedIn.screen === "login" ? (
+            <Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+          ) : (
+            <Overview />
+          )}
+          <StatusBar style="auto" />
         </View>
       </SafeAreaView>
     </Provider>
@@ -38,7 +44,7 @@ export default function App() {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    paddingTop: RNStatusBar.currentHeight || 0
+    paddingTop: RNStatusBar.currentHeight || 0,
   },
   container: {
     alignItems: "center",
