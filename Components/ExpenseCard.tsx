@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     aspectRatio: 1,
     margin: 15,
-    height: 180,
+    height: 160,
   },
   expenseAmount: {
     textAlign: "center",
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     top: 52,
   },
   expenseLabel: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 23,
     fontFamily: "Sarabun_600SemiBold",
     alignSelf: "flex-start",
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     bottom: 37,
   },
   expenseDate: {
-    fontSize: 17,
+    fontSize: 14,
     lineHeight: 20,
     fontFamily: "Sarabun_300Light",
     alignSelf: "flex-start",
