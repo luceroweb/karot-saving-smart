@@ -2,24 +2,12 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { AccountType, GlobalStateType } from "../Utils/types";
-import {
-  useFonts,
-  Sarabun_300Light,
-  Sarabun_600SemiBold,
-  Sarabun_700Bold,
-} from "@expo-google-fonts/sarabun";
 import AccountModal from "./AccountModal";
 
 const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
-
-  let [fontsLoaded] = useFonts({
-    Sarabun_300Light,
-    Sarabun_600SemiBold,
-    Sarabun_700Bold,
-  });
 
   const [isVisible, setIsVisible] = useState(false);
   const [account, setAccount] = useState<AccountType | undefined>();
