@@ -16,7 +16,7 @@ const AccountsDropDown: FC = () => {
     (state: GlobalStateType) => state.accounts.list
   );
 
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [account, setAccount] = useState<AccountType | undefined>();
   const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
 
@@ -41,15 +41,17 @@ const AccountsDropDown: FC = () => {
       <Text style={styles.heading}>Income</Text>
       <View style={styles.horizontalRule}></View>
       {generateList}
-      {account && (
+      {/* {account && ( */}
         <AccountModal
-          account={account}
+          account={account?account:{label:"",saved:0,goal:0,date:Date.now()}}
           unselectedAccounts={unselectedAccounts}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
-          mode='edit'
+          mode='add'
         />
-      )}
+      {/* )} */}
+      <AddAccountButton 
+          setIsVisible={setIsVisible}/>
     </View>
   );
 };
