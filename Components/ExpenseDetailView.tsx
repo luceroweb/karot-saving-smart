@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View,Platform } from "react-native";
 import { useSelector,useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { setSelectedId } from "../Utils/expenseSlice";
 import { LinearGradient } from "expo-linear-gradient";
-
 import {
   useFonts,
   Sarabun_700Bold,
@@ -13,89 +12,101 @@ import {
 } from "@expo-google-fonts/sarabun";
 import * as Progress from "react-native-progress";
 import { Feather } from '@expo/vector-icons';
-export default function ExpenseDetailView({SetShowModal}) {
-  let [fontsLoaded] = useFonts({
-    Sarabun_700Bold,
-    Sarabun_400Regular,
-    Sarabun_300Light,
-  });
-  const [expenseDetails, setexpenseDetails] = useState<boolean>(false);
+import Moment from "moment"; 
+
+export default function ExpenseDetailView({ SetShowModal} ) {
+	let [fontsLoaded] = useFonts({
+		Sarabun_700Bold,
+		Sarabun_400Regular,
+		Sarabun_300Light,
+	});
   const dispatch = useDispatch();
-  const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
-  const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
-  const selectedId = useSelector((state: GlobalStateType) => state.expenses.selectedId);
-  const expenseLabel = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].label
-  );
-  const goalDate = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].date
-  );
-  const currentSaving  = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].saved
-  );
-  const targetAmount = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].goal
-  );
-
-
-  const moneyTotal = useSelector(
-    (state: GlobalStateType) => state.budgets.remaining.accountsTotal
-  );
-
-  const milliseconds = goalDate
-  const dateObject = new Date(milliseconds)
-  const formatedDate = dateObject.toLocaleString('en-us', {month:"short",year:"numeric", })
-
-
-  
-  return (
-    <View style={styles.container}>
-      	<LinearGradient
+	const selectedId = useSelector(
+		(state: GlobalStateType) => state.expenses.selectedId
+	);
+	const expenseLabel = useSelector(
+		(state: GlobalStateType) => state.expenses.list[selectedId].label
+	);
+	const goalDate = useSelector(
+		(state: GlobalStateType) => state.expenses.list[selectedId].date
+	);
+	const currentSaving = useSelector(
+		(state: GlobalStateType) => state.expenses.list[selectedId].saved
+	);
+	const targetAmount = useSelector(
+		(state: GlobalStateType) => state.expenses.list[selectedId].goal
+	);
+	const moneyTotal = useSelector(
+		(state: GlobalStateType) => state.budgets.remaining.accountsTotal
+	);
+	const milliseconds = goalDate;
+	const dateObject = new Date(milliseconds);
+	const forMatedDate = dateObject.toLocaleString("en-us", {
+		month: "short",
+		year: "numeric",
+	});
+	Moment.locale("en");
+	var dt = goalDate;
+	return (
+		<View style={styles.container}>
+			<LinearGradient
 				start={{ x: 0, y: 0 }}
 				end={{ x: 1.6, y: 1 }}
 				colors={["#2383C9", "#102745"]}
-				style={styles.container}
+				style={styles.linearGradient}
 			>
-      <Feather 
-        style={styles.exitIcon} 
-        name="x-circle" 
-        size={24} 
-        color="#FFFFFF"
-        onPress={()=>{
-        dispatch(setSelectedId(-1))
-        SetShowModal(false)
-        }}
-       />
-       <Text style={styles.budgetTextTop}>{expenseLabel}</Text>
-        <Text style={styles.budgetText}>{formatedDate}</Text>
-      <View style={styles.modal}>
-        <Text style={styles.savingText}>${currentSaving}</Text>
-        <Text style={styles.budgetTextBottom}>
-          ${currentSaving} of ${targetAmount}
-        </Text>
-        <View style={styles.bar}>
-          <Progress.Bar
-            progress={currentSaving/targetAmount || 0}
-            color="#05C473"
-            unfilledColor="#DBDBDB"
-            borderColor="#DBDBDB"
-            width={235}
-            height={10}
-            />
-        </View>
-      </View>
-      </LinearGradient>
-    </View>
-  );
+				<Feather
+					style={styles.exitIcon}
+					name="x-circle"
+					size={24}
+					color="#FFFFFF"
+					onPress={() => {
+						dispatch(setSelectedId(-1));
+						SetShowModal(false);
+					}}
+				/>
+				<Text style={styles.budgetTextTop}>{expenseLabel}</Text>
+				<Text style={styles.budgetText}>
+					{Platform.OS === "web" ? forMatedDate : Moment(dt).format("MMM YYYY")}
+				</Text>
+				<View style={styles.modal}>
+					<Text style={styles.savingText}>${currentSaving}</Text>
+					<Text style={styles.budgetTextBottom}>
+						${currentSaving} of ${targetAmount}
+					</Text>
+					<View style={styles.bar}>
+						<Progress.Bar
+							progress={currentSaving / targetAmount || 0}
+							color="#05C473"
+							unfilledColor="#DBDBDB"
+							borderColor="#DBDBDB"
+							width={235}
+							height={10}
+						/>
+					</View>
+				</View>
+				<View style={styles.transactionsExpenses}>
+					<Text style={styles.RecentTransactions}> Recent Transactions </Text>
+				</View>
+			</LinearGradient>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		alignItems: "center",
 		justifyContent: "center",
-		padding: 40,
+		padding: 10,
 		height: 406,
 		width: 380,
+		borderRadius: 23,
+    alignSelf: "center",
+    marginTop:Platform.OS ==="web"?"-35%":"-30%",
+	},
+	linearGradient: {
+		alignItems: "center",
+		justifyContent: "center",
 		borderRadius: 23,
 		alignSelf: "center",
 	},
@@ -145,5 +156,21 @@ const styles = StyleSheet.create({
 		height: 155,
 		margin: 20,
 		padding: 20,
+	},
+	transactionsExpenses: {
+		backgroundColor: "#ffffff",
+		borderRadius: 23,
+		width: "100%",
+	},
+	RecentTransactions: {
+		textAlign: "center",
+		fontSize: 17,
+		fontWeight: "bold",
+		fontFamily: "Sarabun_400Regular",
+		color: "#000000",
+		backgroundColor: "#EEEEEE",
+		borderRadius: 23,
+		width: 380,
+		height: 60,
 	},
 });
