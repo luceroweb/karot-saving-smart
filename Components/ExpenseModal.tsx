@@ -54,7 +54,7 @@ const ExpenseModal = () => {
         label: label,
         saved: amount,
         goal: amount,
-        date: Number(date),
+        date: date > 0 ? Number(date) : Date.now(),
       })
     );
   };
