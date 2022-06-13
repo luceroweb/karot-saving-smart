@@ -58,9 +58,9 @@ const ExpenseModal = () => {
       label: label,
       saved: amount,
       goal: amount,
-      date: Number(date),
+      date: date > 0 ? Number(date) : Date.now(),
     };
-    dispatch(addExpense(newExpense ));
+    dispatch(addExpense(newExpense));
     dispatch(
       recalculateBudget({
         expenses: [...expenses, newExpense],
