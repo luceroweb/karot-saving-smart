@@ -1,30 +1,32 @@
-import { View, StyleSheet, Text } from "react-native";
-import { FC } from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import { GlobalStateType } from "../Utils/types";
-import {
-  useFonts,
-  Sarabun_300Light,
-  Sarabun_600SemiBold,
-  Sarabun_700Bold,
-} from "@expo-google-fonts/sarabun";
+import { AccountType, GlobalStateType } from "../Utils/types";
+import AccountModal from "./AccountModal";
 
 const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
 
-  let [fontsLoaded] = useFonts({
-    Sarabun_300Light,
-    Sarabun_600SemiBold,
-    Sarabun_700Bold,
-  });
+  const [isVisible, setIsVisible] = useState(false);
+  const [account, setAccount] = useState<AccountType | undefined>();
+  const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
 
-  const generateList = listOfAccounts.map((account, index) => (
-    <View key={index} style={styles.container}>
+  const generateList = listOfAccounts.map((account, index, listOfAccounts) => (
+    <TouchableOpacity
+      key={index}
+      style={styles.container}
+      onPress={() => {
+        const filteredArray: AccountType[] = listOfAccounts.filter((item, i) => i !== index) || [];
+        setIsVisible(true);
+        setAccount(account);
+        setUnselectedAccounts(filteredArray);
+      }}
+    >
       <Text style={styles.label}>{account.label}</Text>
       <Text style={styles.saved}>${account.saved.toLocaleString()}</Text>
-    </View>
+    </TouchableOpacity>
   ));
 
   return (
@@ -32,6 +34,15 @@ const AccountsDropDown: FC = () => {
       <Text style={styles.heading}>Income</Text>
       <View style={styles.horizontalRule}></View>
       {generateList}
+      {account && (
+        <AccountModal
+          account={account}
+          unselectedAccounts={unselectedAccounts}
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          mode='edit'
+        />
+      )}
     </View>
   );
 };

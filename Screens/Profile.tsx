@@ -2,19 +2,8 @@ import { FC } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
-import {
-  useFonts,
-  Sarabun_700Bold,
-  Sarabun_400Regular,
-  Sarabun_300Light,
-} from "@expo-google-fonts/sarabun";
 
 const Profile: FC = () => {
-  let [fontsLoaded] = useFonts({
-    Sarabun_700Bold,
-    Sarabun_400Regular,
-    Sarabun_300Light,
-  });
   const userData = useSelector((state: GlobalStateType) => state.user.data);
   return (
     <View style={styles.container}>

@@ -45,3 +45,8 @@ export interface GlobalStateType {
 	expenses: { list: ExpenseType[]; selectedId: number };
 	budgets: { remaining: RemainingBudgetType };
 }
+
+export type RootStackParamList = {
+  Login: undefined;
+  Overview: undefined;
+}

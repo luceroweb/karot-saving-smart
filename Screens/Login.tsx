@@ -1,16 +1,17 @@
 import React, { useEffect, FC, useState, useRef } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from "react-native";
+import {
+	Sarabun_300Light,
+	Sarabun_400Regular,
+	Sarabun_600SemiBold,
+	Sarabun_700Bold,
+  } from "@expo-google-fonts/sarabun";
+  import * as Font from 'expo-font';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing, Platform } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
 import logoCombinedImage from '../Images/logo/logo_combined.png';
-import {
-	useFonts,
-	Sarabun_700Bold,
-	Sarabun_400Regular,
-	Sarabun_300Light,
-} from "@expo-google-fonts/sarabun";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoginPropsType, GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,12 +25,8 @@ const Login: FC<LoginPropsType> = ({
 	loggedIn,
 	setLoggedIn,
 }: LoginPropsType) => {
-	let [fontsLoaded] = useFonts({
-		Sarabun_700Bold,
-		Sarabun_400Regular,
-		Sarabun_300Light,
-	});
   const splashImagesAnimation = useRef(new Animated.Value(0)).current;
+  const loginButtonAnimation = useRef(new Animated.Value(0)).current;
   const [appReady, setAppReady] = useState<boolean>(false);
 	const userData = useSelector<GlobalStateType>((state) => state.user.data);
 	const dispatch = useDispatch();
@@ -40,7 +37,6 @@ const Login: FC<LoginPropsType> = ({
 		webClientId:
 			"1038262737574-j0un3526ir5mkdo2cno1fl7o0v3jlnla.apps.googleusercontent.com",
 	});
-
 	useEffect(() => {
 		if (response?.type === "success") {
 			setAccessToken(response?.authentication?.accessToken);
@@ -61,6 +57,7 @@ const Login: FC<LoginPropsType> = ({
 			});
 		}
 	}, [userData]);
+
 
 	async function getUserData() {
 		let userInfoResponse = await fetch(
@@ -90,15 +87,27 @@ const Login: FC<LoginPropsType> = ({
         delay: 2000,
         toValue: -100,
         duration: 2000,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS === "web" ? false : true,
         easing: Easing.bezier(0.65, 0, 0.35, 1)
       }).start(() => setLoggedIn({ status: '', screen: 'login' }));
+
+			Animated.timing(loginButtonAnimation, {
+				delay: 4000,
+				toValue: 1,
+				duration: 1200,
+				useNativeDriver: Platform.OS === "web" ? false : true,
+			}).start(() => setLoggedIn({ status: '', screen: 'login' }));
     }
     const loadAssets = async (): Promise<void> => {
       try {
         // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
         await SplashScreen.preventAutoHideAsync();
         // preload any images, fonts, sounds, addtional assets
+		await Font.loadAsync({Sarabun_300Light,
+			Sarabun_400Regular,
+			Sarabun_600SemiBold,
+			Sarabun_700Bold,
+		  });
         await Asset.loadAsync([
           require("../Images/logo/logo_combined.png")
         ])
@@ -118,7 +127,7 @@ const Login: FC<LoginPropsType> = ({
 
 	
 
-	return (
+	return appReady ? (
 		<View style={styles.container}>
 			<LinearGradient
 				start={{ x: 0, y: 0 }}
@@ -145,6 +154,9 @@ const Login: FC<LoginPropsType> = ({
           fadeDuration={0}
         />
       </Animated.View>
+			<Animated.View style={{
+				opacity: loginButtonAnimation,
+			}}>
 				<TouchableOpacity
 					disabled={!request}
 					onPress={() => {
@@ -154,9 +166,11 @@ const Login: FC<LoginPropsType> = ({
 				>
 					<Text style={styles.textLogin}>Login</Text>
 				</TouchableOpacity>
+			</Animated.View>
+			
 			</LinearGradient>
 		</View>
-	);
+	) : null;
 };
 
 const styles = StyleSheet.create({

@@ -7,21 +7,8 @@ import {
   Pressable,
   Linking,
 } from "react-native";
-import {
-  useFonts,
-  Sarabun_700Bold,
-  Sarabun_400Regular,
-  Sarabun_300Light,
-} from "@expo-google-fonts/sarabun";
 
 const contactForm = () => {
-  let [fontsLoaded] = useFonts({
-    Sarabun_700Bold,
-    Sarabun_400Regular,
-    Sarabun_300Light,
-  });
-  
-  
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
