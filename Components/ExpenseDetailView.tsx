@@ -14,7 +14,7 @@ import * as Progress from "react-native-progress";
 import { Feather } from '@expo/vector-icons';
 import Moment from "moment"; 
 
-export default function ExpenseDetailView({ SetShowModal} ) {
+export default function ExpenseDetailView({ SetShowModal}:any ) {
 	let [fontsLoaded] = useFonts({
 		Sarabun_700Bold,
 		Sarabun_400Regular,
