@@ -14,6 +14,7 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { addExpense } from "../Utils/expenseSlice";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 
 const ExpenseModal = () => {
@@ -23,7 +24,11 @@ const ExpenseModal = () => {
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
+  const remainingBudget = useSelector(
+    (state: GlobalStateType) => state.budgets.remaining
+  );
   const dispatch = useDispatch();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -49,12 +54,17 @@ const ExpenseModal = () => {
   const formSubmit = () => {
     setLabel(label);
     setAmount(amount);
+    const newExpense = {
+      label: label,
+      saved: amount,
+      goal: amount,
+      date: date > 0 ? Number(date) : Date.now(),
+    };
+    dispatch(addExpense(newExpense));
     dispatch(
-      addExpense({
-        label: label,
-        saved: amount,
-        goal: amount,
-        date: date > 0 ? Number(date) : Date.now(),
+      recalculateBudget({
+        expenses: [...expenses, newExpense],
+        accounts: accounts,
       })
     );
   };
