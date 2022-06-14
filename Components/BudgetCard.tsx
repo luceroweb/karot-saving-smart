@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   bar: {
     flexDirection: "row",
-    height: 10,
+    // height: 10,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 46,

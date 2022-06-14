@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import uuid from "react-native-uuid";
 import { AccountType } from "./types";
 
 interface InitialStateType {
@@ -16,10 +17,10 @@ export const accountSlice = createSlice({
     addAccount: (state, action) => {
       state.list = [...state.list, action.payload];
     },
-    editAccount: (state, action ) => {
-      console.log(action.payload);
+    editAccount: (state, action) => {
+      // console.log(action.payload);
       state.list = action.payload;
-    }
+    },
   },
 });
 

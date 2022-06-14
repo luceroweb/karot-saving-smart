@@ -24,6 +24,7 @@ export interface AccountType {
   saved: number;
   goal: number;
   date: number;
+  id: string;
 }
 
 export interface ExpenseType {

@@ -1,6 +1,8 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
+import uuid from "react-native-uuid";
+
 import { AccountType, GlobalStateType } from "../Utils/types";
 import AccountModal from "./AccountModal";
 
@@ -11,17 +13,16 @@ const AccountsDropDown: FC = () => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [account, setAccount] = useState<AccountType | undefined>();
-  const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
+  const [mode, setMode] = useState<"edit" | "add">("edit");
 
-  const generateList = listOfAccounts.map((account, index, listOfAccounts) => (
+  const generateList = listOfAccounts.map((account) => (
     <TouchableOpacity
-      key={index}
+      key={account.id}
       style={styles.container}
       onPress={() => {
-        const filteredArray: AccountType[] = listOfAccounts.filter((item, i) => i !== index) || [];
-        setIsVisible(true);
+        setMode("edit");
         setAccount(account);
-        setUnselectedAccounts(filteredArray);
+        setIsVisible(true);
       }}
     >
       <Text style={styles.label}>{account.label}</Text>
@@ -31,16 +32,33 @@ const AccountsDropDown: FC = () => {
 
   return (
     <View style={styles.dropDownWrapper}>
-      <Text style={styles.heading}>Income</Text>
+      <View style={styles.headingContainer}>
+        <Text style={styles.heading}>Income</Text>
+        <TouchableOpacity
+          onPress={() => {
+            setAccount({
+              label: "",
+              id: uuid.v4().toString(),
+              saved: 0,
+              goal: 0,
+              date: Date.now(),
+            });
+            setMode("add");
+            setIsVisible(true);
+          }}
+        >
+          <Text>Add entry</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.horizontalRule}></View>
       {generateList}
       {account && (
         <AccountModal
           account={account}
-          unselectedAccounts={unselectedAccounts}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
-          mode='edit'
+          mode={mode}
+          setAccount={setAccount}
         />
       )}
     </View>
@@ -76,6 +94,11 @@ const styles = StyleSheet.create({
     height: 1,
     width: 240,
     backgroundColor: "#212121",
+  },
+  headingContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

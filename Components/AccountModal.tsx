@@ -9,29 +9,36 @@ import {
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import uuid from "react-native-uuid";
+import { Feather } from "@expo/vector-icons";
+
 import { addAccount, editAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
-import { Feather } from "@expo/vector-icons";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 
 const { width, height } = Dimensions.get("screen");
 
 interface Props {
   account: AccountType;
-  unselectedAccounts: AccountType[];
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string;
+  setAccount: React.Dispatch<React.SetStateAction<AccountType | undefined>>;
 }
 
 const AccountModal = memo<Props>(
-  ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
+  ({ account, isVisible, setIsVisible, mode, setAccount }) => {
     mode = mode ? mode : "add";
+
 
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
+    );
+    const expenses = useSelector(
+      (state: GlobalStateType) => state.expenses.list
     );
 
     useEffect(() => {
@@ -43,21 +50,35 @@ const AccountModal = memo<Props>(
       const newAccount = {
         label: label,
         saved: amount,
-        goal: null,
+        goal: 0,
         date: Date.now(),
+        id: uuid.v4().toString(),
       };
       dispatch(addAccount(newAccount));
+      dispatch(
+        recalculateBudget({ accounts: [...accounts, newAccount], expenses })
+      );
+      setIsVisible(false);
+      setAccount(undefined);
     };
 
     const runEditAccount = () => {
       const accountUpdate = {
+        ...account,
         label: label,
         saved: amount,
         goal: account.goal,
         date: account.date,
       };
-      dispatch(editAccount([...unselectedAccounts, accountUpdate]));
+
+      const updatedAccounts = accounts.map((acc) =>
+        acc.id === accountUpdate.id ? accountUpdate : acc
+      );
+
+      dispatch(editAccount(updatedAccounts));
+      dispatch(recalculateBudget({ accounts: updatedAccounts, expenses }));
       setIsVisible(false);
+      setAccount(undefined);
     };
 
     return (
@@ -129,8 +150,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   addButton: {
-    width: 130,
-    height: 34,
+    // width: 130,
+    // height: 34,
     borderRadius: 10,
     alignSelf: "center",
     flexDirection: "row",
