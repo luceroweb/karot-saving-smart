@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState, useRef } from "react";
+import React, { useEffect, FC, useState, useRef, useCallback } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import {
@@ -122,9 +122,9 @@ const Login: FC<LoginPropsType> = ({
   }, [appReady]);
 
 	// hide splash screen after logo image is loaded to prevent flickers
-	const onLogoImageReady = async () => {
+	const onLogoImageReady = useCallback(async () => {
 		await SplashScreen.hideAsync();
-	}
+	}, []);
 
 	return appReady ? (
 		<View style={styles.container}>
