@@ -55,6 +55,20 @@ const AccountModal = memo<Props>(
       setIsVisible(false);
     };
 
+    const onChanged = (text:any) => {
+      let newText:any="";
+      let numbers = '0123456789.';
+      for (let i=0; i < text.length; i++) {
+          if(numbers.indexOf(text[i]) > -1 ) {
+              newText = newText + text[i];
+          }
+          else {
+              alert("please enter numbers only");
+          }
+      }
+      setAmount(newText);
+  }
+
     return (
       <Modal
         visible={isVisible}
@@ -75,7 +89,7 @@ const AccountModal = memo<Props>(
             <TextInput
               style={styles.amountInput}
               placeholder="amount"
-              onChangeText={(text) => setAmount(Number(text))}
+              onChangeText={text =>onChanged(text)}
               value={amount?.toString()}
             />
             {/* This will include the text input for the label */}
