@@ -40,10 +40,10 @@ export interface RemainingBudgetType {
 }
 
 export interface GlobalStateType {
-  user: { data: UserDataType };
-  accounts: { list: AccountType[] };
-  expenses: { list: ExpenseType[] };
-  budgets: { remaining: RemainingBudgetType };
+	user: { data: UserDataType };
+	accounts: { list: AccountType[] };
+	expenses: { list: ExpenseType[]; selectedId: number };
+	budgets: { remaining: RemainingBudgetType };
 }
 
 export type RootStackParamList = {
