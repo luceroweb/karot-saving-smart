@@ -3,17 +3,14 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Dimensions,
   Modal,
   TouchableOpacity,
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
-import { GlobalStateType, AccountType } from "../Utils/types";
+import { AccountType } from "../Utils/types";
 import { Feather } from "@expo/vector-icons";
-
-const { width, height } = Dimensions.get("screen");
 
 interface Props {
   account: AccountType;
@@ -30,14 +27,11 @@ const AccountModal = memo<Props>(
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
-    const accounts = useSelector(
-      (state: GlobalStateType) => state.accounts.list
-    );
 
     useEffect(() => {
       setAmount(account ? account.saved : 0);
       setLabel(account ? account.label : "");
-    }, []);
+    }, [account]);
 
     const runAddAccount = () => {
       const newAccount = {

@@ -1,23 +1,26 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  useFonts,
-  Sarabun_300Light,
-  Sarabun_600SemiBold,
-  Sarabun_700Bold,
-} from "@expo-google-fonts/sarabun";
 import AddAccountButton from "./AddAccountButton";
 import { AccountType, GlobalStateType } from "../Utils/types";
 import AccountModal from "./AccountModal";
 
 const AccountsDropDown: FC = () => {
+  const blankAccount: AccountType = {
+    label: "",
+    saved: 0,
+    goal: 0,
+    date: Date.now(),
+  };
+
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [account, setAccount] = useState<AccountType | undefined>();
+  const [account, setAccount] = useState<AccountType>(blankAccount);
+  const [mode, setMode] = useState<string>("add");
+
   const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
 
   const generateList = listOfAccounts.map((account, index, listOfAccounts) => (
@@ -25,10 +28,12 @@ const AccountsDropDown: FC = () => {
       key={index}
       style={styles.container}
       onPress={() => {
-        const filteredArray: AccountType[] = listOfAccounts.filter((item, i) => i !== index) || [];
-        setIsVisible(true);
+        const filteredArray: AccountType[] =
+          listOfAccounts.filter((item, i) => i !== index) || [];
+        setMode("edit");
         setAccount(account);
         setUnselectedAccounts(filteredArray);
+        setIsVisible(true);
       }}
     >
       <Text style={styles.label}>{account.label}</Text>
@@ -41,17 +46,19 @@ const AccountsDropDown: FC = () => {
       <Text style={styles.heading}>Income</Text>
       <View style={styles.horizontalRule}></View>
       {generateList}
-      {/* {account && ( */}
-        <AccountModal
-          account={account?account:{label:"",saved:0,goal:0,date:Date.now()}}
-          unselectedAccounts={unselectedAccounts}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-          mode='add'
-        />
-      {/* )} */}
-      <AddAccountButton 
-          setIsVisible={setIsVisible}/>
+      <AccountModal
+        account={account}
+        unselectedAccounts={unselectedAccounts}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        mode={mode}
+      />
+      <AddAccountButton
+        setAccount={setAccount}
+        setIsVisible={setIsVisible}
+        setMode={setMode}
+        blankAccount={blankAccount}
+      />
     </View>
   );
 };

@@ -6,12 +6,7 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  list: [{
-    label: "vacation",
-    saved: 300,
-    goal:300,
-    date: 2}]
-  
+  list: []
 };
 
 export const accountSlice = createSlice({
