@@ -13,7 +13,7 @@ import { addAccount, editAccount } from "../Utils/accountSlice";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
 import { Feather } from '@expo/vector-icons';
-import { expenseSlice } from "../Utils/expenseSlice";
+
 
 const { width, height } = Dimensions.get("screen");
 
