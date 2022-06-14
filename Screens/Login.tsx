@@ -8,7 +8,7 @@ import {
 	Sarabun_700Bold,
   } from "@expo-google-fonts/sarabun";
   import * as Font from 'expo-font';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing, Platform } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
 import logoCombinedImage from '../Images/logo/logo_combined.png';
@@ -85,7 +85,7 @@ const Login: FC<LoginPropsType> = ({
         delay: 2000,
         toValue: -100,
         duration: 2000,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS === "web" ? false : true,
         easing: Easing.bezier(0.65, 0, 0.35, 1)
       }).start(() => setLoggedIn({ status: '', screen: 'login' }));
 
@@ -93,7 +93,7 @@ const Login: FC<LoginPropsType> = ({
 				delay: 4000,
 				toValue: 1,
 				duration: 1200,
-				useNativeDriver: true,
+				useNativeDriver: Platform.OS === "web" ? false : true,
 			}).start(() => setLoggedIn({ status: '', screen: 'login' }));
     }
     const loadAssets = async (): Promise<void> => {
