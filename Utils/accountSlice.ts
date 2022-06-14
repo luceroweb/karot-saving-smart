@@ -6,7 +6,7 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  list: [],
+  list: []
 };
 
 export const accountSlice = createSlice({

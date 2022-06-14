@@ -1,10 +1,11 @@
-import { View, StyleSheet, ScrollView} from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
-import ExpenseModal from "../Components/ExpenseModal";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import ProfileIcon from "../Components/ProfileIcon";
+import { AntDesign } from "@expo/vector-icons";
+import ExpenseModal from "../Components/ExpenseModal";
 
 function Overview() {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
