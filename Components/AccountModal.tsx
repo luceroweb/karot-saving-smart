@@ -59,6 +59,20 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
       dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
     }
+    // This function will prevent non-numerical charachters from entered into the amount input 
+    const onChanged = (text:any) => {
+      let newText:any="";
+      let numbers = '0123456789';
+      for (var i=0; i < text.length; i++) {
+          if(numbers.indexOf(text[i]) > -1 ) {
+              newText = newText + text[i];
+          }
+          else {
+              alert("please enter numbers only");
+          }
+      }
+      setAmount(newText);
+  }
 
   return (
      <Modal
@@ -80,7 +94,7 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
           <TextInput 
             style={styles.amountInput} 
             placeholder="amount"
-            onChangeText={text => setAmount(Number(text))}
+            onChangeText={text =>onChanged(text)}
             value={amount?.toString()}
           />
           {/* This will include the text input for the label */}
