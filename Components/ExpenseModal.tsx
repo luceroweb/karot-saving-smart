@@ -11,8 +11,7 @@ import {
 } from "react-native";
 import { DatePickerModal } from "react-native-paper-dates"; //date picker for web
 import { AntDesign, Feather } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
-import { GlobalStateType } from "../Utils/types";
+import { useDispatch } from "react-redux";
 import { addExpense } from "../Utils/expenseSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 
@@ -23,7 +22,6 @@ const ExpenseModal = () => {
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const dispatch = useDispatch();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -46,17 +44,35 @@ const ExpenseModal = () => {
     hideDatePicker();
     onDismissSingle;
   };
+  const onChangeTextAmount = (text:any) => {
+    let newText:any="";
+    let newNumber = '0123456789.';
+    for (let i=0; i < text.length; i++) {
+      if(newNumber.indexOf(text[i]) > -1 ) {
+        newText = newText + text[i];
+      }
+      else {
+        alert("please enter number values only");
+      }
+    }
+    setAmount(newText);
+  };
   const formSubmit = () => {
-    setLabel(label);
-    setAmount(amount);
-    dispatch(
-      addExpense({
-        label: label,
-        saved: amount,
-        goal: amount,
-        date: date > 0 ? Number(date) : Date.now(),
-      })
-    );
+    if (label.length > 0 && amount > 0){
+      setLabel(label);
+      setAmount(amount);      
+      dispatch(
+        addExpense({
+          label: label,
+          saved: amount,
+          goal: amount,
+          date: date > 0 ? Number(date) : Date.now(),
+        })
+      );
+      setModalVisible(false);    
+    } else {
+      alert("There is an empty value in one of the inputs");
+    };
   };
 
   return (
@@ -91,6 +107,7 @@ const ExpenseModal = () => {
             <TextInput
               style={styles.inputStyle}
               value={label}
+              placeholder={"put label here"}
               onChangeText={(text) => {
                 setLabel(text);
               }}
@@ -102,10 +119,8 @@ const ExpenseModal = () => {
             </Text>
             <TextInput
               style={styles.inputStyle}
-              value={"" + amount}
-              onChangeText={(number) => {
-                setAmount(Number(number));
-              }}
+              onChangeText={text => onChangeTextAmount(text)}
+              value={amount?.toString()}
             />
           </View>
           <View style={styles.subContainer}>
@@ -142,7 +157,6 @@ const ExpenseModal = () => {
               setLabel("");
               setAmount(0);
               setDate(0);
-              setModalVisible(false);
             }}
             style={styles.buttonStyle}
           >
