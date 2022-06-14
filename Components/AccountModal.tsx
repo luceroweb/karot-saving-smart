@@ -3,17 +3,14 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Dimensions,
   Modal,
   TouchableOpacity,
 } from "react-native";
-import React, {memo, useState, useEffect} from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { memo, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
-import { GlobalStateType, AccountType } from "../Utils/types";
-import { Feather } from '@expo/vector-icons';
-
-const { width, height } = Dimensions.get("screen");
+import { AccountType } from "../Utils/types";
+import { Feather } from "@expo/vector-icons";
 
 interface Props {
   account: AccountType;
@@ -23,21 +20,18 @@ interface Props {
   mode: string;
 }
 
-const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
-
-  mode = mode ? mode : "add";
+const AccountModal = memo<Props>(
+  ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
+    mode = mode ? mode : "add";
 
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
-    const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
 
-    useEffect(
-      () => {
-        setAmount(account ? account.saved : 0);
-        setLabel(account ? account.label : "");
-      }, []
-    );
+    useEffect(() => {
+      setAmount(account ? account.saved : 0);
+      setLabel(account ? account.label : "");
+    }, [account]);
 
     const runAddAccount = () => {
       const newAccount = {
@@ -47,7 +41,8 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
         date: Date.now(),
       };
       dispatch(addAccount(newAccount));
-    }
+      setIsVisible(false);
+    };
 
     const runEditAccount = () => {
       const accountUpdate = {
@@ -58,51 +53,53 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
       };
       dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
-    }
+    };
 
-  return (
-     <Modal
-      visible={isVisible}
-      style={{ justifyContent: "center", alignItems: "center" }}
-      transparent
-    >
-      <View style={styles.container}>
-        <TouchableOpacity onPress ={() => setIsVisible(false)}>
-          <Feather 
-            style={styles.exitIcon} 
-            name="x-circle" 
-            size={24} 
-            color="black"
-          />
-        </TouchableOpacity>
-        <View style={styles.textInputs}>
-          {/* This will include the text input for the amount */}
-          <TextInput 
-            style={styles.amountInput} 
-            placeholder="amount"
-            onChangeText={text => setAmount(Number(text))}
-            value={amount?.toString()}
-          />
-          {/* This will include the text input for the label */}
-          <TextInput 
-            style={styles.labelInput} 
-            placeholder="label"
-            onChangeText={setLabel}
-            value={label}
-          />
+    return (
+      <Modal
+        visible={isVisible}
+        style={{ justifyContent: "center", alignItems: "center" }}
+        transparent
+      >
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => setIsVisible(false)}>
+            <Feather
+              style={styles.exitIcon}
+              name="x-circle"
+              size={24}
+              color="black"
+            />
+          </TouchableOpacity>
+          <View style={styles.textInputs}>
+            {/* This will include the text input for the amount */}
+            <TextInput
+              style={styles.amountInput}
+              placeholder="amount"
+              onChangeText={(text) => setAmount(Number(text))}
+              value={amount?.toString()}
+            />
+            {/* This will include the text input for the label */}
+            <TextInput
+              style={styles.labelInput}
+              placeholder="label"
+              onChangeText={setLabel}
+              value={label}
+            />
+          </View>
+          {mode === "add" ? (
+            <TouchableOpacity style={styles.addButton} onPress={runAddAccount}>
+              <Text style={styles.buttonText}>Add Account</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.addButton} onPress={runEditAccount}>
+              <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+          )}
         </View>
-        { mode === "add" 
-         ? <TouchableOpacity style={styles.addButton} onPress={runAddAccount}>
-            <Text style={styles.buttonText}>Add Account</Text>
-          </TouchableOpacity>
-          : <TouchableOpacity style={styles.addButton} onPress={runEditAccount}>
-            <Text style={styles.buttonText}>Update</Text>
-          </TouchableOpacity>
-        }   
-      </View>
-    </Modal>
-  );
-});
+      </Modal>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -117,14 +114,14 @@ const styles = StyleSheet.create({
     height: 34,
     backgroundColor: "#FFFFFF",
     marginBottom: 2,
-    textAlign: "center"
+    textAlign: "center",
   },
   labelInput: {
     width: 130,
     height: 34,
     backgroundColor: "#FFFFFF",
     marginBottom: 24,
-    textAlign: "center"
+    textAlign: "center",
   },
   addButton: {
     width: 130,
@@ -132,10 +129,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
     flexDirection: "row",
-    backgroundColor: 'white',
-    textAlign: "center"
+    backgroundColor: "white",
+    textAlign: "center",
   },
-  buttonText:{
+  buttonText: {
     textAlign: "center",
     fontSize: 17,
     color: "#000000",
@@ -144,17 +141,17 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     width: "100%",
+    fontFamily: "Sarabun_300Light",
   },
-  textInputs:{
-      marginTop: 37,
-      alignSelf: 'center'
-  }, 
-  exitIcon:{
+  textInputs: {
+    marginTop: 37,
+    alignSelf: "center",
+  },
+  exitIcon: {
     paddingRight: 10,
     paddingTop: 10,
-    alignSelf: "flex-end"
-
-  }
+    alignSelf: "flex-end",
+  },
 });
 
 export default AccountModal;
