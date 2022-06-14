@@ -10,8 +10,10 @@ import {
 import React, {memo, useState, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
 import { Feather } from '@expo/vector-icons';
+import { expenseSlice } from "../Utils/expenseSlice";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -31,6 +33,7 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
     const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
+    const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
 
     useEffect(
       () => {
@@ -47,6 +50,10 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
         date: Date.now(),
       };
       dispatch(addAccount(newAccount));
+      dispatch(recalculateBudget({
+        expenses: expenses,
+        accounts:[...accounts, newAccount],
+      }))
     }
 
     const runEditAccount = () => {
@@ -58,6 +65,10 @@ const AccountModal = memo<Props>(({ account, unselectedAccounts, isVisible, setI
       };
       dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
+      dispatch(recalculateBudget({
+        expenses: expenses,
+        accounts:[...unselectedAccounts, accountUpdate],
+      }))
     }
 
   return (
