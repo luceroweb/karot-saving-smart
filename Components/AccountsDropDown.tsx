@@ -44,11 +44,7 @@ const AccountsDropDown: FC = () => {
 
   return (
     <View style={styles.dropDownWrapper}>
-      <View style={styles.headingContainer}>
-        <Text style={styles.heading}>Income</Text>
-       
-      </View>
-      <View style={styles.horizontalRule}></View>
+      <Text style={styles.heading}>Accounts</Text>
       {generateList}
       <AccountModal
         account={account}
@@ -70,6 +66,7 @@ const AccountsDropDown: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   label: {
     fontFamily: "Sarabun_300Light",
@@ -85,7 +82,11 @@ const styles = StyleSheet.create({
   },
   dropDownWrapper: {
     alignSelf: "center",
-    marginBottom: 10,
+    width: "100%",
+    backgroundColor: "#F5F5F5",
+    borderBottomLeftRadius: 21,
+    borderBottomRightRadius: 21,
+    padding: 15,
   },
   heading: {
     fontFamily: "Sarabun_700Bold",

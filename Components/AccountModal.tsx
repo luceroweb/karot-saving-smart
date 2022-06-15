@@ -32,8 +32,12 @@ const AccountModal = memo<Props>(
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
-    const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
-    const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
+    const accounts = useSelector(
+      (state: GlobalStateType) => state.accounts.list
+    );
+    const expenses = useSelector(
+      (state: GlobalStateType) => state.expenses.list
+    );
 
     useEffect(() => {
       setAmount(account ? account.saved : 0);
@@ -49,13 +53,14 @@ const AccountModal = memo<Props>(
         id: uuid.v4().toString(),
       };
       dispatch(addAccount(newAccount));
-      dispatch(recalculateBudget({
-        expenses: expenses,
-        accounts:[...accounts, newAccount],
-      }))
+      dispatch(
+        recalculateBudget({
+          expenses: expenses,
+          accounts: [...accounts, newAccount],
+        })
+      );
       setIsVisible(false);
-    } 
-  
+    };
 
     const runEditAccount = () => {
       const accountUpdate = {
@@ -67,25 +72,26 @@ const AccountModal = memo<Props>(
       };
       dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
-      dispatch(recalculateBudget({
-        expenses: expenses,
-        accounts:[...unselectedAccounts, accountUpdate],
-      }))
-    }
+      dispatch(
+        recalculateBudget({
+          expenses: expenses,
+          accounts: [...unselectedAccounts, accountUpdate],
+        })
+      );
+    };
 
-       const onChanged = (text:any) => {
-         let newText:any="";
-         let numbers = '0123456789.';
-         for (let i=0; i < text.length; i++) {
-             if(numbers.indexOf(text[i]) > -1 ) {
-                 newText = newText + text[i];
-             }
-            else {
-                 alert("please enter numbers only");
-             }
-         }
-         setAmount(newText);
-     }
+    const onChanged = (text: any) => {
+      let newText: any = "";
+      let numbers = "0123456789.";
+      for (let i = 0; i < text.length; i++) {
+        if (numbers.indexOf(text[i]) > -1) {
+          newText = newText + text[i];
+        } else {
+          alert("please enter numbers only");
+        }
+      }
+      setAmount(Number(newText));
+    };
 
     return (
       <Modal
@@ -108,7 +114,7 @@ const AccountModal = memo<Props>(
               style={styles.amountInput}
               placeholder="amount"
               onChangeText={text =>onChanged(text)}
-              value={amount?.toString()}
+              value={mode !== "add" ? amount?.toString() : undefined}
             />
             {/* This will include the text input for the label */}
             <TextInput
@@ -156,9 +162,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   addButton: {
-    // width: 130,
-    // height: 34,
+    width: 140,
+    height: 44,
     borderRadius: 10,
+    alignItems: "center",
     alignSelf: "center",
     flexDirection: "row",
     backgroundColor: "white",
