@@ -1,7 +1,6 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import uuid from "react-native-uuid";
 import AddAccountButton from "./AddAccountButton";
 import { AccountType, GlobalStateType } from "../Utils/types";
 import AccountModal from "./AccountModal";
@@ -12,7 +11,7 @@ const AccountsDropDown: FC = () => {
     saved: 0,
     goal: 0,
     date: Date.now(),
-    id:""
+    id: ""
   };
 
   const listOfAccounts = useSelector(
@@ -47,21 +46,7 @@ const AccountsDropDown: FC = () => {
     <View style={styles.dropDownWrapper}>
       <View style={styles.headingContainer}>
         <Text style={styles.heading}>Income</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setAccount({
-              label: "",
-              id: uuid.v4().toString(),
-              saved: 0,
-              goal: 0,
-              date: Date.now(),
-            });
-            setMode("add");
-            setIsVisible(true);
-          }}
-        >
-          <Text>Add entry</Text>
-        </TouchableOpacity>
+       
       </View>
       <View style={styles.horizontalRule}></View>
       {generateList}

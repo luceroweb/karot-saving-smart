@@ -19,10 +19,11 @@ interface Props {
   account: AccountType;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  mode: string;
+  mode: string; 
   unselectedAccounts: AccountType[];
 
 }
+
 
 const AccountModal = memo<Props>(
   ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
@@ -72,19 +73,19 @@ const AccountModal = memo<Props>(
       }))
     }
 
-    const onChanged = (text:any) => {
-      let newText:any="";
-      let numbers = '0123456789.';
-      for (let i=0; i < text.length; i++) {
-          if(numbers.indexOf(text[i]) > -1 ) {
-              newText = newText + text[i];
-          }
-          else {
-              alert("please enter numbers only");
-          }
-      }
-      setAmount(newText);
-  }
+       const onChanged = (text:any) => {
+         let newText:any="";
+         let numbers = '0123456789.';
+         for (let i=0; i < text.length; i++) {
+             if(numbers.indexOf(text[i]) > -1 ) {
+                 newText = newText + text[i];
+             }
+            else {
+                 alert("please enter numbers only");
+             }
+         }
+         setAmount(newText);
+     }
 
     return (
       <Modal
