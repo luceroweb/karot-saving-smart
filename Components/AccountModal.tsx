@@ -103,7 +103,7 @@ const AccountModal = memo<Props>(
               style={styles.amountInput}
               placeholder="amount"
               onChangeText={text =>onChanged(text)}
-              value={amount?.toString()}
+              value={mode !== "add" ? amount?.toString() : undefined}
             />
             {/* This will include the text input for the label */}
             <TextInput
@@ -151,9 +151,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   addButton: {
-    width: 130,
-    height: 34,
+    width: 140,
+    height: 44,
     borderRadius: 10,
+    alignItems: "center",
     alignSelf: "center",
     flexDirection: "row",
     backgroundColor: "white",
