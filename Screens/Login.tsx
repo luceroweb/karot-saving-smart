@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useState, useRef } from "react";
+import React, { useEffect, FC, useState, useRef, useCallback } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import {
@@ -8,7 +8,7 @@ import {
 	Sarabun_700Bold,
   } from "@expo-google-fonts/sarabun";
   import * as Font from 'expo-font';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing, Platform } from "react-native";
 import karotBunny from "../Images/karot-bunny-logo.png";
 import karotSlogan from "../Images/karot-slogan.png";
 import logoCombinedImage from '../Images/logo/logo_combined.png';
@@ -20,6 +20,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Asset } from "expo-asset";
 
 WebBrowser.maybeCompleteAuthSession();
+SplashScreen.preventAutoHideAsync();
 
 const Login: FC<LoginPropsType> = ({
 	loggedIn,
@@ -80,14 +81,11 @@ const Login: FC<LoginPropsType> = ({
 
 	useEffect(() => {
     const playSplashAnimation = async (): Promise<void> => {
-      // app is ready, hide SplashScreen, start animation
-      await SplashScreen.hideAsync();
-      
       Animated.timing(splashImagesAnimation, {
         delay: 2000,
         toValue: -100,
         duration: 2000,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS === "web" ? false : true,
         easing: Easing.bezier(0.65, 0, 0.35, 1)
       }).start(() => setLoggedIn({ status: '', screen: 'login' }));
 
@@ -95,13 +93,11 @@ const Login: FC<LoginPropsType> = ({
 				delay: 4000,
 				toValue: 1,
 				duration: 1200,
-				useNativeDriver: true,
+				useNativeDriver: Platform.OS === "web" ? false : true,
 			}).start(() => setLoggedIn({ status: '', screen: 'login' }));
     }
     const loadAssets = async (): Promise<void> => {
       try {
-        // Prevent the static SplashScreen image from auto-hiding so we can manually hide it
-        await SplashScreen.preventAutoHideAsync();
         // preload any images, fonts, sounds, addtional assets
 		await Font.loadAsync({Sarabun_300Light,
 			Sarabun_400Regular,
@@ -125,7 +121,10 @@ const Login: FC<LoginPropsType> = ({
     }
   }, [appReady]);
 
-	
+	// hide splash screen after logo image is loaded to prevent flickers
+	const onLogoImageReady = useCallback(async () => {
+		await SplashScreen.hideAsync();
+	}, []);
 
 	return appReady ? (
 		<View style={styles.container}>
@@ -152,6 +151,7 @@ const Login: FC<LoginPropsType> = ({
           resizeMode="contain"
           source={logoCombinedImage}
           fadeDuration={0}
+					onLoadEnd={onLogoImageReady}
         />
       </Animated.View>
 			<Animated.View style={{

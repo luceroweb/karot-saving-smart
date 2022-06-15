@@ -3,48 +3,41 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Dimensions,
   Modal,
   TouchableOpacity,
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import uuid from "react-native-uuid";
-import { Feather } from "@expo/vector-icons";
-
+import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
+import uuid from "react-native-uuid";
+import { Feather } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("screen");
 
 interface Props {
   account: AccountType;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string;
-  setAccount: React.Dispatch<React.SetStateAction<AccountType | undefined>>;
+  unselectedAccounts: AccountType[];
+
 }
 
 const AccountModal = memo<Props>(
-  ({ account, isVisible, setIsVisible, mode, setAccount }) => {
+  ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
     mode = mode ? mode : "add";
-
 
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
-    const accounts = useSelector(
-      (state: GlobalStateType) => state.accounts.list
-    );
-    const expenses = useSelector(
-      (state: GlobalStateType) => state.expenses.list
-    );
+    const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
+    const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
 
     useEffect(() => {
       setAmount(account ? account.saved : 0);
       setLabel(account ? account.label : "");
-    }, []);
+    }, [account]);
 
     const runAddAccount = () => {
       const newAccount = {
@@ -55,12 +48,13 @@ const AccountModal = memo<Props>(
         id: uuid.v4().toString(),
       };
       dispatch(addAccount(newAccount));
-      dispatch(
-        recalculateBudget({ accounts: [...accounts, newAccount], expenses })
-      );
+      dispatch(recalculateBudget({
+        expenses: expenses,
+        accounts:[...accounts, newAccount],
+      }))
       setIsVisible(false);
-      setAccount(undefined);
-    };
+    } 
+  
 
     const runEditAccount = () => {
       const accountUpdate = {
@@ -70,16 +64,27 @@ const AccountModal = memo<Props>(
         goal: account.goal,
         date: account.date,
       };
-
-      const updatedAccounts = accounts.map((acc) =>
-        acc.id === accountUpdate.id ? accountUpdate : acc
-      );
-
-      dispatch(editAccount(updatedAccounts));
-      dispatch(recalculateBudget({ accounts: updatedAccounts, expenses }));
+      dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
-      setAccount(undefined);
-    };
+      dispatch(recalculateBudget({
+        expenses: expenses,
+        accounts:[...unselectedAccounts, accountUpdate],
+      }))
+    }
+
+    const onChanged = (text:any) => {
+      let newText:any="";
+      let numbers = '0123456789.';
+      for (let i=0; i < text.length; i++) {
+          if(numbers.indexOf(text[i]) > -1 ) {
+              newText = newText + text[i];
+          }
+          else {
+              alert("please enter numbers only");
+          }
+      }
+      setAmount(newText);
+  }
 
     return (
       <Modal
@@ -101,7 +106,7 @@ const AccountModal = memo<Props>(
             <TextInput
               style={styles.amountInput}
               placeholder="amount"
-              onChangeText={(text) => setAmount(Number(text))}
+              onChangeText={text =>onChanged(text)}
               value={amount?.toString()}
             />
             {/* This will include the text input for the label */}
@@ -167,6 +172,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     width: "100%",
+    fontFamily: "Sarabun_300Light",
   },
   textInputs: {
     marginTop: 37,
