@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
-import { AccountType } from "../Utils/types";
-import { Feather } from "@expo/vector-icons";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
+import { GlobalStateType, AccountType } from "../Utils/types";
+import { Feather } from '@expo/vector-icons';
+
 
 interface Props {
   account: AccountType;
@@ -27,6 +29,8 @@ const AccountModal = memo<Props>(
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const dispatch = useDispatch();
+    const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
+    const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
 
     useEffect(() => {
       setAmount(account ? account.saved : 0);
@@ -41,8 +45,13 @@ const AccountModal = memo<Props>(
         date: Date.now(),
       };
       dispatch(addAccount(newAccount));
+      dispatch(recalculateBudget({
+        expenses: expenses,
+        accounts:[...accounts, newAccount],
+      }))
       setIsVisible(false);
-    };
+    } 
+  
 
     const runEditAccount = () => {
       const accountUpdate = {
@@ -53,7 +62,25 @@ const AccountModal = memo<Props>(
       };
       dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
-    };
+      dispatch(recalculateBudget({
+        expenses: expenses,
+        accounts:[...unselectedAccounts, accountUpdate],
+      }))
+    }
+
+    const onChanged = (text:any) => {
+      let newText:any="";
+      let numbers = '0123456789.';
+      for (let i=0; i < text.length; i++) {
+          if(numbers.indexOf(text[i]) > -1 ) {
+              newText = newText + text[i];
+          }
+          else {
+              alert("please enter numbers only");
+          }
+      }
+      setAmount(newText);
+  }
 
     return (
       <Modal
@@ -75,7 +102,7 @@ const AccountModal = memo<Props>(
             <TextInput
               style={styles.amountInput}
               placeholder="amount"
-              onChangeText={(text) => setAmount(Number(text))}
+              onChangeText={text =>onChanged(text)}
               value={amount?.toString()}
             />
             {/* This will include the text input for the label */}
