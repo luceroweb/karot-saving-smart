@@ -14,13 +14,13 @@ import { AntDesign } from '@expo/vector-icons';
 
 const ContactForm = () => {
   const [email, setEmail] = useState<string>("");
-  const [selectedItem, setSelectedItem] = useState<string>("");
+  const [subject, setSubject] = useState<string>("");
   const [message, setMessage] = useState<string>("");
  
   
-
   const sendContactForm = () => {
-    let mailto = `mailto=jlucero@alphaworks.tech`;
+    let mailto = `mailto:jlucero@alphaworks.tech`;
+    mailto += `?subject=${subject}`;
     mailto += `&body=${message}`;
     Linking.openURL(mailto);
   };
@@ -52,10 +52,10 @@ const ContactForm = () => {
       <Text style={[styles.inputHeaders]}>Subject</Text>
       <Picker
         style={styles.picker}
-        selectedValue={selectedItem}
+        selectedValue={subject}
         onValueChange={
           (value, index) =>
-          setSelectedItem(value)
+          setSubject(value)
         }
       >
         <Picker.Item 

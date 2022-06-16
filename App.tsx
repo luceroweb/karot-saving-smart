@@ -15,6 +15,7 @@ import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
 import Login from "./Screens/Login";
 import { RootStackParamList } from "./Utils/types";
+import ContactForm from "./Screens/ContactForm";
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
@@ -58,9 +59,13 @@ export default function App() {
                     </RootStack.Screen>
                   </RootStack.Group>
                 ) : (
-                  <RootStack.Screen name="Overview" component={Overview} options={{
+                  // <RootStack.Screen name="Overview" component={Overview} options={{
+                  //   headerShown: false
+                  // }}/> 
+                  <RootStack.Screen name="ContactForm" component={ContactForm} options={{
                     headerShown: false
-                  }}/> 
+                  }}/>
+
                 )}
               </RootStack.Navigator>
             </NavigationContainer>
