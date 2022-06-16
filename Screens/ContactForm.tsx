@@ -50,6 +50,7 @@ const ContactForm:FC<Props> = ({ navigation }) => {
         style={[styles.inputs,styles.email]}
         onChangeText={(email) => setEmail(email)}
         value={email}
+        placeholder="example@domain.com"
       />
 
       {/* Dropdown Menu */}
@@ -77,6 +78,7 @@ const ContactForm:FC<Props> = ({ navigation }) => {
       <TextInput
         style={[styles.inputs,styles.messageInput]}
         onChangeText={(e) => setMessage(e)}
+        placeholder="Write your message here..."
         value={message}
         numberOfLines={10}
         multiline={true}
