@@ -1,18 +1,15 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Overview from "../Screens/Overview";
-import Menu from "./Menu";
-import MenuStack from "./MenuStack";
+import ContactForm from "../Screens/ContactForm";
+import Login from "../Screens/Login";
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Overview" component={Overview} />
-      <Drawer.Screen
-        name="MenuStack"
-        options={{ title: "Menu", headerShown: false }}
-        component={MenuStack}
-      />
+      <Drawer.Screen name="ContactForm" component={ContactForm} />
+      <Drawer.Screen name="Logout" component={Login} />
     </Drawer.Navigator>
   );
 }
