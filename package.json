@@ -17,6 +17,7 @@
     "@expo-google-fonts/sarabun": "^0.2.2",
     "@expo/webpack-config": "~0.16.2",
     "@react-navigation/drawer": "^6.4.1",
+    "@react-native-picker/picker": "2.4.0",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@react-navigation/stack": "^6.2.1",
