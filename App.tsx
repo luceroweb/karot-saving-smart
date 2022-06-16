@@ -15,6 +15,7 @@ import { Provider } from "react-redux";
 import Overview from "./Screens/Overview";
 import Login from "./Screens/Login";
 import { RootStackParamList } from "./Utils/types";
+import ContactForm from './Screens/ContactForm'
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
