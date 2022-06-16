@@ -17,7 +17,6 @@ const ReduxStateTest: FC = () => {
   );
   const dispatch = useDispatch();
 
-
   const runSaveUserData = () => {
     dispatch(
       setUserData({

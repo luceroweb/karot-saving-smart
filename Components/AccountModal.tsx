@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   Modal,
+  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
@@ -14,19 +15,19 @@ import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import uuid from "react-native-uuid";
 import { Feather } from "@expo/vector-icons";
 
+const { width, height } = Dimensions.get("screen");
 
 interface Props {
   account: AccountType;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string; 
-  unselectedAccounts: AccountType[];
-
+  setAccount:  React.Dispatch<React.SetStateAction<AccountType>>;
+  // setAccount: (account: AccountType)=> void;
 }
 
-
 const AccountModal = memo<Props>(
-  ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
+  ({ account, isVisible, setIsVisible, mode, setAccount }) => {
     mode = mode ? mode : "add";
 
     const [amount, setAmount] = useState<number>(0);
@@ -38,7 +39,13 @@ const AccountModal = memo<Props>(
     const expenses = useSelector(
       (state: GlobalStateType) => state.expenses.list
     );
-
+     const blankAccount: AccountType = {
+       label: "",
+       saved: 0,
+       goal: 0,
+       date: Date.now(),
+       id: ""
+   };
     useEffect(() => {
       setAmount(account ? account.saved : 0);
       setLabel(account ? account.label : "");
@@ -60,6 +67,7 @@ const AccountModal = memo<Props>(
         })
       );
       setIsVisible(false);
+      setAccount(blankAccount);
     };
 
     const runEditAccount = () => {
@@ -70,14 +78,14 @@ const AccountModal = memo<Props>(
         goal: account.goal,
         date: account.date,
       };
-      dispatch(editAccount([...unselectedAccounts, accountUpdate]));
-      setIsVisible(false);
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: [...unselectedAccounts, accountUpdate],
-        })
+      
+      const updatedAccounts = accounts.map((acc) =>
+        acc.id === accountUpdate.id ? accountUpdate : acc
       );
+      dispatch(editAccount(updatedAccounts));
+      dispatch(recalculateBudget({ accounts: updatedAccounts, expenses }));
+      setIsVisible(false);
+      setAccount(blankAccount);
     };
 
     const onChanged = (text: any) => {
@@ -113,8 +121,8 @@ const AccountModal = memo<Props>(
             <TextInput
               style={styles.amountInput}
               placeholder="amount"
-              onChangeText={text =>onChanged(text)}
-              value={mode !== "add" ? amount?.toString() : undefined}
+              onChangeText={(text) => setAmount(Number(text))}
+              value={amount?.toString()}
             />
             {/* This will include the text input for the label */}
             <TextInput
