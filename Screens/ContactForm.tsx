@@ -6,14 +6,17 @@ import {
   StyleSheet,
   Pressable,
   Linking,
+  Keyboard,
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { AntDesign } from '@expo/vector-icons';
 
+
 const ContactForm = () => {
-  const [email, setEmail] = useState("");
-  const [selectedItem, setSelectedItem] = useState();
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [selectedItem, setSelectedItem] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+ 
   
 
   const sendContactForm = () => {
@@ -28,7 +31,8 @@ const ContactForm = () => {
       <AntDesign 
         name="left" 
         size={24} 
-        color="#FFFFFF" 
+        color="#FFFFFF"
+        onPress={()=>{}}
       />
       </View>
       
@@ -50,8 +54,8 @@ const ContactForm = () => {
         style={styles.picker}
         selectedValue={selectedItem}
         onValueChange={
-          (itemValue, itemIndex) =>
-          setSelectedItem(itemValue)
+          (value, index) =>
+          setSelectedItem(value)
         }
       >
         <Picker.Item 
@@ -72,6 +76,9 @@ const ContactForm = () => {
         value={message}
         numberOfLines={10}
         multiline={true}
+        keyboardType="default"
+        returnKeyType="done"
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
       />
       </View>
 
@@ -89,7 +96,8 @@ const styles = StyleSheet.create({
     container:{
       alignItems: "center",
       backgroundColor: "#215290",
-      height: "100vh",
+      height: "100%",
+      width: "100%",
     },
     backArrow: {
       position: "absolute",
@@ -134,12 +142,9 @@ const styles = StyleSheet.create({
       width: 350,
       marginTop: 6,
       marginLeft: 30,
-      marginRight: 30,
-      marginBottom: 20,
-      paddingLeft: 10,
-      paddingRight: 10,
       backgroundColor: "#FFFFFF",
       borderRadius: 10,
+      justifyContent: "center",
     },
     messageInput:{
       height: 190,
