@@ -13,7 +13,7 @@ function Overview() {
       <View style={styles.icon}>
 				<ProfileIcon/>
 			</View>
-      <ScrollView>
+      <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.budgetCardHolder}>      
           <BudgetCard />
         </View>
@@ -34,17 +34,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  scrollViewContainer: {
+    width: "100%",
+  },
   budgetCardHolder: {
     marginTop: 30,
     width: "100%",
   },
   expenseCardHolder: {
     marginTop: 20,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   icon:{
-    alignSelf:"flex-start",
-    marginLeft:"2%",
+    alignSelf:"flex-end",
+    marginRight:"2%",
     marginTop:"2%",
   },
   plusModal: {
