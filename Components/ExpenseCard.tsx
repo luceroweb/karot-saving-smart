@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     aspectRatio: 1,
     margin: 15,
-    height: 160,
+    height: 155,
   },
   expenseAmount: {
     textAlign: "center",
