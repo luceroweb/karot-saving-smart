@@ -49,4 +49,5 @@ export interface GlobalStateType {
 export type RootStackParamList = {
   Login: undefined;
   Overview: undefined;
+  ContactForm: undefined;
 }

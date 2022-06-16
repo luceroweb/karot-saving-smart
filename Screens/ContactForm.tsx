@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,13 @@ import {
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { AntDesign } from '@expo/vector-icons';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'; 
+import { RootStackParamList } from "../Utils/types";
+
+type Props = NativeStackScreenProps<RootStackParamList, "ContactForm">
 
 
-const ContactForm = () => {
+const ContactForm:FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -32,7 +36,7 @@ const ContactForm = () => {
         name="left" 
         size={24} 
         color="#FFFFFF"
-        onPress={()=>{}}
+        onPress={()=> navigation.navigate("Overview")}
       />
       </View>
       

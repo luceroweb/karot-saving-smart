@@ -31,6 +31,7 @@ export default function App() {
     screens: {
       Login: 'login',
       Overview: 'overview',
+      ContactForm: 'contact'
     },
   };
   const linking = {
@@ -59,13 +60,15 @@ export default function App() {
                     </RootStack.Screen>
                   </RootStack.Group>
                 ) : (
-                  // <RootStack.Screen name="Overview" component={Overview} options={{
-                  //   headerShown: false
-                  // }}/> 
+                  <>
+                  <RootStack.Screen name="Overview" component={Overview} options={{
+                    headerShown: false
+                  }}/> 
+
                   <RootStack.Screen name="ContactForm" component={ContactForm} options={{
                     headerShown: false
                   }}/>
-
+                  </>
                 )}
               </RootStack.Navigator>
             </NavigationContainer>

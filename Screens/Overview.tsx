@@ -1,4 +1,5 @@
 import { View, StyleSheet, ScrollView } from "react-native";
+import { FC } from "react";
 import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
 import { useSelector } from "react-redux";
@@ -6,12 +7,18 @@ import { GlobalStateType } from "../Utils/types";
 import ProfileIcon from "../Components/ProfileIcon";
 import ExpenseModal from "../Components/ExpenseModal";
 
-function Overview() {
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'; 
+import { RootStackParamList } from "../Utils/types";
+
+type Props = NativeStackScreenProps<RootStackParamList, "Overview">
+
+const Overview: FC<Props> = ({ navigation }) => {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
   return (
     <View style={styles.container}>
       <View style={styles.icon}>
-				<ProfileIcon/>
+				<ProfileIcon
+          navigation={navigation}/>
 			</View>
       <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.budgetCardHolder}>      
