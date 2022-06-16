@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 23,
     aspectRatio: 1,
-    margin: 15,
-    height: 155,
+    margin: 8,
+    height: 180,
   },
   expenseAmount: {
     textAlign: "center",
