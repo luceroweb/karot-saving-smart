@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   icon:{
-    alignSelf:"flex-start",
-    marginLeft:"2%",
+    alignSelf:"flex-end",
+    marginRight:"2%",
     marginTop:"2%",
   },
   plusModal: {
