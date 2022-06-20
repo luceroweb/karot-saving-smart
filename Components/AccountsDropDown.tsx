@@ -1,8 +1,6 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import uuid from "react-native-uuid";
-
 import AddAccountButton from "./AddAccountButton";
 import { AccountType, GlobalStateType } from "../Utils/types";
 import AccountModal from "./AccountModal";
@@ -18,17 +16,12 @@ const AccountsDropDown: FC = () => {
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
-
-  // const [isVisible, setIsVisible] = useState(false);
-  // const [account, setAccount] = useState<AccountType | undefined>();
-  const [mode, setMode] = useState<"edit" | "add">("edit");
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [account, setAccount] = useState<AccountType>(blankAccount);
-  // const [mode, setMode] = useState<string>("add");
-
+  const [mode, setMode] = useState<string>("add");
   const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
 
-  const generateList = listOfAccounts.map((account) => (
+  const generateList = listOfAccounts.map((account,index,listOfAccounts) => (
     <TouchableOpacity
       key={account.id}
       style={styles.container}
@@ -96,16 +89,6 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun_700Bold",
     fontSize: 18,
     lineHeight: 28,
-  },
-  horizontalRule: {
-    height: 1,
-    width: 240,
-    backgroundColor: "#212121",
-  },
-  headingContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
 });
 

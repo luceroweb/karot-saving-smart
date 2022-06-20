@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import uuid from "react-native-uuid";
 import { addAccount, editAccount } from "../Utils/accountSlice";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
