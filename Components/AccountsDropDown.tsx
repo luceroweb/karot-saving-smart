@@ -3,25 +3,41 @@ import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import uuid from "react-native-uuid";
 
+import AddAccountButton from "./AddAccountButton";
 import { AccountType, GlobalStateType } from "../Utils/types";
 import AccountModal from "./AccountModal";
 
 const AccountsDropDown: FC = () => {
+  const blankAccount: AccountType = {
+    label: "",
+    saved: 0,
+    goal: 0,
+    date: Date.now(),
+  };
+
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [account, setAccount] = useState<AccountType | undefined>();
+  // const [isVisible, setIsVisible] = useState(false);
+  // const [account, setAccount] = useState<AccountType | undefined>();
   const [mode, setMode] = useState<"edit" | "add">("edit");
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [account, setAccount] = useState<AccountType>(blankAccount);
+  // const [mode, setMode] = useState<string>("add");
+
+  const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
 
   const generateList = listOfAccounts.map((account) => (
     <TouchableOpacity
       key={account.id}
       style={styles.container}
       onPress={() => {
+        const filteredArray: AccountType[] =
+          listOfAccounts.filter((item, i) => i !== index) || [];
         setMode("edit");
         setAccount(account);
+        setUnselectedAccounts(filteredArray);
         setIsVisible(true);
       }}
     >
@@ -32,35 +48,21 @@ const AccountsDropDown: FC = () => {
 
   return (
     <View style={styles.dropDownWrapper}>
-      <View style={styles.headingContainer}>
-        <Text style={styles.heading}>Income</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setAccount({
-              label: "",
-              id: uuid.v4().toString(),
-              saved: 0,
-              goal: 0,
-              date: Date.now(),
-            });
-            setMode("add");
-            setIsVisible(true);
-          }}
-        >
-          <Text>Add entry</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.horizontalRule}></View>
+      <Text style={styles.heading}>Accounts</Text>
       {generateList}
-      {account && (
-        <AccountModal
-          account={account}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-          mode={mode}
-          setAccount={setAccount}
-        />
-      )}
+      <AccountModal
+        account={account}
+        unselectedAccounts={unselectedAccounts}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        mode={mode}
+      />
+      <AddAccountButton
+        setAccount={setAccount}
+        setIsVisible={setIsVisible}
+        setMode={setMode}
+        blankAccount={blankAccount}
+      />
     </View>
   );
 };
@@ -68,6 +70,7 @@ const AccountsDropDown: FC = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   label: {
     fontFamily: "Sarabun_300Light",
@@ -83,7 +86,11 @@ const styles = StyleSheet.create({
   },
   dropDownWrapper: {
     alignSelf: "center",
-    marginBottom: 10,
+    width: "100%",
+    backgroundColor: "#F5F5F5",
+    borderBottomLeftRadius: 21,
+    borderBottomRightRadius: 21,
+    padding: 15,
   },
   heading: {
     fontFamily: "Sarabun_700Bold",

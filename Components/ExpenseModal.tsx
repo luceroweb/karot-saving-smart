@@ -14,6 +14,7 @@ import { AntDesign, Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { addExpense } from "../Utils/expenseSlice";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 
 const ExpenseModal = () => {
@@ -23,7 +24,11 @@ const ExpenseModal = () => {
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
+  const remainingBudget = useSelector(
+    (state: GlobalStateType) => state.budgets.remaining
+  );
   const dispatch = useDispatch();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -46,120 +51,141 @@ const ExpenseModal = () => {
     hideDatePicker();
     onDismissSingle;
   };
+  const onChangeTextAmount = (number:any) => {
+    let newText:any="";
+    let newNumber = '0123456789.';
+    for (let i=0; i < number.length; i++) {
+      if(newNumber.indexOf(number[i]) > -1 ) {
+        newText = newText + number[i];
+      }
+      else {
+        alert("please enter number values only");
+      }
+    }
+    setAmount(Number(newText))
+  }; 
   const formSubmit = () => {
-    setLabel(label);
-    setAmount(amount);
-    dispatch(
-      addExpense({
-        label: label,
-        saved: amount,
-        goal: amount,
-        date: Number(date),
-      })
-    );
-  };
+		if (label.length > 0 && amount > 0) {
+			setLabel(label);
+			setAmount(amount);
+			const newExpense = {
+				label: label,
+				saved: amount,
+				goal: amount,
+				date: date > 0 ? Number(date) : Date.now(),
+			};
+			dispatch(addExpense(newExpense));
+			dispatch(
+				recalculateBudget({
+					expenses: [...expenses, newExpense],
+					accounts: accounts,
+				})
+			);
+			setModalVisible(false);
+		} else {
+			alert("There is an empty value in one of the inputs");
+		}
+	};;
 
   return (
-    <View style={styles.container}>
-      <Modal visible={modalVisible} transparent={true}>
-        {/* This is where the Form starts */}
-        <View style={styles.modalSize}>
-          <View style={styles.titleContainer}>
-            <View style={{ alignSelf: "flex-end" }}>
-              <TouchableOpacity
-                style={styles.xIcon}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <Feather
-                  name="x-circle"
-                  size={30}
-                  color="black"
-                  style={{ paddingRight: 10 }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={styles.titleText}>Add Expense</Text>
-            </View>
-          </View>
-          <View style={styles.subContainer}>
-            <Text style={[styles.textContainer, { paddingRight: 40 }]}>
-              Label:
-            </Text>
-            <TextInput
-              style={styles.inputStyle}
-              value={label}
-              onChangeText={(text) => {
-                setLabel(text);
-              }}
-            />
-          </View>
-          <View style={styles.subContainer}>
-            <Text style={[styles.textContainer, { paddingRight: 20 }]}>
-              Amount:
-            </Text>
-            <TextInput
-              style={styles.inputStyle}
-              value={"" + amount}
-              onChangeText={(number) => {
-                setAmount(Number(number));
-              }}
-            />
-          </View>
-          <View style={styles.subContainer}>
-            <Text style={[styles.textContainer, { paddingRight: 5 }]}>
-              Due Date:
-            </Text>
-            {Platform.OS === "web" ? (
-              <View>
-                <Button title="Pick the date" onPress={() => setOpen(true)} />
-                <DatePickerModal
-                  locale="en"
-                  mode="single"
-                  visible={open}
-                  onDismiss={onDismissSingle}
-                  date={new Date()}
-                  onConfirm={onConfirmSingle}
-                />
-              </View>
-            ) : (
-              <View>
-                <Button title="Pick the date" onPress={showDatePicker} />
-                <DateTimePickerModal
-                  isVisible={isDatePickerVisible}
-                  mode="date"
-                  onConfirm={handleConfirm}
-                  onCancel={hideDatePicker}
-                />
-              </View>
-            )}
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              formSubmit();
-              setLabel("");
-              setAmount(0);
-              setDate(0);
-              setModalVisible(false);
-            }}
-            style={styles.buttonStyle}
-          >
-            <Text style={{ fontSize: 16 }}>Confirm</Text>
-          </TouchableOpacity>
-          {/* This is where the form ends */}
-        </View>
-      </Modal>
-      <TouchableOpacity
-        onPress={() => {
-          setModalVisible(true);
-        }}
-      >
-        <AntDesign name="pluscircle" size={48} color="#4D62BF" />
-      </TouchableOpacity>
-    </View>
-  );
+		<View style={styles.container}>
+			<Modal visible={modalVisible} transparent={true}>
+				{/* This is where the Form starts */}
+				<View style={styles.modalSize}>
+					<View style={styles.titleContainer}>
+						<View style={{ alignSelf: "flex-end" }}>
+							<TouchableOpacity
+								style={styles.xIcon}
+								onPress={() => {
+									setModalVisible(!modalVisible);
+								}}
+							>
+								<Feather
+									name="x-circle"
+									size={30}
+									color="black"
+									style={{ paddingRight: 10 }}
+								/>
+							</TouchableOpacity>
+						</View>
+						<View>
+							<Text style={styles.titleText}>Add Expense</Text>
+						</View>
+					</View>
+					<View style={styles.subContainer}>
+						<Text style={[styles.textContainer, { paddingRight: 40 }]}>
+							Label:
+						</Text>
+						<TextInput
+							style={styles.inputStyle}
+							value={label}
+							onChangeText={(text) => {
+								setLabel(text);
+							}}
+						/>
+					</View>
+					<View style={styles.subContainer}>
+						<Text style={[styles.textContainer, { paddingRight: 20 }]}>
+							Amount:
+						</Text>
+						<TextInput
+							style={styles.inputStyle}
+							value={amount?.toString()}
+							onChangeText={(number) => onChangeTextAmount(number)}
+						/>
+					</View>
+					<View style={styles.subContainer}>
+						<Text style={[styles.textContainer, { paddingRight: 5 }]}>
+							Due Date:
+						</Text>
+						{Platform.OS === "web" ? (
+							<View>
+								<Button title="Pick the date" onPress={() => setOpen(true)} />
+								<DatePickerModal
+									locale="en"
+									mode="single"
+									visible={open}
+									onDismiss={onDismissSingle}
+									date={new Date()}
+									onConfirm={onConfirmSingle}
+								/>
+							</View>
+						) : (
+							<View>
+								<Button title="Pick the date" onPress={showDatePicker} />
+								<DateTimePickerModal
+									isVisible={isDatePickerVisible}
+									mode="date"
+									onConfirm={handleConfirm}
+									onCancel={hideDatePicker}
+								/>
+							</View>
+						)}
+					</View>
+					<TouchableOpacity
+						onPress={() => {
+							formSubmit();
+							setLabel("");
+							setAmount(0);
+							setDate(0);
+							setModalVisible(false);
+						}}
+						style={styles.buttonStyle}
+					>
+						<Text style={{ fontSize: 16 }}>Confirm</Text>
+					</TouchableOpacity>
+					{/* This is where the form ends */}
+				</View>
+			</Modal>
+			<TouchableOpacity
+				onPress={() => {
+					setModalVisible(true);
+				}}
+			>
+				<AntDesign name="pluscircle" size={48} color="#4D62BF" />
+			</TouchableOpacity>
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({
