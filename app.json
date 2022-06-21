@@ -2,14 +2,13 @@
   "expo": {
     "name": "karot-saving-smart",
     "slug": "karot-saving-smart",
-    "scheme": "exp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./Images/splash-screen.png",
-      "resizeMode": "cover",
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -25,8 +24,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.ghough.karotsavingsmart"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
