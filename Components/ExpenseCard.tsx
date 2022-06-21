@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 23,
     aspectRatio: 1,
-    margin: 15,
+    margin: 8,
     height: 180,
   },
   expenseAmount: {
