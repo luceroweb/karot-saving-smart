@@ -1,29 +1,38 @@
 import { useState, useCallback } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-  Platform,
-  Modal,
+	View,
+	Text,
+	TextInput,
+	StyleSheet,
+	TouchableOpacity,
+	Button,
+	Platform,
+	Modal,
 } from "react-native";
 import { DatePickerModal } from "react-native-paper-dates"; //date picker for web
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { GlobalStateType } from "../Utils/types";
-import { addExpense } from "../Utils/expenseSlice";
+import { GlobalStateType,ExpenseType } from "../Utils/types";
+import { addExpense,editExpense } from "../Utils/expenseSlice";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
-
-const ExpenseModal = () => {
-  const [label, setLabel] = useState("");
-  const [amount, setAmount] = useState(0);
+interface Props {
+	expenseMode:string;
+	setExpenseMode:React.Dispatch<React.SetStateAction<string>>;
+	modalVisible:boolean; 
+	setModalVisible:React.Dispatch<React.SetStateAction<boolean>>;
+	unselectedExpenses:ExpenseType[] | undefined;
+	amount:number;
+	setAmount:React.Dispatch<React.SetStateAction<number>>;
+	label:string;
+	setLabel:React.Dispatch<React.SetStateAction<string>>;
+	expense:ExpenseType;
+}
+const ExpenseModal = ({expenseMode,setExpenseMode,modalVisible,setModalVisible,unselectedExpenses,amount,setAmount,label,setLabel,expense}:Props) => {
+	
   const [date, setDate] = useState(0);
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const remainingBudget = useSelector(
@@ -64,7 +73,7 @@ const ExpenseModal = () => {
     }
     setAmount(Number(newText))
   }; 
-  const formSubmit = () => {
+  const runAddExpense = () => {
 		if (label.length > 0 && amount > 0) {
 			setLabel(label);
 			setAmount(amount);
@@ -85,8 +94,25 @@ const ExpenseModal = () => {
 		} else {
 			alert("There is an empty value in one of the inputs");
 		}
-	};;
-
+	};
+	const runEditExpense = () => {
+		const expenseUpdate:ExpenseType = {
+			label: label,
+			saved: amount,
+			goal: expense.goal,
+			date: expense.date,
+		};
+		dispatch(editExpense([
+			...unselectedExpenses, 
+			expenseUpdate]));
+		setModalVisible(false);
+		dispatch(
+			recalculateBudget({
+				accounts: accounts,
+				expenses: [...unselectedExpenses, expenseUpdate],
+			})
+		);
+	};
   return (
 		<View style={styles.container}>
 			<Modal visible={modalVisible} transparent={true}>
@@ -109,7 +135,7 @@ const ExpenseModal = () => {
 							</TouchableOpacity>
 						</View>
 						<View>
-							<Text style={styles.titleText}>Add Expense</Text>
+							<Text style={styles.titleText}>{expenseMode==="add" ?"Add Expense":"Update Expense"}</Text>
 						</View>
 					</View>
 					<View style={styles.subContainer}>
@@ -130,7 +156,7 @@ const ExpenseModal = () => {
 						</Text>
 						<TextInput
 							style={styles.inputStyle}
-							value={amount?.toString()}
+							value={expenseMode !== "add" ? amount?.toString() : undefined}
 							onChangeText={(number) => onChangeTextAmount(number)}
 						/>
 					</View>
@@ -162,24 +188,40 @@ const ExpenseModal = () => {
 							</View>
 						)}
 					</View>
+					{expenseMode==="add" ?
 					<TouchableOpacity
-						onPress={() => {
-							formSubmit();
-							setLabel("");
-							setAmount(0);
-							setDate(0);
-							setModalVisible(false);
-						}}
-						style={styles.buttonStyle}
-					>
-						<Text style={{ fontSize: 16 }}>Confirm</Text>
-					</TouchableOpacity>
+					onPress={() => {
+						runAddExpense();
+						setLabel("");
+						setAmount(0);
+						setDate(0);
+						setModalVisible(false);
+					}}
+					style={styles.buttonStyle}
+				>
+					<Text style={{ fontSize: 16 }}>Confirm</Text>
+				</TouchableOpacity>:
+					<TouchableOpacity
+					onPress={() => {
+						runEditExpense();
+						setLabel("");
+						setAmount(0);
+						setDate(0);
+						setModalVisible(false);
+					}}
+					style={styles.buttonStyle}
+				>
+					<Text style={{ fontSize: 16 }}>Update</Text>
+				</TouchableOpacity>
+					}
+					
 					{/* This is where the form ends */}
 				</View>
 			</Modal>
 			<TouchableOpacity
 				onPress={() => {
 					setModalVisible(true);
+					setExpenseMode("add");
 				}}
 			>
 				<AntDesign name="pluscircle" size={48} color="#4D62BF" />

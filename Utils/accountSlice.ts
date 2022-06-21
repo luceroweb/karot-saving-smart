@@ -18,7 +18,6 @@ export const accountSlice = createSlice({
       state.list = [...state.list, action.payload];
     },
     editAccount: (state, action) => {
-      // console.log(action.payload);
       state.list = action.payload;
     },
   },

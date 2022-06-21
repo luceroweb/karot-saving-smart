@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View,Platform } from "react-native";
+import { StyleSheet, Text, View,Platform, TouchableOpacity } from "react-native";
 import { useSelector,useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import { setSelectedId } from "../Utils/expenseSlice";
@@ -14,7 +14,13 @@ import * as Progress from "react-native-progress";
 import { Feather } from '@expo/vector-icons';
 import Moment from "moment"; 
 
-export default function ExpenseDetailView({ SetShowModal}:any ) {
+interface Props {
+	setExpenseMode:React.Dispatch<React.SetStateAction<string>>;
+	SetShowModal:any; 
+	setModalVisible:React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function ExpenseDetailView({setExpenseMode,SetShowModal,setModalVisible}:Props ) {
 	let [fontsLoaded] = useFonts({
 		Sarabun_700Bold,
 		Sarabun_400Regular,
@@ -48,7 +54,12 @@ export default function ExpenseDetailView({ SetShowModal}:any ) {
 	Moment.locale("en");
 	var dt = goalDate;
 	return (
-		<View style={styles.container}>
+		<TouchableOpacity 
+		style={styles.container}		
+		onPress={()=>{
+			setModalVisible(true)
+			setExpenseMode("edit")
+			SetShowModal(false)}} >
 			<LinearGradient
 				start={{ x: 0, y: 0 }}
 				end={{ x: 1.6, y: 1 }}
@@ -89,7 +100,7 @@ export default function ExpenseDetailView({ SetShowModal}:any ) {
 					<Text style={styles.RecentTransactions}> Recent Transactions </Text>
 				</View>
 			</LinearGradient>
-		</View>
+		</TouchableOpacity>
 	);
 }
 

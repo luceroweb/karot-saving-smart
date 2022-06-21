@@ -23,7 +23,7 @@ const AccountsDropDown: FC = () => {
 
   const generateList = listOfAccounts.map((account,index,listOfAccounts) => (
     <TouchableOpacity
-      key={account.id}
+      key={index}
       style={styles.container}
       onPress={() => {
         const filteredArray: AccountType[] =
