@@ -17,6 +17,9 @@ const ReduxStateTest: FC = () => {
   );
   const dispatch = useDispatch();
 
+  // Uncomment console.log message to debug Redux state updates/changes
+  // console.log(userData, accounts, expenses, remainingBudget);
+
   const runSaveUserData = () => {
     dispatch(
       setUserData({
@@ -34,15 +37,16 @@ const ReduxStateTest: FC = () => {
       saved: 100,
       goal: 150,
       date: Date.now(),
-       id: uuid.v4().toString(),
+      id: uuid.v4().toString(),
     };
     dispatch(addAccount(newAccount));
 
-    dispatch(recalculateBudget({
-      expenses: expenses,
-      accounts:[...accounts, newAccount],
-    }))
-
+    dispatch(
+      recalculateBudget({
+        expenses: expenses,
+        accounts: [...accounts, newAccount],
+      })
+    );
   };
 
   const runAddExpense = () => {

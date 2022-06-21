@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TextInput,
   Modal,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import React, { memo, useState, useEffect } from "react";
@@ -15,15 +14,12 @@ import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import uuid from "react-native-uuid";
 import { Feather } from "@expo/vector-icons";
 
-const { width, height } = Dimensions.get("screen");
-
 interface Props {
   account: AccountType;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  mode: string; 
-  setAccount:  React.Dispatch<React.SetStateAction<AccountType>>;
-  // setAccount: (account: AccountType)=> void;
+  mode: string;
+  setAccount: React.Dispatch<React.SetStateAction<AccountType>>;
 }
 
 const AccountModal = memo<Props>(
@@ -32,20 +28,23 @@ const AccountModal = memo<Props>(
 
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
+
     const dispatch = useDispatch();
+
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
     );
     const expenses = useSelector(
       (state: GlobalStateType) => state.expenses.list
     );
-     const blankAccount: AccountType = {
-       label: "",
-       saved: 0,
-       goal: 0,
-       date: Date.now(),
-       id: ""
-   };
+    const blankAccount: AccountType = {
+      label: "",
+      saved: 0,
+      goal: 0,
+      date: Date.now(),
+      id: "",
+    };
+
     useEffect(() => {
       setAmount(account ? account.saved : 0);
       setLabel(account ? account.label : "");
@@ -78,7 +77,7 @@ const AccountModal = memo<Props>(
         goal: account.goal,
         date: account.date,
       };
-      
+
       const updatedAccounts = accounts.map((acc) =>
         acc.id === accountUpdate.id ? accountUpdate : acc
       );
@@ -121,7 +120,7 @@ const AccountModal = memo<Props>(
             <TextInput
               style={styles.amountInput}
               placeholder="amount"
-              onChangeText={(text) => setAmount(Number(text))}
+              onChangeText={(text) => onChanged(text)}
               value={amount?.toString()}
             />
             {/* This will include the text input for the label */}
@@ -148,95 +147,95 @@ const AccountModal = memo<Props>(
 );
 
 const styles = StyleSheet.create({
-	container: {
-		width: 180,
-		height: 264,
-		backgroundColor: "#D9D9D9",
-		borderRadius: 23,
-		alignSelf: "center",
-	},
-	amountInput: {
-		width: 130,
-		height: 34,
-		backgroundColor: "#FFFFFF",
-		marginBottom: 2,
-		textAlign: "center",
-	},
-	labelInput: {
-		width: 130,
-		height: 34,
-		backgroundColor: "#FFFFFF",
-		marginBottom: 24,
-		textAlign: "center",
-	},
-	addButton: {
-		width: 140,
-		height: 44,
-		borderRadius: 10,
-		alignItems: "center",
-		alignSelf: "center",
-		flexDirection: "row",
-		backgroundColor: "white",
-		textAlign: "center",
-		marginBottom: "2%",
-	},
-	wrapButton: {
-		width: 140,
-		height: 44,
-		borderRadius: 10,
-		alignItems: "center",
-		alignSelf: "center",
-		flexDirection: "column",
-		backgroundColor: "white",
-		textAlign: "center",
-	},
-	buttonText: {
-		textAlign: "center",
-		fontSize: 17,
-		color: "#000000",
-		paddingTop: 7,
-		paddingBottom: 7,
-		paddingLeft: 20,
-		paddingRight: 20,
-		width: "100%",
-		fontFamily: "Sarabun_300Light",
-	},
-	textInputs: {
-		marginTop: 37,
-		alignSelf: "center",
-	},
-	exitIcon: {
-		paddingRight: 10,
-		paddingTop: 10,
-		alignSelf: "flex-end",
-	},
-	confirmContainer: {
-		width: 180,
-		height: 264,
-		backgroundColor: "#D9D9D9",
-		borderRadius: 23,
-		alignSelf: "center",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	confirmButton: {
-		width: 100,
-		height: 30,
-		borderRadius: 10,
-		alignItems: "center",
-		alignSelf: "center",
-		flexDirection: "row",
-		backgroundColor: "white",
-		textAlign: "center",
-		marginBottom: "2%",
-	},
-	confirmButtonText: {
-		textAlign: "center",
-		fontSize: 14,
-		color: "#000000",
-		width: "100%",
-		fontFamily: "Sarabun_300Light",
-	},
+  container: {
+    width: 180,
+    height: 264,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 23,
+    alignSelf: "center",
+  },
+  amountInput: {
+    width: 130,
+    height: 34,
+    backgroundColor: "#FFFFFF",
+    marginBottom: 2,
+    textAlign: "center",
+  },
+  labelInput: {
+    width: 130,
+    height: 34,
+    backgroundColor: "#FFFFFF",
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  addButton: {
+    width: 140,
+    height: 44,
+    borderRadius: 10,
+    alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "row",
+    backgroundColor: "white",
+    textAlign: "center",
+    marginBottom: "2%",
+  },
+  wrapButton: {
+    width: 140,
+    height: 44,
+    borderRadius: 10,
+    alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "column",
+    backgroundColor: "white",
+    textAlign: "center",
+  },
+  buttonText: {
+    textAlign: "center",
+    fontSize: 17,
+    color: "#000000",
+    paddingTop: 7,
+    paddingBottom: 7,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: "100%",
+    fontFamily: "Sarabun_300Light",
+  },
+  textInputs: {
+    marginTop: 37,
+    alignSelf: "center",
+  },
+  exitIcon: {
+    paddingRight: 10,
+    paddingTop: 10,
+    alignSelf: "flex-end",
+  },
+  confirmContainer: {
+    width: 180,
+    height: 264,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 23,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  confirmButton: {
+    width: 100,
+    height: 30,
+    borderRadius: 10,
+    alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "row",
+    backgroundColor: "white",
+    textAlign: "center",
+    marginBottom: "2%",
+  },
+  confirmButtonText: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "#000000",
+    width: "100%",
+    fontFamily: "Sarabun_300Light",
+  },
 });
 
 export default AccountModal;

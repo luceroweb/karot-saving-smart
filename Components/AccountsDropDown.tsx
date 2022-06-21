@@ -6,34 +6,29 @@ import { AccountType, GlobalStateType } from "../Utils/types";
 import AccountModal from "./AccountModal";
 
 const AccountsDropDown: FC = () => {
-   const blankAccount: AccountType = {
-     label: "",
-     saved: 0,
-     goal: 0,
-     date: Date.now(),
-     id: ""
-   };
+  const blankAccount: AccountType = {
+    label: "",
+    saved: 0,
+    goal: 0,
+    date: Date.now(),
+    id: "",
+  };
 
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
-   const [account, setAccount] = useState<AccountType>(blankAccount);
+  const [account, setAccount] = useState<AccountType>(blankAccount);
   const [mode, setMode] = useState<"edit" | "add">("add");
 
-  const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
-
-   const generateList = listOfAccounts.map((account, index, listOfAccounts) => (
+  const generateList = listOfAccounts.map((account) => (
     <TouchableOpacity
       key={account.id}
       style={styles.container}
       onPress={() => {
-         const filteredArray: AccountType[] =
-           listOfAccounts.filter((item, i) => i !== index) || [];
         setMode("edit");
         setAccount(account);
-        setUnselectedAccounts(filteredArray);
         setIsVisible(true);
       }}
     >
@@ -52,13 +47,13 @@ const AccountsDropDown: FC = () => {
         setIsVisible={setIsVisible}
         mode={mode}
         setAccount={setAccount}
-        />
-       <AddAccountButton
-         setAccount={setAccount}
-         setIsVisible={setIsVisible}
-         setMode={setMode}
-         blankAccount={blankAccount}
-       />
+      />
+      <AddAccountButton
+        setAccount={setAccount}
+        setIsVisible={setIsVisible}
+        setMode={setMode}
+        blankAccount={blankAccount}
+      />
     </View>
   );
 };
