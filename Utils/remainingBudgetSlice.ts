@@ -17,7 +17,10 @@ export const budgetSlice = createSlice({
   name: "remainingBudget",
   initialState,
   reducers: {
-    recalculateBudget: (state, action) => {
+    recalculateBudget: (
+      state,
+      action: { payload: { accounts: AccountType[]; expenses: ExpenseType[] } }
+    ) => {
       let accountsTotal = 0;
       action.payload.accounts.map(
         (item: AccountType) => (accountsTotal += item.saved)
