@@ -41,7 +41,15 @@ export interface RemainingBudgetType {
   totalRemaining: number;
 }
 
+export interface AppType {
+  modalMode: "add" | "edit";
+  accountModalVisibility: boolean;
+  expenseModalVisibility: boolean;
+  expenseDetailsModalVisiblity: boolean;
+}
+
 export interface GlobalStateType {
+  app: { data: AppType };
 	user: { data: UserDataType };
 	accounts: { list: AccountType[] };
 	expenses: { list: ExpenseType[]; selectedId: number };
