@@ -62,7 +62,7 @@ export default function App() {
                 ) : (
                   <>
                   <RootStack.Screen name="Overview" component={Overview} options={{
-                    headerShown: false
+                    headerShown: false, animationTypeForReplace: 'pop'
                   }}/> 
 
                   <RootStack.Screen name="ContactForm" component={ContactForm} options={{

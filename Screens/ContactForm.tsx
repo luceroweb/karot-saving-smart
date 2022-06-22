@@ -36,7 +36,7 @@ const ContactForm:FC<Props> = ({ navigation }) => {
         name="left" 
         size={24} 
         color="#FFFFFF"
-        onPress={()=> navigation.navigate("Overview")}
+        onPress={()=> navigation.replace("Overview")}
       />
       </View>
       
