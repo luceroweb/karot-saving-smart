@@ -55,6 +55,7 @@ const ReduxStateTest: FC = () => {
       saved: 80,
       goal: 80,
       date: Date.now(),
+      id: uuid.v4().toString(),
     };
     dispatch(addExpense(newExpense));
 
