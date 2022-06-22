@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import uuid from "react-native-uuid";
 import { AccountType } from "./types";
 
 interface InitialStateType {

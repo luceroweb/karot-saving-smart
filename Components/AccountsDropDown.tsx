@@ -11,26 +11,24 @@ const AccountsDropDown: FC = () => {
     saved: 0,
     goal: 0,
     date: Date.now(),
+    id: "",
   };
 
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [account, setAccount] = useState<AccountType>(blankAccount);
-  const [mode, setMode] = useState<string>("add");
-  const [unselectedAccounts, setUnselectedAccounts] = useState<any>();
+  const [mode, setMode] = useState<"edit" | "add">("add");
 
   const generateList = listOfAccounts.map((account,index,listOfAccounts) => (
     <TouchableOpacity
       key={index}
       style={styles.container}
       onPress={() => {
-        const filteredArray: AccountType[] =
-          listOfAccounts.filter((item, i) => i !== index) || [];
         setMode("edit");
         setAccount(account);
-        setUnselectedAccounts(filteredArray);
         setIsVisible(true);
       }}
     >
@@ -45,10 +43,10 @@ const AccountsDropDown: FC = () => {
       {generateList}
       <AccountModal
         account={account}
-        unselectedAccounts={unselectedAccounts}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
         mode={mode}
+        setAccount={setAccount}
       />
       <AddAccountButton
         setAccount={setAccount}
@@ -89,6 +87,16 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun_700Bold",
     fontSize: 18,
     lineHeight: 28,
+  },
+  horizontalRule: {
+    height: 1,
+    width: 240,
+    backgroundColor: "#212121",
+  },
+  headingContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

@@ -32,6 +32,7 @@ export interface ExpenseType {
   saved: number;
   goal: number;
   date: number;
+  id: string;
 }
 
 export interface RemainingBudgetType {

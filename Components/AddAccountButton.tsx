@@ -6,7 +6,7 @@ import { AccountType } from "../Utils/types";
 interface Props {
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setAccount: React.Dispatch<React.SetStateAction<AccountType>>;
-  setMode: React.Dispatch<React.SetStateAction<string>>;
+  setMode: React.Dispatch<React.SetStateAction<"edit" | "add">>;
   blankAccount: AccountType;
 }
 const AddAccountButton = ({

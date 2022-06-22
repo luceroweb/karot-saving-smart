@@ -9,6 +9,7 @@ import {
 	Platform,
 	Modal,
 } from "react-native";
+import uuid from "react-native-uuid";
 import { DatePickerModal } from "react-native-paper-dates"; //date picker for web
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -82,7 +83,8 @@ const ExpenseModal = ({expenseMode,setExpenseMode,modalVisible,setModalVisible,u
 				saved: amount,
 				goal: amount,
 				date: date > 0 ? Number(date) : Date.now(),
-			};
+        id: uuid.v4().toString(),
+      };
 			dispatch(addExpense(newExpense));
 			dispatch(
 				recalculateBudget({
