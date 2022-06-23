@@ -4,19 +4,12 @@ import BudgetCard from "../Components/BudgetCard";
 import { useSelector } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
 import ExpenseModal from "../Components/ExpenseModal";
-import Header from "../Navigation/Header";
-import { NavigationStackProp } from "react-navigation-stack";
 
-interface Props {
-  navigation: NavigationStackProp<{ userId: string }>;
-}
-
-function Overview({ navigation }: Props) {
+function Overview() {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
 
   return (
     <View style={styles.container}>
-      <Header navigation={navigation} />
       <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.budgetCardHolder}>
           <BudgetCard />

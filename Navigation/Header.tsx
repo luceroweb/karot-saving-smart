@@ -1,22 +1,20 @@
 import { StyleSheet, View } from "react-native";
 import React, { FC } from "react";
-import { NavigationStackProp } from "react-navigation-stack";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ProfileIcon from "../Components/ProfileIcon";
+import { DrawerHeaderProps } from "@react-navigation/drawer";
 
-interface Props {
-  navigation: NavigationStackProp<{ userId: string }>;
-}
-
-const Header: FC<Props> = ({ navigation }) => {
+const Header: FC<DrawerHeaderProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={navigation.toggleDrawer}>
         <MaterialIcons name="menu" size={24} color="black" />
       </TouchableOpacity>
       <View style={styles.icon}>
-        <ProfileIcon />
+        <TouchableOpacity onPress={navigation.toggleDrawer}>
+          <ProfileIcon />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -28,6 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    padding: 15,
   },
   icon: {
     flexDirection: "row",
