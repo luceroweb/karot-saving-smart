@@ -200,11 +200,11 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 35,
   },
   inputStyle: {
-    width: 150,
-    height: 30,
+     width: 150,
+     height: 30,
     borderWidth: 1,
     borderColor: "#000",
     fontSize: 20,
