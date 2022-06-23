@@ -1,31 +1,23 @@
-import {
-  StatusBar,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { FC } from "react";
+import { NavigationStackProp } from "react-navigation-stack";
+import { MaterialIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import ProfileIcon from "../Components/ProfileIcon";
 
 interface Props {
-  title: string;
-  LeftIcon?: () => JSX.Element;
-  containerStyles?: StyleProp<ViewStyle>;
-  titleStyles?: StyleProp<TextStyle>;
+  navigation: NavigationStackProp<{ userId: string }>;
 }
 
-const Header: FC<Props> = ({
-  title,
-  LeftIcon,
-  containerStyles,
-  titleStyles,
-}) => {
+const Header: FC<Props> = ({ navigation }) => {
   return (
-    <View style={[styles.container, containerStyles]}>
-      {LeftIcon?.()}
-      <Text style={[styles.title, titleStyles]}>{title}</Text>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={navigation.toggleDrawer}>
+        <MaterialIcons name="menu" size={24} color="black" />
+      </TouchableOpacity>
+      <View style={styles.icon}>
+        <ProfileIcon />
+      </View>
     </View>
   );
 };
@@ -33,14 +25,11 @@ const Header: FC<Props> = ({
 export default Header;
 const styles = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     flexDirection: "row",
-    alignItems: "center",
-    margin: 12,
-    paddingVertical: 12,
+    justifyContent: "space-between",
+    width: "100%",
   },
-  title: {
-    fontWeight: "bold",
-    marginLeft: 12,
+  icon: {
+    flexDirection: "row",
   },
 });

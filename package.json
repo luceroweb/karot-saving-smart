@@ -16,8 +16,8 @@
     "@expo-google-fonts/raleway": "^0.2.2",
     "@expo-google-fonts/sarabun": "^0.2.2",
     "@expo/webpack-config": "~0.16.2",
-    "@react-navigation/drawer": "^6.4.1",
     "@react-native-picker/picker": "2.4.0",
+    "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
     "@react-navigation/stack": "^6.2.1",
@@ -49,6 +49,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-web": "0.17.7",
     "react-native-webview": "^11.22.2",
+    "react-navigation-stack": "^2.10.4",
     "react-redux": "^8.0.2",
     "webpack-dev-server": "~3.11.0"
   },

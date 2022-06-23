@@ -20,6 +20,7 @@ const RootNavigation = () => {
   const config = {
     screens: {
       Login: "login",
+      Logout: "logout",
       Overview: "overview",
       ContactForm: "contact",
     },
