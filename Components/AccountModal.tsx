@@ -24,7 +24,7 @@ interface Props {
 }
 
 const AccountModal = memo<Props>(
-  ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
+  ({ account, unselectedAccounts, isVisible, setIsVisible,setAccount, mode }) => {
     mode = mode ? mode : "add";
     const [confirm, setConfirm] = useState<boolean>(false);
     const [amount, setAmount] = useState<number>(0);

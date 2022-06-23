@@ -38,7 +38,6 @@ function Overview() {
         </View>
         <View style={styles.expenseCardHolder}>
           <ExpenseList
-            setUnselectedExpenses={setUnselectedExpenses}
             setAmount={setAmount}
             setLabel={setLabel}
             expense={expense}
@@ -56,7 +55,6 @@ function Overview() {
       </ScrollView>
       <View style={styles.plusModal}>
         <ExpenseModal
-          unselectedExpenses={unselectedExpenses}
           amount={amount}
           setAmount={setAmount}
           label={label}

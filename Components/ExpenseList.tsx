@@ -9,13 +9,12 @@ import { setSelectedId } from "../Utils/expenseSlice";
 import { setExpenseDetailsModalVisiblity } from "../Utils/appSlice";
 
 interface Props {
-	setUnselectedExpenses:React.Dispatch<React.SetStateAction<ExpenseType[] | undefined>>;
 	setAmount:React.Dispatch<React.SetStateAction<number>>;
 	setLabel:React.Dispatch<React.SetStateAction<string>>;
 	expense:ExpenseType;
 	setExpense:React.Dispatch<React.SetStateAction<ExpenseType>>
 }
-const ExpenseList = ({setUnselectedExpenses,setAmount,setLabel,expense,setExpense}:Props) => {
+const ExpenseList = ({setAmount,setLabel,expense,setExpense}:Props) => {
 	const dispatch = useDispatch();
 	const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
 	const appData = useSelector((state: GlobalStateType) => state.app);
@@ -27,12 +26,8 @@ const ExpenseList = ({setUnselectedExpenses,setAmount,setLabel,expense,setExpens
 		<TouchableOpacity
 			key={index}
 			onPress={() => {
-				const filteredExpenses:ExpenseType[] =
-					listOfExpenses.filter((expense,i)=> i !== index) || []
-				
 				dispatch(setExpenseDetailsModalVisiblity(true));
 				dispatch(setSelectedId(index));
-				setUnselectedExpenses(filteredExpenses);
 				setExpense(expense)
 			}}
 		>

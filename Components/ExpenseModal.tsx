@@ -19,7 +19,6 @@ import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { setModalMode,setExpenseModalVisibility } from "../Utils/appSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 interface Props {
-  unselectedExpenses: ExpenseType[] | undefined;
   amount: number;
   setAmount: React.Dispatch<React.SetStateAction<number>>;
   label: string;
@@ -27,7 +26,6 @@ interface Props {
   expense: ExpenseType;
 }
 const ExpenseModal = ({
-  unselectedExpenses,
   amount,
   setAmount,
   label,
@@ -99,18 +97,21 @@ const ExpenseModal = ({
   };
   const runEditExpense = () => {
     const expenseUpdate: ExpenseType = {
+      ...expense,
       label: label,
       saved: amount,
       goal: expense.goal,
       date: expense.date,
       id: expense.id,
     };
-    dispatch(editExpense([...unselectedExpenses, expenseUpdate]));
+    const updateExpense = expenses.map((exp)=>
+    exp.id === expenseUpdate.id? expenseUpdate:exp);
+    dispatch(editExpense(updateExpense));
     dispatch(setExpenseModalVisibility(false));
     dispatch(
       recalculateBudget({
         accounts: accounts,
-        expenses: [...unselectedExpenses, expenseUpdate],
+        expenses: updateExpense
       })
     );
   };
