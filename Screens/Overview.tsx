@@ -7,7 +7,7 @@ import { setModalMode, setExpenseModalVisibility } from "../Utils/appSlice";
 import ProfileIcon from "../Components/ProfileIcon";
 import ExpenseModal from "../Components/ExpenseModal";
 import { useState } from "react";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
 function Overview() {
   const blankExpense: ExpenseType = {
@@ -20,13 +20,10 @@ function Overview() {
   const dispatch = useDispatch();
 
   const userData = useSelector((state: GlobalStateType) => state.user.data);
-
-  const [unselectedExpenses, setUnselectedExpenses] = useState<
-    ExpenseType[] | undefined
-  >([]);
   const [label, setLabel] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [expense, setExpense] = useState<ExpenseType>(blankExpense);
+
   return (
     <View style={styles.container}>
       <View style={styles.icon}>

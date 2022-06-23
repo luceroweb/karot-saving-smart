@@ -11,12 +11,12 @@ import {
 } from "react-native";
 import uuid from "react-native-uuid";
 import { DatePickerModal } from "react-native-paper-dates"; //date picker for web
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType, ExpenseType } from "../Utils/types";
 import { addExpense, editExpense } from "../Utils/expenseSlice";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
-import { setModalMode,setExpenseModalVisibility } from "../Utils/appSlice";
+import { setExpenseModalVisibility } from "../Utils/appSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 interface Props {
   amount: number;
