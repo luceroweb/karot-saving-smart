@@ -9,31 +9,41 @@ import {
 import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
-import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
+import uuid from "react-native-uuid";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
   account: AccountType;
-  unselectedAccounts: AccountType[];
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string;
+  setAccount: React.Dispatch<React.SetStateAction<AccountType>>;
 }
 
 const AccountModal = memo<Props>(
-  ({ account, unselectedAccounts, isVisible, setIsVisible, mode }) => {
+  ({ account, isVisible, setIsVisible, mode, setAccount }) => {
     mode = mode ? mode : "add";
 
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
+
     const dispatch = useDispatch();
+
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
     );
     const expenses = useSelector(
       (state: GlobalStateType) => state.expenses.list
     );
+    const blankAccount: AccountType = {
+      label: "",
+      saved: 0,
+      goal: 0,
+      date: Date.now(),
+      id: "",
+    };
 
     useEffect(() => {
       setAmount(account ? account.saved : 0);
@@ -44,8 +54,9 @@ const AccountModal = memo<Props>(
       const newAccount = {
         label: label,
         saved: amount,
-        goal: null,
+        goal: 0,
         date: Date.now(),
+        id: uuid.v4().toString(),
       };
       dispatch(addAccount(newAccount));
       dispatch(
@@ -55,23 +66,25 @@ const AccountModal = memo<Props>(
         })
       );
       setIsVisible(false);
+      setAccount(blankAccount);
     };
 
     const runEditAccount = () => {
       const accountUpdate = {
+        ...account,
         label: label,
         saved: amount,
         goal: account.goal,
         date: account.date,
       };
-      dispatch(editAccount([...unselectedAccounts, accountUpdate]));
-      setIsVisible(false);
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: [...unselectedAccounts, accountUpdate],
-        })
+
+      const updatedAccounts = accounts.map((acc) =>
+        acc.id === accountUpdate.id ? accountUpdate : acc
       );
+      dispatch(editAccount(updatedAccounts));
+      dispatch(recalculateBudget({ accounts: updatedAccounts, expenses }));
+      setIsVisible(false);
+      setAccount(blankAccount);
     };
 
     const onChanged = (text: any) => {
@@ -107,8 +120,8 @@ const AccountModal = memo<Props>(
             <TextInput
               style={styles.amountInput}
               placeholder="amount"
-              onChangeText={text =>onChanged(text)}
-              value={mode !== "add" ? amount?.toString() : undefined}
+              onChangeText={(text) => onChanged(text)}
+              value={amount?.toString()}
             />
             {/* This will include the text input for the label */}
             <TextInput
@@ -136,7 +149,7 @@ const AccountModal = memo<Props>(
 const styles = StyleSheet.create({
   container: {
     width: 180,
-    height: 244,
+    height: 264,
     backgroundColor: "#D9D9D9",
     borderRadius: 23,
     alignSelf: "center",
@@ -164,6 +177,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     textAlign: "center",
+    marginBottom: "2%",
+  },
+  wrapButton: {
+    width: 140,
+    height: 44,
+    borderRadius: 10,
+    alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "column",
+    backgroundColor: "white",
+    textAlign: "center",
   },
   buttonText: {
     textAlign: "center",
@@ -184,6 +208,33 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingTop: 10,
     alignSelf: "flex-end",
+  },
+  confirmContainer: {
+    width: 180,
+    height: 264,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 23,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  confirmButton: {
+    width: 100,
+    height: 30,
+    borderRadius: 10,
+    alignItems: "center",
+    alignSelf: "center",
+    flexDirection: "row",
+    backgroundColor: "white",
+    textAlign: "center",
+    marginBottom: "2%",
+  },
+  confirmButtonText: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "#000000",
+    width: "100%",
+    fontFamily: "Sarabun_300Light",
   },
 });
 
