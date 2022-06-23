@@ -16,13 +16,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType, ExpenseType } from "../Utils/types";
 import { addExpense, editExpense } from "../Utils/expenseSlice";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
-import { setExpenseModalVisibility } from "../Utils/appSlice";
+import { setModalMode,setExpenseModalVisibility } from "../Utils/appSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 interface Props {
-  expenseMode: string;
-  setExpenseMode: React.Dispatch<React.SetStateAction<string>>;
-  modalVisible: boolean;
-  setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   unselectedExpenses: ExpenseType[] | undefined;
   amount: number;
   setAmount: React.Dispatch<React.SetStateAction<number>>;
@@ -31,10 +27,6 @@ interface Props {
   expense: ExpenseType;
 }
 const ExpenseModal = ({
-  expenseMode,
-  setExpenseMode,
-  modalVisible,
-  setModalVisible,
   unselectedExpenses,
   amount,
   setAmount,
@@ -47,7 +39,7 @@ const ExpenseModal = ({
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
-  const appData = useSelector((state: GlobalStateType) => state.app.data);
+  const appData = useSelector((state: GlobalStateType) => state.app);
   const dispatch = useDispatch();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -124,7 +116,9 @@ const ExpenseModal = ({
   };
   return (
     <View style={styles.container}>
-      <Modal visible={appData.expenseModalVisibility} transparent={true}>
+      <Modal 
+	  visible={appData?.expenseModalVisibility} 
+	  transparent={true}>
         {/* This is where the Form starts */}
         <View style={styles.modalSize}>
           <View style={styles.titleContainer}>
@@ -133,7 +127,7 @@ const ExpenseModal = ({
                 style={styles.xIcon}
                 onPress={() => {
                   dispatch(
-                    setExpenseModalVisibility(!appData.expenseModalVisibility)
+                    setExpenseModalVisibility(false)
                   );
                 }}
               >
@@ -147,7 +141,7 @@ const ExpenseModal = ({
             </View>
             <View>
               <Text style={styles.titleText}>
-                {expenseMode === "add" ? "Add Expense" : "Update Expense"}
+                {appData?.modalMode === "add" ? "Add Expense" : "Update Expense"}
               </Text>
             </View>
           </View>
@@ -169,7 +163,7 @@ const ExpenseModal = ({
             </Text>
             <TextInput
               style={styles.inputStyle}
-              value={expenseMode !== "add" ? amount?.toString() : undefined}
+              value={appData?.modalMode !== "add" ? amount?.toString() : undefined}
               onChangeText={(number) => onChangeTextAmount(number)}
             />
           </View>
@@ -201,7 +195,7 @@ const ExpenseModal = ({
               </View>
             )}
           </View>
-          {expenseMode === "add" ? (
+          {appData?.modalMode === "add" ? (
             <TouchableOpacity
               onPress={() => {
                 runAddExpense();
@@ -232,14 +226,6 @@ const ExpenseModal = ({
           {/* This is where the form ends */}
         </View>
       </Modal>
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(setExpenseModalVisibility(true));
-          setExpenseMode("add");
-        }}
-      >
-        <AntDesign name="pluscircle" size={48} color="#4D62BF" />
-      </TouchableOpacity>
     </View>
   );
 };

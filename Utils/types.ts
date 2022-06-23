@@ -42,14 +42,14 @@ export interface RemainingBudgetType {
 }
 
 export interface AppType {
-  modalMode: "add" | "edit";
+  modalMode: "add"| "edit";
   accountModalVisibility: boolean;
   expenseModalVisibility: boolean;
   expenseDetailsModalVisiblity: boolean;
 }
 
 export interface GlobalStateType {
-  app: { data: AppType };
+  app: AppType ;
 	user: { data: UserDataType };
 	accounts: { list: AccountType[] };
 	expenses: { list: ExpenseType[]; selectedId: number };

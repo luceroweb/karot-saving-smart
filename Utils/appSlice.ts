@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppType } from "./types";
 
 const initialState: AppType = {
-  modalMode: "add",
-  accountModalVisibility: false,
-  expenseModalVisibility: false,
-  expenseDetailsModalVisiblity: false,
+	modalMode: "add",
+	accountModalVisibility: false,
+	expenseModalVisibility: false,
+	expenseDetailsModalVisiblity: false,
 };
 
 export const appSlice = createSlice({
-	name: "data",
+	name: "app",
 	initialState,
 	reducers: {
 		setModalMode: (state, action) => {

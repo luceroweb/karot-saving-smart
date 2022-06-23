@@ -13,14 +13,11 @@ import {
 import * as Progress from "react-native-progress";
 import { Feather } from '@expo/vector-icons';
 import Moment from "moment"; 
+import { setModalMode,setExpenseModalVisibility,setExpenseDetailsModalVisiblity } from "../Utils/appSlice";
 
-interface Props {
-	setExpenseMode:React.Dispatch<React.SetStateAction<string>>;
-	SetShowModal:any; 
-	setModalVisible:React.Dispatch<React.SetStateAction<boolean>>
-}
 
-export default function ExpenseDetailView({setExpenseMode,SetShowModal,setModalVisible}:Props ) {
+
+export default function ExpenseDetailView() {
 	let [fontsLoaded] = useFonts({
 		Sarabun_700Bold,
 		Sarabun_400Regular,
@@ -54,12 +51,14 @@ export default function ExpenseDetailView({setExpenseMode,SetShowModal,setModalV
 	Moment.locale("en");
 	var dt = goalDate;
 	return (
+    <>
 		<TouchableOpacity 
 		style={styles.container}		
 		onPress={()=>{
-			setModalVisible(true)
-			setExpenseMode("edit")
-			SetShowModal(false)}} >
+			dispatch(setExpenseModalVisibility(true));
+			dispatch(setModalMode("edit"))
+			// dispatch(setExpenseDetailsModalVisiblity(false))
+    }} >
 			<LinearGradient
 				start={{ x: 0, y: 0 }}
 				end={{ x: 1.6, y: 1 }}
@@ -73,7 +72,7 @@ export default function ExpenseDetailView({setExpenseMode,SetShowModal,setModalV
 					color="#FFFFFF"
 					onPress={() => {
 						dispatch(setSelectedId(-1));
-						SetShowModal(false);
+						dispatch(setExpenseDetailsModalVisiblity(false))
 					}}
 				/>
 				<Text style={styles.budgetTextTop}>{expenseLabel}</Text>
@@ -101,6 +100,7 @@ export default function ExpenseDetailView({setExpenseMode,SetShowModal,setModalV
 				</View>
 			</LinearGradient>
 		</TouchableOpacity>
+    </>
 	);
 }
 

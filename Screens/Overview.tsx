@@ -8,13 +8,14 @@ import ProfileIcon from "../Components/ProfileIcon";
 import ExpenseModal from "../Components/ExpenseModal";
 import { useState } from "react";
 import { AntDesign, Feather } from "@expo/vector-icons";
-
+import uuid from "react-native-uuid";
 function Overview() {
   const blankExpense: ExpenseType = {
     label: "",
     saved: 0,
     goal: 0,
     date: Date.now(),
+    id: uuid.v4().toString(),
   };
   const dispatch = useDispatch();
 
@@ -23,8 +24,6 @@ function Overview() {
   const [unselectedExpenses, setUnselectedExpenses] = useState<
     ExpenseType[] | undefined
   >([]);
-  const [expenseMode, setExpenseMode] = useState<string>("add");
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [label, setLabel] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [expense, setExpense] = useState<ExpenseType>(blankExpense);
@@ -39,8 +38,6 @@ function Overview() {
         </View>
         <View style={styles.expenseCardHolder}>
           <ExpenseList
-            setModalVisible={setModalVisible}
-            setExpenseMode={setExpenseMode}
             setUnselectedExpenses={setUnselectedExpenses}
             setAmount={setAmount}
             setLabel={setLabel}
@@ -59,10 +56,6 @@ function Overview() {
       </ScrollView>
       <View style={styles.plusModal}>
         <ExpenseModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          expenseMode={expenseMode}
-          setExpenseMode={setExpenseMode}
           unselectedExpenses={unselectedExpenses}
           amount={amount}
           setAmount={setAmount}

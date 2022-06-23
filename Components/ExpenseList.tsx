@@ -6,21 +6,19 @@ import { ExpenseType, GlobalStateType } from "../Utils/types";
 import ExpenseCard from "./ExpenseCard";
 import ExpenseDetailView from "./ExpenseDetailView";
 import { setSelectedId } from "../Utils/expenseSlice";
+import { setExpenseDetailsModalVisiblity } from "../Utils/appSlice";
 
 interface Props {
-	setExpenseMode:React.Dispatch<React.SetStateAction<string>>;
-	setModalVisible:React.Dispatch<React.SetStateAction<boolean>>;
 	setUnselectedExpenses:React.Dispatch<React.SetStateAction<ExpenseType[] | undefined>>;
 	setAmount:React.Dispatch<React.SetStateAction<number>>;
 	setLabel:React.Dispatch<React.SetStateAction<string>>;
 	expense:ExpenseType;
 	setExpense:React.Dispatch<React.SetStateAction<ExpenseType>>
 }
-const ExpenseList = ({setExpenseMode,setModalVisible,setUnselectedExpenses,setAmount,setLabel,expense,setExpense}:Props) => {
+const ExpenseList = ({setUnselectedExpenses,setAmount,setLabel,expense,setExpense}:Props) => {
 	const dispatch = useDispatch();
-	const [showModal, SetShowModal] = useState<boolean>(false);
 	const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
-	
+	const appData = useSelector((state: GlobalStateType) => state.app);
 	useEffect(() => {
 		setAmount(expense ? expense.saved : 0);
 		setLabel(expense ? expense.label : "");
@@ -31,7 +29,8 @@ const ExpenseList = ({setExpenseMode,setModalVisible,setUnselectedExpenses,setAm
 			onPress={() => {
 				const filteredExpenses:ExpenseType[] =
 					listOfExpenses.filter((expense,i)=> i !== index) || []
-				SetShowModal(!showModal);
+				
+				dispatch(setExpenseDetailsModalVisiblity(true));
 				dispatch(setSelectedId(index));
 				setUnselectedExpenses(filteredExpenses);
 				setExpense(expense)
@@ -42,11 +41,8 @@ const ExpenseList = ({setExpenseMode,setModalVisible,setUnselectedExpenses,setAm
 	));
 	return (
 		<>
-			{ showModal ? (
-					<ExpenseDetailView 
-					SetShowModal={SetShowModal}
-					setExpenseMode={setExpenseMode}
-					setModalVisible={setModalVisible} />
+			{ appData.expenseDetailsModalVisiblity ? (
+					<ExpenseDetailView />
 			) : (
 			
 			<View style={{ flexDirection: "row", flexWrap: "wrap" }}>

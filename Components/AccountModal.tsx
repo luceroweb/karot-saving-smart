@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
-import uuid from "react-native-uuid";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
