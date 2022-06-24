@@ -28,7 +28,7 @@ const ExpenseList = () => {
 					<ExpenseDetailView SetShowModal={SetShowModal} />
 			) : (
 			
-			<View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+			<View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }}>
 				{generateExpenses}
 			</View>
 			)}
