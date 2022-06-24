@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { DrawerHeaderProps } from "@react-navigation/drawer";
 import {
   DrawerContentScrollView,
   DrawerItemList,
