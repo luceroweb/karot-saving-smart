@@ -26,7 +26,7 @@ function Overview() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.icon}>
+      <View >
         <ProfileIcon />
       </View>
       <ScrollView style={styles.scrollViewContainer}>
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     width: "100%",
+    padding: 15,
   },
   scrollViewContainer: {
     width: "100%",
@@ -80,11 +81,6 @@ const styles = StyleSheet.create({
   expenseCardHolder: {
     marginTop: 20,
     alignSelf: "center",
-  },
-  icon: {
-    alignSelf: "flex-end",
-    marginRight: "2%",
-    marginTop: "2%",
   },
   plusModal: {
     alignSelf: "flex-end",

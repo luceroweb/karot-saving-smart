@@ -7,16 +7,12 @@ export interface SetLoggedInType {
   setLoggedIn: (loggedIn: LoggedInType) => void;
 }
 
-export interface LoginPropsType {
-  loggedIn: LoggedInType;
-  setLoggedIn: ({ status, screen }: LoggedInType) => void;
-}
-
 export interface UserDataType {
   firstName: string;
   lastName: string;
   avatar: string;
   email: string;
+  loggedIn: boolean;
 }
 
 export interface AccountType {
@@ -41,7 +37,8 @@ export interface RemainingBudgetType {
   totalRemaining: number;
 }
 
-export interface AppType {
+export interface AppDataType {
+  appReady: boolean;
   modalMode: "add"| "edit";
   accountModalVisibility: boolean;
   expenseModalVisibility: boolean;
@@ -49,7 +46,7 @@ export interface AppType {
 }
 
 export interface GlobalStateType {
-  app: AppType ;
+  app: AppDataType;
 	user: { data: UserDataType };
 	accounts: { list: AccountType[] };
 	expenses: { list: ExpenseType[]; selectedId: number };

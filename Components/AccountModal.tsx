@@ -9,7 +9,7 @@ import {
 import uuid from "react-native-uuid";
 import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addAccount, editAccount } from "../Utils/accountSlice";
+import { addAccount, editAccount, deleteAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { Feather } from "@expo/vector-icons";
@@ -26,9 +26,10 @@ interface Props {
 const AccountModal = memo<Props>(
   ({ account, unselectedAccounts, isVisible, setIsVisible,setAccount, mode }) => {
     mode = mode ? mode : "add";
-    const [confirm, setConfirm] = useState<boolean>(false);
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
+    const [confirm, setConfirm] = useState<boolean>(false);
+
     const dispatch = useDispatch();
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
@@ -86,16 +87,31 @@ const AccountModal = memo<Props>(
       );
       setAccount(blankAccount);
     };
-    const runDeleteAccount = () => {
-      dispatch(editAccount(unselectedAccounts));
+
+    const runDeleteAccount = async () => {
+      await dispatch(deleteAccount(account.id));
       setIsVisible(false);
       dispatch(
         recalculateBudget({
           expenses: expenses,
-          accounts: unselectedAccounts,
+          accounts: accounts,
         })
       );
     };
+
+    const onChanged = (text: any) => {
+      let newText: any = "";
+      let numbers = "0123456789.";
+      for (let i = 0; i < text.length; i++) {
+        if (numbers.indexOf(text[i]) > -1) {
+          newText = newText + text[i];
+        } else {
+          alert("please enter numbers only");
+        }
+      }
+      setAmount(Number(newText));
+    };
+
     const displayConfirm = () => (
       <Modal
         style={{ justifyContent: "center", alignItems: "center" }}
@@ -128,19 +144,6 @@ const AccountModal = memo<Props>(
         </View>
       </Modal>
     );
-
-    const onChanged = (text: any) => {
-      let newText: any = "";
-      let numbers = "0123456789.";
-      for (let i = 0; i < text.length; i++) {
-        if (numbers.indexOf(text[i]) > -1) {
-          newText = newText + text[i];
-        } else {
-          alert("please enter numbers only");
-        }
-      }
-      setAmount(Number(newText));
-    };
 
     return (
       <View>
@@ -183,7 +186,7 @@ const AccountModal = memo<Props>(
                 <Text style={styles.buttonText}>Add Account</Text>
               </TouchableOpacity>
             ) : (
-              <View style={styles.wrapButton}>
+              <>
                 <TouchableOpacity
                   style={styles.addButton}
                   onPress={runEditAccount}
@@ -199,7 +202,7 @@ const AccountModal = memo<Props>(
                 >
                   <Text style={styles.buttonText}>Delete</Text>
                 </TouchableOpacity>
-              </View>
+              </>
             )}
           </View>
         </Modal>

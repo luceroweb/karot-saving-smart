@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AppType } from "./types";
+import { AppDataType } from "./types";
 
-const initialState: AppType = {
+const initialState: AppDataType = {
+	appReady: false,
 	modalMode: "add",
 	accountModalVisibility: false,
 	expenseModalVisibility: false,
@@ -9,9 +10,12 @@ const initialState: AppType = {
 };
 
 export const appSlice = createSlice({
-	name: "app",
+	name: "data",
 	initialState,
 	reducers: {
+		setAppReady(state, action) { 
+			state.appReady = action.payload; 
+		  },
 		setModalMode: (state, action) => {
 			state.modalMode = action.payload;
 		},
@@ -27,6 +31,11 @@ export const appSlice = createSlice({
 	},
 });
 
-export const { setModalMode, setAccountModalVisibility,setExpenseModalVisibility, setExpenseDetailsModalVisiblity } = appSlice.actions;
+export const { setAppReady,setModalMode, setAccountModalVisibility,setExpenseModalVisibility, setExpenseDetailsModalVisiblity } = appSlice.actions;
 
 export default appSlice.reducer;
+
+
+
+
+// Action creators are generated for each case reducer function 
