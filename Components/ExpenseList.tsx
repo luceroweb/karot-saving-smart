@@ -40,6 +40,7 @@ const ExpenseList = ({ setAmount, setLabel, expense, setExpense }: Props) => {
 		) : (
 			<View style={{ flexDirection: "row", flexWrap: "wrap" }}>
 			{generateExpenses}
+
 			</View>
 		)}
     </>
