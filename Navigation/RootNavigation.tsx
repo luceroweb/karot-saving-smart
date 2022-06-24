@@ -38,25 +38,3 @@ const RootNavigation = () => {
 };
 
 export default RootNavigation;
-
-{
-  /* <NavigationContainer linking={linking}>
-<RootStack.Navigator>
-{loggedIn.screen === "login" ? (
-  <RootStack.Group screenOptions={{
-      headerShown: false,
-      animation: 'none',
-    }}
-  >
-    <RootStack.Screen name="Login">
-      {props => <Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
-    </RootStack.Screen>
-  </RootStack.Group>
-) : (
-  <RootStack.Screen name="Overview" component={Overview} options={{
-    headerShown: false
-  }}/>
-)}
-</RootStack.Navigator>
-</NavigationContainer> */
-}
