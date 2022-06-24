@@ -6,7 +6,7 @@ import { GlobalStateType } from "../Utils/types";
 // https://github.com/oblador/react-native-progress#progressbar
 import * as Progress from "react-native-progress";
 import AccountsDropDown from "./AccountsDropDown";
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 
 export default function BudgetCard() {
   const [budgetDetails, setBudgetDetails] = useState<boolean>(false);
@@ -20,7 +20,7 @@ export default function BudgetCard() {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.budgetWrapper}>        
+        <View style={styles.budgetWrapper}>
           <Text style={styles.budgetTextTop}>Extra Money:</Text>
           <Text style={styles.budgetText}>${moneyRem}</Text>
           <Text style={styles.budgetTextBottom}>
@@ -28,7 +28,8 @@ export default function BudgetCard() {
           </Text>
           <View style={styles.bar}>
             <Progress.Bar
-              progress={moneyRem / moneyTotal || .3}
+              progress={moneyRem / moneyTotal || 0}
+
               unfilledColor="#DBDBDB"
               borderColor="rgba(0,0,0,0)"
               borderRadius={8}
@@ -37,10 +38,8 @@ export default function BudgetCard() {
               color="#316BB4"
             />
           </View>
-          
         </View>
         {budgetDetails ? <AccountsDropDown /> : null}
-        
       </View>
       <View style={styles.toggleWrap}>
         <Entypo
@@ -49,7 +48,7 @@ export default function BudgetCard() {
           size={18}
           color="white"
           onPress={() => setBudgetDetails(!budgetDetails)}
-        /> 
+        />
       </View>
     </>
   );
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.22,
-    shadowRadius: 2.22,    
+    shadowRadius: 2.22,
     elevation: 3,
     width: "98%",
   },
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 40,
     fontFamily: "Sarabun_700Bold",
-    lineHeight: 45
+    lineHeight: 45,
   },
   budgetTextTop: {
     textAlign: "center",
@@ -110,7 +109,6 @@ const styles = StyleSheet.create({
   },
   bar: {
     flexDirection: "row",
-    height: 10,
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 13,
