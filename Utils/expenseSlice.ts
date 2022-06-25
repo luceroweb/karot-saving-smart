@@ -21,9 +21,12 @@ export const expenseSlice = createSlice({
 		setSelectedId: (state, action) => {
 			state.selectedId = action.payload;
 		},
+		editExpense: (state, action) => {
+		  state.list = action.payload;
+		},
 	},
 });
 
-export const { addExpense, setSelectedId } = expenseSlice.actions;
+export const { addExpense, setSelectedId,editExpense } = expenseSlice.actions;
 
 export default expenseSlice.reducer;

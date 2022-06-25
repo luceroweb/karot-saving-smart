@@ -6,16 +6,17 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
+import uuid from "react-native-uuid";
 import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount, deleteAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
 import { recalculateBudget } from "../Utils/remainingBudgetSlice";
-import uuid from "react-native-uuid";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
   account: AccountType;
+  unselectedAccounts: AccountType[];
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string;
@@ -23,15 +24,13 @@ interface Props {
 }
 
 const AccountModal = memo<Props>(
-  ({ account, isVisible, setIsVisible, mode, setAccount }) => {
+  ({ account, unselectedAccounts, isVisible, setIsVisible,setAccount, mode }) => {
     mode = mode ? mode : "add";
-
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const [confirm, setConfirm] = useState<boolean>(false);
 
     const dispatch = useDispatch();
-
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
     );
@@ -55,7 +54,7 @@ const AccountModal = memo<Props>(
       const newAccount = {
         label: label,
         saved: amount,
-        goal: 0,
+        goal: amount,
         date: Date.now(),
         id: uuid.v4().toString(),
       };
@@ -72,19 +71,20 @@ const AccountModal = memo<Props>(
 
     const runEditAccount = () => {
       const accountUpdate = {
-        ...account,
         label: label,
         saved: amount,
         goal: account.goal,
         date: account.date,
+        id: uuid.v4().toString(),
       };
-
-      const updatedAccounts = accounts.map((acc) =>
-        acc.id === accountUpdate.id ? accountUpdate : acc
-      );
-      dispatch(editAccount(updatedAccounts));
-      dispatch(recalculateBudget({ accounts: updatedAccounts, expenses }));
+      dispatch(editAccount([...unselectedAccounts, accountUpdate]));
       setIsVisible(false);
+      dispatch(
+        recalculateBudget({
+          expenses: expenses,
+          accounts: [...unselectedAccounts, accountUpdate],
+        })
+      );
       setAccount(blankAccount);
     };
 

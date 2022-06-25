@@ -17,9 +17,6 @@ const ReduxStateTest: FC = () => {
   );
   const dispatch = useDispatch();
 
-  // Uncomment console.log message to debug Redux state updates/changes
-  // console.log(userData, accounts, expenses, remainingBudget);
-
   const runSaveUserData = () => {
     dispatch(
       setUserData({
