@@ -7,6 +7,7 @@ import {
   Pressable,
   Linking,
   Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { AntDesign } from '@expo/vector-icons';
@@ -23,46 +24,47 @@ const ContactForm:FC<Props> = ({ navigation }) => {
  
   
   const sendContactForm = () => {
+    if (!email.trim()) {
+      alert("Please Enter Email");
+      return;
+    }
+    if (!message.trim()) {
+      alert("Please Add Message");
+      return;
+    }
     let mailto = `mailto:jlucero@alphaworks.tech`;
     mailto += `?subject=${subject}`;
     mailto += `&body=${message}`;
     Linking.openURL(mailto);
+    alert("Message Sent!");
   };
 
+
+
   return (
-    <View style={styles.container}>
-      <View style={styles.backArrow}>
-      <AntDesign 
-        name="left" 
-        size={24} 
-        color="#FFFFFF"
-        onPress={()=> navigation.replace("Overview")}
-      />
-      </View>
-      
-      
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={styles.header}>Contact Us</Text>
 
       {/* Subject Text Input */}
       <View>
-    <Text style={styles.inputHeaders}>Email</Text>
-      <TextInput
-        style={[styles.inputs,styles.email]}
-        onChangeText={(email) => setEmail(email)}
-        value={email}
-        placeholder="example@domain.com"
-      />
+        <Text style={styles.inputHeaders}>Email</Text>
+        <TextInput
+          style={[styles.inputs,styles.email]}
+          onChangeText={(email) => setEmail(email)}
+          value={email}
+          placeholder="example@domain.com"
+        />
 
       {/* Dropdown Menu */}
-      <Text style={[styles.inputHeaders]}>Subject</Text>
-      <Picker
-        style={styles.picker}
-        selectedValue={subject}
-        onValueChange={
-          (value, index) =>
-          setSubject(value)
-        }
-      >
+        <Text style={[styles.inputHeaders]}>Subject</Text>
+        <Picker
+          style={styles.picker}
+          selectedValue={subject}
+          onValueChange={
+            (value, index) =>
+            setSubject(value)
+          }
+        >
         <Picker.Item 
           label="placeholder 1" 
           value="placeholder 1"
@@ -71,30 +73,30 @@ const ContactForm:FC<Props> = ({ navigation }) => {
           label="placeholder 2" 
           value="jplaceholder 2"
           />
-      </Picker>
+        </Picker>
 
       {/* Message text input */}
-      <Text style={styles.inputHeaders}>Enter Message</Text>
-      <TextInput
-        style={[styles.inputs,styles.messageInput]}
-        onChangeText={(e) => setMessage(e)}
-        placeholder="Write your message here..."
-        value={message}
-        numberOfLines={10}
-        multiline={true}
-        keyboardType="default"
-        returnKeyType="done"
-        onSubmitEditing={()=>{Keyboard.dismiss()}}
-      />
+        <Text style={styles.inputHeaders}>Enter Message</Text>
+        <TextInput
+          style={[styles.inputs,styles.messageInput]}
+          onChangeText={(e) => setMessage(e)}
+          placeholder="Write your message here..."
+          value={message}
+          numberOfLines={7}
+          multiline={true}
+          keyboardType="default"
+          returnKeyType="done"
+          onSubmitEditing={()=>{Keyboard.dismiss()}}
+        />
       </View>
 
       <Pressable 
         onPress={sendContactForm}
         style={styles.submitButton}
-        >
+      >
         <Text style={styles.buttonText}>Send</Text>
       </Pressable>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -105,14 +107,9 @@ const styles = StyleSheet.create({
       height: "100%",
       width: "100%",
     },
-    backArrow: {
-      position: "absolute",
-      top: 20,
-      left: 20,
-    },
     header:{
       fontSize: 30,
-      marginTop: 40,
+      marginTop: 25,
       marginBottom: 25,
       color: "#FFFFFF",
       fontFamily: "Sarabun_700Bold"
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
     },
     messageInput:{
-      height: 190,
+      height: 170,
       backgroundColor: '#FFFFFF',
       fontFamily: "Sarabun_600SemiBold",
       fontSize: 15,
