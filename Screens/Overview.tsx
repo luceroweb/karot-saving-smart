@@ -4,7 +4,6 @@ import BudgetCard from "../Components/BudgetCard";
 import { useSelector, useDispatch } from "react-redux";
 import { ExpenseType, GlobalStateType } from "../Utils/types";
 import { setModalMode, setExpenseModalVisibility } from "../Utils/appSlice";
-import ProfileIcon from "../Components/ProfileIcon";
 import ExpenseModal from "../Components/ExpenseModal";
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -26,9 +25,6 @@ function Overview() {
 
   return (
     <View style={styles.container}>
-      <View >
-        <ProfileIcon />
-      </View>
       <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.budgetCardHolder}>
           <BudgetCard />
