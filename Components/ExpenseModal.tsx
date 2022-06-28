@@ -15,7 +15,6 @@ import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType, ExpenseType } from "../Utils/types";
 import { addExpense, editExpense } from "../Utils/expenseSlice";
-import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { setExpenseModalVisibility } from "../Utils/appSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 interface Props {
@@ -84,12 +83,6 @@ const ExpenseModal = ({
         id: uuid.v4().toString(),
       };
       dispatch(addExpense(newExpense));
-      dispatch(
-        recalculateBudget({
-          expenses: [...expenses, newExpense],
-          accounts: accounts,
-        })
-      );
       dispatch(setExpenseModalVisibility(false));
     } else {
       alert("There is an empty value in one of the inputs");
@@ -104,16 +97,8 @@ const ExpenseModal = ({
       date: expense.date,
       id: expense.id,
     };
-    const updateExpense = expenses.map((exp)=>
-    exp.id === expenseUpdate.id? expenseUpdate:exp);
-    dispatch(editExpense(updateExpense));
+    dispatch(editExpense(expenseUpdate));
     dispatch(setExpenseModalVisibility(false));
-    dispatch(
-      recalculateBudget({
-        accounts: accounts,
-        expenses: updateExpense
-      })
-    );
   };
   return (
     <View style={styles.container}>

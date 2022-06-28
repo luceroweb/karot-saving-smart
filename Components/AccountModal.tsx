@@ -11,7 +11,6 @@ import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount, deleteAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
-import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
@@ -58,38 +57,24 @@ const AccountModal = memo<Props>(
         id: uuid.v4().toString(),
       };
       dispatch(addAccount(newAccount));
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: [...accounts, newAccount],
-        })
-      );
       setIsVisible(false);
       setAccount(blankAccount);
     };
 
     const runEditAccount = () => {
       const accountUpdate = {
+        ...account,
         label: label,
         saved: amount,
-        goal: account.goal,
-        date: account.date,
-        id: uuid.v4().toString(),
       };
       dispatch(editAccount(accountUpdate));
       setIsVisible(false);
       setAccount(blankAccount);
     };
 
-    const runDeleteAccount = async () => {
-      await dispatch(deleteAccount(account.id));
+    const runDeleteAccount = () => {
+      dispatch(deleteAccount(account.id));
       setIsVisible(false);
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: accounts,
-        })
-      );
     };
 
     const onChanged = (text: any) => {
