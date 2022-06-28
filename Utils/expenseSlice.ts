@@ -22,14 +22,20 @@ export const expenseSlice = createSlice({
 			state.selectedId = action.payload;
 		},
 		editExpense: (state, action) => {
-      const updateExpense = state.list.map((expense) =>
-        expense.id === action.payload.id ? action.payload : expense
-      );
-		  state.list = updateExpense;
+			const updateExpense = state.list.map((expense) =>
+				expense.id === action.payload.id ? action.payload : expense
+			);
+			state.list = updateExpense;
+		},
+		deleteExpense: (state, action) => {
+			const filteredExpense = state.list.filter(
+				(expense) => expense.id !== action.payload
+			);
+			state.list = filteredExpense;
 		},
 	},
 });
 
-export const { addExpense, setSelectedId,editExpense } = expenseSlice.actions;
+export const { addExpense, setSelectedId,editExpense,deleteExpense } = expenseSlice.actions;
 
 export default expenseSlice.reducer;
