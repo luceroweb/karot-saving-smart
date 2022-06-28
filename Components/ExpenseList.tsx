@@ -38,9 +38,14 @@ const ExpenseList = ({ setAmount, setLabel, expense, setExpense }: Props) => {
 		{appData.expenseDetailsModalVisiblity ? (
 			<ExpenseDetailView />
 		) : (
-			<View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-			{generateExpenses}
-
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {generateExpenses}
 			</View>
 		)}
     </>
