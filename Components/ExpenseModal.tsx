@@ -34,19 +34,24 @@ const ExpenseModal = ({
   const [date, setDate] = useState(0);
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
+
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const appData = useSelector((state: GlobalStateType) => state.app);
+
   const dispatch = useDispatch();
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
+
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+
   const onDismissSingle = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
+
   const onConfirmSingle = useCallback(
     (params) => {
       setOpen(false);
@@ -54,11 +59,13 @@ const ExpenseModal = ({
     },
     [setOpen, setDate]
   );
+
   const handleConfirm = (date: Date) => {
     setDate(Number(date));
     hideDatePicker();
     onDismissSingle;
   };
+
   const onChangeTextAmount = (number: any) => {
     let newText: any = "";
     let newNumber = "0123456789.";
@@ -71,6 +78,7 @@ const ExpenseModal = ({
     }
     setAmount(Number(newText));
   };
+
   const runAddExpense = () => {
     if (label.length > 0 && amount > 0) {
       setLabel(label);
@@ -93,18 +101,13 @@ const ExpenseModal = ({
       ...expense,
       label: label,
       saved: amount,
-      goal: expense.goal,
-      date: expense.date,
-      id: expense.id,
     };
     dispatch(editExpense(expenseUpdate));
     dispatch(setExpenseModalVisibility(false));
   };
   return (
     <View style={styles.container}>
-      <Modal 
-	  visible={appData?.expenseModalVisibility} 
-	  transparent={true}>
+      <Modal visible={appData?.expenseModalVisibility} transparent={true}>
         {/* This is where the Form starts */}
         <View style={styles.modalSize}>
           <View style={styles.titleContainer}>
@@ -112,9 +115,7 @@ const ExpenseModal = ({
               <TouchableOpacity
                 style={styles.xIcon}
                 onPress={() => {
-                  dispatch(
-                    setExpenseModalVisibility(false)
-                  );
+                  dispatch(setExpenseModalVisibility(false));
                 }}
               >
                 <Feather
@@ -127,7 +128,9 @@ const ExpenseModal = ({
             </View>
             <View>
               <Text style={styles.titleText}>
-                {appData?.modalMode === "add" ? "Add Expense" : "Update Expense"}
+                {appData?.modalMode === "add"
+                  ? "Add Expense"
+                  : "Update Expense"}
               </Text>
             </View>
           </View>
@@ -149,7 +152,9 @@ const ExpenseModal = ({
             </Text>
             <TextInput
               style={styles.inputStyle}
-              value={appData?.modalMode !== "add" ? amount?.toString() : undefined}
+              value={
+                appData?.modalMode !== "add" ? amount?.toString() : undefined
+              }
               onChangeText={(number) => onChangeTextAmount(number)}
             />
           </View>
@@ -229,8 +234,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
   },
   inputStyle: {
-     width: 150,
-     height: 30,
+    width: 150,
+    height: 30,
     borderWidth: 1,
     borderColor: "#000",
     fontSize: 20,

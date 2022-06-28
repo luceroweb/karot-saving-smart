@@ -1,8 +1,8 @@
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
-import { useSelector, useDispatch } from "react-redux";
-import { ExpenseType, GlobalStateType } from "../Utils/types";
+import { useDispatch } from "react-redux";
+import { ExpenseType } from "../Utils/types";
 import { setModalMode, setExpenseModalVisibility } from "../Utils/appSlice";
 import ExpenseModal from "../Components/ExpenseModal";
 import { useState } from "react";
@@ -18,7 +18,6 @@ function Overview() {
   };
   const dispatch = useDispatch();
 
-  const userData = useSelector((state: GlobalStateType) => state.user.data);
   const [label, setLabel] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [expense, setExpense] = useState<ExpenseType>(blankExpense);

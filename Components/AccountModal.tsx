@@ -32,9 +32,6 @@ const AccountModal = memo<Props>(
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
     );
-    const expenses = useSelector(
-      (state: GlobalStateType) => state.expenses.list
-    );
     const blankAccount: AccountType = {
       label: "",
       saved: 0,
