@@ -17,7 +17,10 @@ export const accountSlice = createSlice({
       state.list = [...state.list, action.payload];
     },
     editAccount: (state, action) => {
-      state.list = action.payload;
+      const updatedAccounts = state.list.map((account) =>
+      account.id === action.payload.id ? action.payload : account
+      );
+      state.list = updatedAccounts;
     },
     deleteAccount: (state, action) => {
       const filteredAccounts = state.list.filter(

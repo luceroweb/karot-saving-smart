@@ -22,7 +22,10 @@ export const expenseSlice = createSlice({
 			state.selectedId = action.payload;
 		},
 		editExpense: (state, action) => {
-		  state.list = action.payload;
+      const updateExpense = state.list.map((expense) =>
+        expense.id === action.payload.id ? action.payload : expense
+      );
+		  state.list = updateExpense;
 		},
 	},
 });
