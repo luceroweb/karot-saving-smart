@@ -37,16 +37,8 @@ function Overview() {
             setExpense={setExpense}
           />
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            dispatch(setExpenseModalVisibility(true));
-            dispatch(setModalMode("add"));
-          }}
-        >
-          <AntDesign name="pluscircle" size={48} color="#4D62BF" />
-        </TouchableOpacity>
       </ScrollView>
-      <View style={styles.plusModal}>
+      <View>
         <ExpenseModal
           amount={amount}
           setAmount={setAmount}
@@ -55,6 +47,15 @@ function Overview() {
           expense={expense}
         />
       </View>
+      <TouchableOpacity
+        style={styles.plusModal}
+        onPress={() => {
+          dispatch(setExpenseModalVisibility(true));
+          dispatch(setModalMode("add"));
+        }}
+      >
+        <AntDesign name="pluscircle" size={48} color="#4D62BF" />
+      </TouchableOpacity>
     </View>
   );
 }
