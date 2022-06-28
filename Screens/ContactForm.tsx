@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import { AntDesign } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'; 
 import { RootStackParamList } from "../Utils/types";
 
@@ -42,7 +42,8 @@ const ContactForm:FC<Props> = ({ navigation }) => {
 
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAwareScrollView>
+    <View style={styles.container}>
       <Text style={styles.header}>Contact Us</Text>
 
       {/* Subject Text Input */}
@@ -96,7 +97,8 @@ const ContactForm:FC<Props> = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Send</Text>
       </Pressable>
-    </KeyboardAvoidingView>
+    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
