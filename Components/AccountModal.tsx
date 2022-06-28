@@ -16,7 +16,6 @@ import { Feather } from "@expo/vector-icons";
 
 interface Props {
   account: AccountType;
-  unselectedAccounts: AccountType[];
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode: string;
@@ -24,7 +23,7 @@ interface Props {
 }
 
 const AccountModal = memo<Props>(
-  ({ account, unselectedAccounts, isVisible, setIsVisible,setAccount, mode }) => {
+  ({ account, isVisible, setIsVisible, setAccount, mode }) => {
     mode = mode ? mode : "add";
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
@@ -77,14 +76,8 @@ const AccountModal = memo<Props>(
         date: account.date,
         id: uuid.v4().toString(),
       };
-      dispatch(editAccount([...unselectedAccounts, accountUpdate]));
+      dispatch(editAccount(accountUpdate));
       setIsVisible(false);
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: [...unselectedAccounts, accountUpdate],
-        })
-      );
       setAccount(blankAccount);
     };
 
