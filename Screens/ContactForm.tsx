@@ -6,8 +6,6 @@ import {
   StyleSheet,
   Pressable,
   Linking,
-  Keyboard,
-  KeyboardAvoidingView,
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -85,9 +83,6 @@ const ContactForm:FC<Props> = ({ navigation }) => {
           value={message}
           numberOfLines={7}
           multiline={true}
-          keyboardType="default"
-          returnKeyType="done"
-          onSubmitEditing={()=>{Keyboard.dismiss()}}
         />
       </View>
 
@@ -156,12 +151,13 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFFFFF',
       fontFamily: "Sarabun_600SemiBold",
       fontSize: 15,
-      padding: 10,
+      paddingLeft: 10,
     },
     submitButton:{
       marginTop: 30,
       marginLeft: 30,
       marginRight: 30,
+      marginBottom: 50,
       width: 118,
       height: 56,
       backgroundColor: '#FFFFFF',
