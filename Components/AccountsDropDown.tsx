@@ -22,9 +22,9 @@ const AccountsDropDown: FC = () => {
   const [account, setAccount] = useState<AccountType>(blankAccount);
   const [mode, setMode] = useState<"edit" | "add">("add");
 
-  const generateList = listOfAccounts.map((account, index, listOfAccounts) => (
+  const generateList = listOfAccounts.map((account) => (
     <TouchableOpacity
-      key={index}
+      key={account.id}
       style={styles.container}
       onPress={() => {
         setMode("edit");
