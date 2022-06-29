@@ -14,8 +14,11 @@ import { DatePickerModal } from "react-native-paper-dates"; //date picker for we
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType, ExpenseType } from "../Utils/types";
-import { addExpense, editExpense } from "../Utils/expenseSlice";
-import { setExpenseModalVisibility } from "../Utils/appSlice";
+import { addExpense, deleteExpense, editExpense } from "../Utils/expenseSlice";
+import {
+  setExpenseModalVisibility,
+  setExpenseDetailsModalVisiblity,
+} from "../Utils/appSlice";
 import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
 interface Props {
   amount: number;
@@ -34,7 +37,7 @@ const ExpenseModal = ({
   const [date, setDate] = useState(0);
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+  const [confirm, setConfirm] = useState<boolean>(false);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const appData = useSelector((state: GlobalStateType) => state.app);
 
@@ -105,8 +108,46 @@ const ExpenseModal = ({
     dispatch(editExpense(expenseUpdate));
     dispatch(setExpenseModalVisibility(false));
   };
+  const runDeleteExpenses = () => {
+    dispatch(deleteExpense(expense.id));
+    dispatch(setExpenseDetailsModalVisiblity(false));
+  };
+  const displayConfirm = () => (
+    <Modal
+      style={{ justifyContent: "center", alignItems: "center" }}
+      transparent
+    >
+      <View style={styles.confirmContainer}>
+        <View>
+          <Text style={styles.buttonText}>Delete {expense.label}?</Text>
+          <View>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => {
+                runDeleteExpenses();
+                setConfirm(false);
+              }}
+            >
+              <Text style={{ fontSize: 16, alignSelf: "center" }}>Ok</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setConfirm(false);
+                setExpenseModalVisibility(true);
+              }}
+              style={styles.buttonStyle}
+            >
+              <Text style={{ fontSize: 16, alignSelf: "center" }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+
   return (
     <View style={styles.container}>
+      {confirm && displayConfirm()}
       <Modal visible={appData?.expenseModalVisibility} transparent={true}>
         {/* This is where the Form starts */}
         <View style={styles.modalSize}>
@@ -200,18 +241,31 @@ const ExpenseModal = ({
               <Text style={{ fontSize: 16 }}>Confirm</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              onPress={() => {
-                runEditExpense();
-                setLabel("");
-                setAmount(0);
-                setDate(0);
-                dispatch(setExpenseModalVisibility(false));
-              }}
-              style={styles.buttonStyle}
-            >
-              <Text style={{ fontSize: 16 }}>Update</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonWrap}>
+              <TouchableOpacity
+                onPress={() => {
+                  runEditExpense();
+                  setLabel("");
+                  setAmount(0);
+                  setDate(0);
+                  dispatch(setExpenseModalVisibility(false));
+                }}
+                style={styles.buttonStyle}
+              >
+                <Text style={{ fontSize: 16 }}>Update</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonStyle}
+                onPress={() => {
+                  setConfirm(true);
+                  dispatch(setExpenseModalVisibility(false));
+                }}
+              >
+                <Text style={{ fontSize: 16, alignSelf: "center" }}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
 
           {/* This is where the form ends */}
@@ -246,6 +300,10 @@ const styles = StyleSheet.create({
   xIcon: {
     alignSelf: "flex-end",
   },
+  buttonWrap: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   buttonStyle: {
     alignSelf: "center",
     width: 80,
@@ -254,6 +312,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     backgroundColor: "#828282",
+    marginBottom: 5,
   },
   subContainer: {
     flexDirection: "row",
@@ -274,6 +333,26 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "#000",
     backgroundColor: "#DADADA",
+  },
+  confirmContainer: {
+    width: 180,
+    height: 264,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 23,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    textAlign: "center",
+    fontSize: 17,
+    color: "#000000",
+    paddingTop: 7,
+    paddingBottom: 7,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: "100%",
+    fontFamily: "Sarabun_300Light",
   },
 });
 

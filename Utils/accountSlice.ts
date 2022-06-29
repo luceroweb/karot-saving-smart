@@ -6,7 +6,7 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  list: []
+  list: [],
 };
 
 export const accountSlice = createSlice({
@@ -18,7 +18,7 @@ export const accountSlice = createSlice({
     },
     editAccount: (state, action) => {
       const updatedAccounts = state.list.map((account) =>
-      account.id === action.payload.id ? action.payload : account
+        account.id === action.payload.id ? action.payload : account
       );
       state.list = updatedAccounts;
     },
@@ -27,7 +27,7 @@ export const accountSlice = createSlice({
         (account) => account.id !== action.payload
       );
       state.list = filteredAccounts;
-    }
+    },
   },
 });
 
