@@ -5,20 +5,14 @@ import { GlobalStateType } from "../Utils/types";
 import { setUserData } from "../Utils/userDataSlice";
 import { addAccount } from "../Utils/accountSlice";
 import { addExpense } from "../Utils/expenseSlice";
-import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 import uuid from "react-native-uuid";
 
 const ReduxStateTest: FC = () => {
   const userData = useSelector((state: GlobalStateType) => state.user.data);
-  const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
-  const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const remainingBudget = useSelector(
     (state: GlobalStateType) => state.budgets.remaining
   );
   const dispatch = useDispatch();
-
-  // Uncomment console.log message to debug Redux state updates/changes
-  // console.log(userData, accounts, expenses, remainingBudget);
 
   const runSaveUserData = () => {
     dispatch(
@@ -40,13 +34,6 @@ const ReduxStateTest: FC = () => {
       id: uuid.v4().toString(),
     };
     dispatch(addAccount(newAccount));
-
-    dispatch(
-      recalculateBudget({
-        expenses: expenses,
-        accounts: [...accounts, newAccount],
-      })
-    );
   };
 
   const runAddExpense = () => {
@@ -55,15 +42,9 @@ const ReduxStateTest: FC = () => {
       saved: 80,
       goal: 80,
       date: Date.now(),
+      id: uuid.v4().toString(),
     };
     dispatch(addExpense(newExpense));
-
-    dispatch(
-      recalculateBudget({
-        accounts: accounts,
-        expenses: [...expenses, newExpense],
-      })
-    );
   };
 
   return (

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
+import { recalculateBudget } from "../Utils/remainingBudgetSlice";
 // cannot deep require import according to
 // https://github.com/oblador/react-native-progress#progressbar
 import * as Progress from "react-native-progress";
@@ -16,6 +17,14 @@ export default function BudgetCard() {
   const moneyTotal = useSelector(
     (state: GlobalStateType) => state.budgets.remaining.accountsTotal
   );
+  const accounts = useSelector((state: GlobalStateType) => state.accounts.list);
+  const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(recalculateBudget({ accounts, expenses }));
+  }, [accounts, expenses]);
 
   return (
     <>
@@ -29,7 +38,6 @@ export default function BudgetCard() {
           <View style={styles.bar}>
             <Progress.Bar
               progress={moneyRem / moneyTotal || 0}
-
               unfilledColor="#DBDBDB"
               borderColor="rgba(0,0,0,0)"
               borderRadius={8}

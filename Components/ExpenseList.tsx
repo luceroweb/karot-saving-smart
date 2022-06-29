@@ -1,39 +1,54 @@
-
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { GlobalStateType } from "../Utils/types";
+import { ExpenseType, GlobalStateType } from "../Utils/types";
 import ExpenseCard from "./ExpenseCard";
 import ExpenseDetailView from "./ExpenseDetailView";
 import { setSelectedId } from "../Utils/expenseSlice";
+import { setExpenseDetailsModalVisiblity } from "../Utils/appSlice";
 
-const ExpenseList = () => {
+interface Props {
+	setAmount: React.Dispatch<React.SetStateAction<number>>;
+	setLabel: React.Dispatch<React.SetStateAction<string>>;
+	expense: ExpenseType;
+	setExpense: React.Dispatch<React.SetStateAction<ExpenseType>>;
+}
+const ExpenseList = ({ setAmount, setLabel, expense, setExpense }: Props) => {
 	const dispatch = useDispatch();
-	const [showModal, SetShowModal] = useState<boolean>(false);
 	const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
+	const appData = useSelector((state: GlobalStateType) => state.app);
+	useEffect(() => {
+		setAmount(expense ? expense.saved : 0);
+		setLabel(expense ? expense.label : "");
+	}, [expense]);
 	const generateExpenses = expenses.map((expense, index) => (
-		<TouchableOpacity
-			key={index}
-			onPress={() => {
-				SetShowModal(!showModal);
-				dispatch(setSelectedId(index));
-			}}
-		>
-			<ExpenseCard expense={expense} />
-		</TouchableOpacity>
+    <TouchableOpacity
+		key={index}
+		onPress={() => {
+			dispatch(setExpenseDetailsModalVisiblity(true));
+			dispatch(setSelectedId(index));
+			setExpense(expense);
+		}}
+    >
+		<ExpenseCard expense={expense} />
+    </TouchableOpacity>
 	));
 	return (
-		<>
-			{ showModal ? (
-					<ExpenseDetailView SetShowModal={SetShowModal} />
-			) : (
-			
-			<View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-				{generateExpenses}
+    <>
+		{appData.expenseDetailsModalVisiblity ? (
+			<ExpenseDetailView />
+		) : (
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {generateExpenses}
 			</View>
-			)}
-		
-		</>
-	);
+		)}
+    </>
+);
 };
 export default ExpenseList;
