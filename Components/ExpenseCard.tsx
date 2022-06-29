@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     aspectRatio: 1,
     margin: 8,
-    height: 180,
+    height: 160,
     width: width / 2.5 > 180 ? 180 : width / 2.5,
   },
   expenseAmount: {
