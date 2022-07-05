@@ -39,6 +39,10 @@ export interface RemainingBudgetType {
 
 export interface AppDataType {
   appReady: boolean;
+  modalMode: "add"| "edit";
+  accountModalVisibility: boolean;
+  expenseModalVisibility: boolean;
+  expenseDetailsModalVisiblity: boolean;
 }
 
 export interface GlobalStateType {

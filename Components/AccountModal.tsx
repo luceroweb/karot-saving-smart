@@ -6,12 +6,11 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
+import uuid from "react-native-uuid";
 import React, { memo, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAccount, editAccount, deleteAccount } from "../Utils/accountSlice";
 import { GlobalStateType, AccountType } from "../Utils/types";
-import { recalculateBudget } from "../Utils/remainingBudgetSlice";
-import uuid from "react-native-uuid";
 import { Feather } from "@expo/vector-icons";
 
 interface Props {
@@ -23,20 +22,15 @@ interface Props {
 }
 
 const AccountModal = memo<Props>(
-  ({ account, isVisible, setIsVisible, mode, setAccount }) => {
+  ({ account, isVisible, setIsVisible, setAccount, mode }) => {
     mode = mode ? mode : "add";
-
     const [amount, setAmount] = useState<number>(0);
     const [label, setLabel] = useState<string>("");
     const [confirm, setConfirm] = useState<boolean>(false);
 
     const dispatch = useDispatch();
-
     const accounts = useSelector(
       (state: GlobalStateType) => state.accounts.list
-    );
-    const expenses = useSelector(
-      (state: GlobalStateType) => state.expenses.list
     );
     const blankAccount: AccountType = {
       label: "",
@@ -55,17 +49,11 @@ const AccountModal = memo<Props>(
       const newAccount = {
         label: label,
         saved: amount,
-        goal: 0,
+        goal: amount,
         date: Date.now(),
         id: uuid.v4().toString(),
       };
       dispatch(addAccount(newAccount));
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: [...accounts, newAccount],
-        })
-      );
       setIsVisible(false);
       setAccount(blankAccount);
     };
@@ -75,28 +63,15 @@ const AccountModal = memo<Props>(
         ...account,
         label: label,
         saved: amount,
-        goal: account.goal,
-        date: account.date,
       };
-
-      const updatedAccounts = accounts.map((acc) =>
-        acc.id === accountUpdate.id ? accountUpdate : acc
-      );
-      dispatch(editAccount(updatedAccounts));
-      dispatch(recalculateBudget({ accounts: updatedAccounts, expenses }));
+      dispatch(editAccount(accountUpdate));
       setIsVisible(false);
       setAccount(blankAccount);
     };
 
-    const runDeleteAccount = async () => {
-      await dispatch(deleteAccount(account.id));
+    const runDeleteAccount = () => {
+      dispatch(deleteAccount(account.id));
       setIsVisible(false);
-      dispatch(
-        recalculateBudget({
-          expenses: expenses,
-          accounts: accounts,
-        })
-      );
     };
 
     const onChanged = (text: any) => {
