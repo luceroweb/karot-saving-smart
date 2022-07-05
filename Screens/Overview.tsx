@@ -1,14 +1,20 @@
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { FC, useState } from "react";
 import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
 import { useDispatch } from "react-redux";
 import { ExpenseType } from "../Utils/types";
 import { setModalMode, setExpenseModalVisibility } from "../Utils/appSlice";
 import ExpenseModal from "../Components/ExpenseModal";
-import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
-function Overview() {
+
+import type { NativeStackScreenProps } from '@react-navigation/native-stack'; 
+import { RootStackParamList } from "../Utils/types";
+
+type Props = NativeStackScreenProps<RootStackParamList, "Overview">
+
+const Overview: FC<Props> = ({ navigation }) => {
   const blankExpense: ExpenseType = {
     label: "",
     saved: 0,
