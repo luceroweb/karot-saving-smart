@@ -8,6 +8,7 @@ import {
   Button,
   Platform,
   Modal,
+  KeyboardAvoidingView
 } from "react-native";
 import uuid from "react-native-uuid";
 import { DatePickerModal } from "react-native-paper-dates"; //date picker for web
@@ -146,7 +147,7 @@ const ExpenseModal = ({
   );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
       {confirm && displayConfirm()}
       <Modal visible={appData?.expenseModalVisibility} transparent={true}>
         {/* This is where the Form starts */}
@@ -271,7 +272,7 @@ const ExpenseModal = ({
           {/* This is where the form ends */}
         </View>
       </Modal>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
