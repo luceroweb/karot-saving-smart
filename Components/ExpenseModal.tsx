@@ -40,6 +40,7 @@ const ExpenseModal = ({
   const [confirm, setConfirm] = useState<boolean>(false);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const appData = useSelector((state: GlobalStateType) => state.app);
+  
   const dispatch = useDispatch();
 
   useEffect(()=> {
