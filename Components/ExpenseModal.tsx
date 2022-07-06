@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -40,8 +40,11 @@ const ExpenseModal = ({
   const [confirm, setConfirm] = useState<boolean>(false);
   const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const appData = useSelector((state: GlobalStateType) => state.app);
-
   const dispatch = useDispatch();
+
+  useEffect(()=> {
+    appData?.modalMode === "add" && setLabel("");
+  }, [appData.expenseModalVisibility])
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -245,9 +248,6 @@ const ExpenseModal = ({
               <TouchableOpacity
                 onPress={() => {
                   runEditExpense();
-                  setLabel("");
-                  setAmount(0);
-                  setDate(0);
                   dispatch(setExpenseModalVisibility(false));
                 }}
                 style={styles.buttonStyle}
@@ -267,7 +267,6 @@ const ExpenseModal = ({
               </TouchableOpacity>
             </View>
           )}
-
           {/* This is where the form ends */}
         </View>
       </Modal>
