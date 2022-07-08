@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -42,10 +42,6 @@ const ExpenseModal = ({
   const appData = useSelector((state: GlobalStateType) => state.app);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    appData?.modalMode === "add" && setLabel("");
-  }, [appData.modalMode]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -185,7 +181,7 @@ const ExpenseModal = ({
             </Text>
             <TextInput
               style={styles.inputStyle}
-              value={label}
+              value={appData?.modalMode === "add" ? undefined : label}
               onChangeText={(text) => {
                 setLabel(text);
               }}
@@ -235,8 +231,6 @@ const ExpenseModal = ({
             <TouchableOpacity
               onPress={() => {
                 runAddExpense();
-                setLabel("");
-                setAmount(0);
                 setDate(0);
                 dispatch(setExpenseModalVisibility(false));
               }}
