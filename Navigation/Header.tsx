@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     padding: 15,
+    paddingBottom: 10,
   },
   icon: {
     flexDirection: "row",

@@ -9,10 +9,10 @@ import ExpenseModal from "../Components/ExpenseModal";
 import { AntDesign } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
 
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'; 
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../Utils/types";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Overview">
+type Props = NativeStackScreenProps<RootStackParamList, "Overview">;
 
 const Overview: FC<Props> = ({ navigation }) => {
   const blankExpense: ExpenseType = {
@@ -63,7 +63,7 @@ const Overview: FC<Props> = ({ navigation }) => {
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -71,13 +71,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 15,
+    paddingTop: 0,
   },
   scrollViewContainer: {
     width: "100%",
     height: "100%",
   },
   budgetCardHolder: {
-    marginTop: 30,
     width: "100%",
   },
   expenseCardHolder: {
