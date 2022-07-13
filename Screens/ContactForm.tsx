@@ -17,7 +17,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "ContactForm">
 
 const ContactForm:FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState<string>("");
-  const [subject, setSubject] = useState<string>("");
+  const [subject, setSubject] = useState<string>("placeholder 1");
   const [message, setMessage] = useState<string>("");
  
   
@@ -70,7 +70,7 @@ const ContactForm:FC<Props> = ({ navigation }) => {
           />
         <Picker.Item 
           label="placeholder 2" 
-          value="jplaceholder 2"
+          value="placeholder 2"
           />
         </Picker>
 
