@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
@@ -24,6 +25,8 @@ import {
   setExpenseModalVisibility,
   setExpenseDetailsModalVisiblity,
 } from "../Utils/appSlice";
+
+const { width } = Dimensions.get("window");
 
 export default function ExpenseDetailView() {
   let [fontsLoaded] = useFonts({
@@ -59,8 +62,7 @@ export default function ExpenseDetailView() {
   Moment.locale("en");
   var dt = goalDate;
   return (
-    <View style={styles.container}>
-      <LinearGradient
+    <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1.6, y: 1 }}
         colors={["#2383C9", "#102745"]}
@@ -99,30 +101,24 @@ export default function ExpenseDetailView() {
                 color="#05C473"
                 unfilledColor="#DBDBDB"
                 borderColor="#DBDBDB"
-                width={235}
-                height={10}
+              width={width * 0.7 > 285 ? 285 : width * 0.7}
+              height={10}
               />
             </View>
           </View>
         </TouchableOpacity>
 
         <View style={styles.transactionsExpenses}>
-          <Text style={styles.RecentTransactions}> Recent Transactions </Text>
-        </View>
-      </LinearGradient>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    height: 406,
-    width: 380,
+  linearGradient: {
+    flex: 1,
     borderRadius: 23,
     alignSelf: "center",
+    width: width - 30 > 380 ? 380 : width - 30,
     marginTop: Platform.OS === "web" ? "-35%" : "-30%",
   },
   linearGradient: {
@@ -160,10 +156,7 @@ const styles = StyleSheet.create({
     marginLeft: 22,
   },
   bar: {
-    flexDirection: "row",
-    height: 10,
     alignItems: "center",
-    justifyContent: "center",
   },
   exitIcon: {
     paddingRight: 10,
@@ -173,15 +166,14 @@ const styles = StyleSheet.create({
   modal: {
     backgroundColor: "#FFFFFF",
     borderRadius: 11,
-    width: 245,
-    height: 155,
     margin: 20,
     padding: 20,
   },
   transactionsExpenses: {
     backgroundColor: "#ffffff",
     borderRadius: 23,
-    width: "100%",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   RecentTransactions: {
     textAlign: "center",
@@ -191,7 +183,7 @@ const styles = StyleSheet.create({
     color: "#000000",
     backgroundColor: "#EEEEEE",
     borderRadius: 23,
-    width: 380,
-    height: 60,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
 });
