@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun_300Light",
     color: "white",
     alignSelf: "center",
-    marginLeft: 19,
     position: "absolute",
     bottom: 16,
   },
