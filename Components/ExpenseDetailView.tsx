@@ -5,7 +5,7 @@ import {
   View,
   Platform,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { GlobalStateType } from "../Utils/types";
@@ -19,9 +19,9 @@ import {
   setExpenseDetailsModalVisiblity,
 } from "../Utils/appSlice";
 
-const { width } = Dimensions.get("window");
-
 export default function ExpenseDetailView() {
+  const { width } = useWindowDimensions();
+
   const dispatch = useDispatch();
 
   const expenses = useSelector((state: GlobalStateType) => state.expenses);
@@ -33,7 +33,12 @@ export default function ExpenseDetailView() {
       start={{ x: 0, y: 0 }}
       end={{ x: 1.6, y: 1 }}
       colors={["#2383C9", "#102745"]}
-      style={styles.linearGradient}
+      style={[
+        styles.linearGradient,
+        {
+          width: width - 30 > 380 ? 380 : width - 30,
+        },
+      ]}
     >
       <TouchableOpacity
         onPress={() => {
@@ -87,7 +92,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 23,
     alignSelf: "center",
-    width: width - 30 > 380 ? 380 : width - 30,
     marginTop: Platform.OS === "web" ? "-35%" : "-30%",
   },
   expenseContainer: {

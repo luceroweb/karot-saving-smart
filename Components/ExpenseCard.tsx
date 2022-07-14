@@ -1,11 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 // cannot deep require import according to
 // https://github.com/oblador/react-native-progress#progressbar
 import * as Progress from "react-native-progress";
 import { LinearGradient } from "expo-linear-gradient";
-
-const { width } = Dimensions.get("window");
 
 export default function ExpenseCard(expense: any, index: number) {
   return (
@@ -29,7 +27,9 @@ export default function ExpenseCard(expense: any, index: number) {
                   color="#05C473"
                 />
           </View>
-          <Text style={styles.expenseProgress}>${expense.expense.saved} of ${expense.expense.goal} saved</Text>
+          <Text style={styles.expenseProgress}>
+            ${expense.expense.saved} of ${expense.expense.goal}
+          </Text>
         </LinearGradient>
       </View>
     </>
@@ -43,8 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     aspectRatio: 1,
     margin: 8,
-    height: width / 2.5 > 180 ? 180 : width / 2.5 < 160 ? 160 : width / 2.5,
-    width: width / 2.5 > 180 ? 180 : width / 2.5,
+    width: 160,
   },
   expenseAmount: {
     textAlign: "center",
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Sarabun_300Light",
     color: "white",
-    alignSelf: "flex-start",
+    alignSelf: "center",
     marginLeft: 19,
     position: "absolute",
     bottom: 16,
