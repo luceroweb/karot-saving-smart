@@ -2,8 +2,8 @@ import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { FC, useState } from "react";
 import ExpenseList from "../Components/ExpenseList";
 import BudgetCard from "../Components/BudgetCard";
-import { useDispatch } from "react-redux";
-import { ExpenseType } from "../Utils/types";
+import { useSelector, useDispatch } from "react-redux";
+import { ExpenseType, GlobalStateType } from "../Utils/types";
 import { setModalMode, setExpenseModalVisibility } from "../Utils/appSlice";
 import ExpenseModal from "../Components/ExpenseModal";
 import { AntDesign } from "@expo/vector-icons";
@@ -23,6 +23,8 @@ const Overview: FC<Props> = ({ navigation }) => {
     id: uuid.v4().toString(),
   };
   const dispatch = useDispatch();
+
+  const appData = useSelector((state: GlobalStateType) => state.app);
 
   const [label, setLabel] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
@@ -52,15 +54,17 @@ const Overview: FC<Props> = ({ navigation }) => {
           expense={expense}
         />
       </View>
-      <TouchableOpacity
-        style={styles.plusModal}
-        onPress={() => {
-          dispatch(setExpenseModalVisibility(true));
-          dispatch(setModalMode("add"));
-        }}
-      >
-        <AntDesign name="pluscircle" size={48} color="#4D62BF" />
-      </TouchableOpacity>
+      {!appData.expenseDetailsModalVisiblity && (
+        <TouchableOpacity
+          style={styles.plusModal}
+          onPress={() => {
+            dispatch(setExpenseModalVisibility(true));
+            dispatch(setModalMode("add"));
+          }}
+        >
+          <AntDesign name="pluscircle" size={48} color="#4D62BF" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
