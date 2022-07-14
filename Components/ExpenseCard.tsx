@@ -14,18 +14,20 @@ export default function ExpenseCard(expense: any, index: number) {
           style={styles.linearGradient}
         >
           <Text style={styles.expenseLabel}>{expense.expense.label}</Text>
-          <Text style={styles.expenseDate}>{new Date(expense.expense.date).toLocaleDateString()}</Text>
+          <Text style={styles.expenseDate}>
+            {new Date(expense.expense.date).toLocaleDateString()}
+          </Text>
           <Text style={styles.expenseAmount}>${expense.expense.saved}</Text>
           <View style={styles.bar}>
             <Progress.Bar
-                  progress={expense.expense.saved / expense.expense.goal || 0}
-                  unfilledColor="#DBDBDB"
-                  borderColor="rgba(0,0,0,0)"
-                  borderRadius={5}
-                  width={100}
-                  height={6}
-                  color="#05C473"
-                />
+              progress={expense.expense.saved / expense.expense.goal || 0}
+              unfilledColor="#DBDBDB"
+              borderColor="rgba(0,0,0,0)"
+              borderRadius={5}
+              width={100}
+              height={6}
+              color="#05C473"
+            />
           </View>
           <Text style={styles.expenseProgress}>
             ${expense.expense.saved} of ${expense.expense.goal}
@@ -85,11 +87,11 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     alignItems: "center",
-		justifyContent: "center",
-		borderRadius: 23,
-    width:"100%",
+    justifyContent: "center",
+    borderRadius: 23,
+    width: "100%",
     aspectRatio: 1,
-		alignSelf: "center",
+    alignSelf: "center",
   },
   bar: {
     flexDirection: "row",
