@@ -1,11 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 // cannot deep require import according to
 // https://github.com/oblador/react-native-progress#progressbar
 import * as Progress from "react-native-progress";
 import { LinearGradient } from "expo-linear-gradient";
-
-const { width } = Dimensions.get("window");
 
 export default function ExpenseCard(expense: any, index: number) {
   return (
@@ -16,20 +14,24 @@ export default function ExpenseCard(expense: any, index: number) {
           style={styles.linearGradient}
         >
           <Text style={styles.expenseLabel}>{expense.expense.label}</Text>
-          <Text style={styles.expenseDate}>{new Date(expense.expense.date).toLocaleDateString()}</Text>
+          <Text style={styles.expenseDate}>
+            {new Date(expense.expense.date).toLocaleDateString()}
+          </Text>
           <Text style={styles.expenseAmount}>${expense.expense.saved}</Text>
           <View style={styles.bar}>
             <Progress.Bar
-                  progress={expense.expense.saved / expense.expense.goal || 0}
-                  unfilledColor="#DBDBDB"
-                  borderColor="rgba(0,0,0,0)"
-                  borderRadius={5}
-                  width={100}
-                  height={6}
-                  color="#05C473"
-                />
+              progress={expense.expense.saved / expense.expense.goal || 0}
+              unfilledColor="#DBDBDB"
+              borderColor="rgba(0,0,0,0)"
+              borderRadius={5}
+              width={100}
+              height={6}
+              color="#05C473"
+            />
           </View>
-          <Text style={styles.expenseProgress}>${expense.expense.saved} of ${expense.expense.goal} saved</Text>
+          <Text style={styles.expenseProgress}>
+            ${expense.expense.saved} of ${expense.expense.goal}
+          </Text>
         </LinearGradient>
       </View>
     </>
@@ -43,8 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 23,
     aspectRatio: 1,
     margin: 8,
-    height: width / 2.5 > 180 ? 180 : width / 2.5 < 160 ? 160 : width / 2.5,
-    width: width / 2.5 > 180 ? 180 : width / 2.5,
+    width: 160,
   },
   expenseAmount: {
     textAlign: "center",
@@ -80,18 +81,17 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Sarabun_300Light",
     color: "white",
-    alignSelf: "flex-start",
-    marginLeft: 19,
+    alignSelf: "center",
     position: "absolute",
     bottom: 16,
   },
   linearGradient: {
     alignItems: "center",
-		justifyContent: "center",
-		borderRadius: 23,
-    width:"100%",
+    justifyContent: "center",
+    borderRadius: 23,
+    width: "100%",
     aspectRatio: 1,
-		alignSelf: "center",
+    alignSelf: "center",
   },
   bar: {
     flexDirection: "row",

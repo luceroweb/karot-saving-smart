@@ -12,7 +12,7 @@ import { RootStackParamList } from "../Utils/types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Overview">;
 
-const Overview: FC<Props> = ({ navigation }) => {
+const Overview: FC<Props> = () => {
   const blankExpense: ExpenseType = {
     label: "",
     saved: 0,
