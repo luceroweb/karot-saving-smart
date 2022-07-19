@@ -16,9 +16,21 @@ export const accountSlice = createSlice({
     addAccount: (state, action) => {
       state.list = [...state.list, action.payload];
     },
+    editAccount: (state, action) => {
+      const updatedAccounts = state.list.map((account) =>
+        account.id === action.payload.id ? action.payload : account
+      );
+      state.list = updatedAccounts;
+    },
+    deleteAccount: (state, action) => {
+      const filteredAccounts = state.list.filter(
+        (account) => account.id !== action.payload
+      );
+      state.list = filteredAccounts;
+    },
   },
 });
 
-export const { addAccount } = accountSlice.actions;
+export const { addAccount, editAccount, deleteAccount } = accountSlice.actions;
 
 export default accountSlice.reducer;

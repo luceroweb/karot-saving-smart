@@ -1,46 +1,44 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import SplashScreenAnimation from "./Components/SplashScreenAnimation";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  StatusBar as RNStatusBar,
+} from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
 import { store } from "./Utils/store";
 import { Provider } from "react-redux";
-import Overview from "./Screens/Overview";
+import RootNavigation from "./Navigation/RootNavigation";
 
 // Uncomment ReduxStateTest to test various state actions and reducers
 // import ReduxStateTest from "./Components/ReduxStateTest";
 
-interface LoggedIn {
-  status: string;
-  screen: string;
-}
-
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState<LoggedIn>({
-    status: "",
-    screen: "splash",
-  });
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        {/* Uncomment ReduxStateTest to test various state actions and reducers */}
-        {/* <ReduxStateTest /> */}
-        {loggedIn.screen === "splash" ? (
-          <SplashScreenAnimation setLoggedIn={setLoggedIn} />
-        ) : loggedIn.screen === "login" ? (
-          <Text>Login screen</Text>
-        ) : (
-          <Overview />
-        )}
-        <StatusBar style="auto" />
-      </View>
+      <PaperProvider>
+        <SafeAreaView style={styles.safeAreaContainer}>
+          <View style={styles.container}>
+            {/* Uncomment ReduxStateTest to test various state actions and reducers */}
+            {/* <ReduxStateTest /> */}
+            <RootNavigation />
+          </View>
+          <StatusBar style="auto" />
+        </SafeAreaView>
+      </PaperProvider>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeAreaContainer: {
     flex: 1,
-    alignItems: "center",
+    paddingTop: RNStatusBar.currentHeight || 0,
+  },
+  container: {
     justifyContent: "center",
+    height: "100%",
+    width: "100%",
   },
 });
