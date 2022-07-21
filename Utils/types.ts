@@ -39,22 +39,24 @@ export interface RemainingBudgetType {
 
 export interface AppDataType {
   appReady: boolean;
-  modalMode: "add"| "edit";
+  modalMode: "add" | "edit";
   accountModalVisibility: boolean;
   expenseModalVisibility: boolean;
   expenseDetailsModalVisiblity: boolean;
+  modalType: "expense" | "account";
+  selectedExpense?: ExpenseType;
+  selectedAccount?: AccountType;
 }
 
 export interface GlobalStateType {
   app: AppDataType;
-	user: { data: UserDataType };
-	accounts: { list: AccountType[] };
-	expenses: { list: ExpenseType[]; selectedId: number };
-	budgets: { remaining: RemainingBudgetType };
+  user: { data: UserDataType };
+  accounts: { list: AccountType[] };
+  expenses: { list: ExpenseType[]; selectedId: number };
+  budgets: { remaining: RemainingBudgetType };
 }
 
 export type RootStackParamList = {
   Login: undefined;
   Overview: undefined;
-  ContactForm: undefined;
-}
+};

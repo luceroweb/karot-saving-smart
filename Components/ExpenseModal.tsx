@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, memo } from "react";
 import {
   View,
   Text,
@@ -13,35 +13,42 @@ import uuid from "react-native-uuid";
 import { DatePickerModal } from "react-native-paper-dates"; //date picker for web
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { GlobalStateType, ExpenseType } from "../Utils/types";
+import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
+
+import { GlobalStateType } from "../Utils/types";
 import { addExpense, deleteExpense, editExpense } from "../Utils/expenseSlice";
 import {
   setExpenseModalVisibility,
   setExpenseDetailsModalVisiblity,
 } from "../Utils/appSlice";
-import DateTimePickerModal from "react-native-modal-datetime-picker"; //date picker for android/ios
-interface Props {
-  amount: number;
-  setAmount: React.Dispatch<React.SetStateAction<number>>;
-  label: string;
-  setLabel: React.Dispatch<React.SetStateAction<string>>;
-  expense: ExpenseType;
-}
-const ExpenseModal = ({
-  amount,
-  setAmount,
-  label,
-  setLabel,
-  expense,
-}: Props) => {
+import { addAccount, deleteAccount, editAccount } from "../Utils/accountSlice";
+
+const ExpenseModal = memo(() => {
+  const [amount, setAmount] = useState("");
+  const [label, setLabel] = useState("");
   const [date, setDate] = useState(0);
   const [open, setOpen] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [confirm, setConfirm] = useState<boolean>(false);
-  const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
   const appData = useSelector((state: GlobalStateType) => state.app);
 
+  const { modalMode, modalType, selectedAccount, selectedExpense } = appData;
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (modalType === "account") {
+      if (selectedAccount) {
+        setLabel(selectedAccount.label);
+        setAmount(selectedAccount.saved.toString());
+      }
+    } else {
+      if (selectedExpense) {
+        setLabel(selectedExpense.label);
+        setAmount(selectedExpense.saved.toString());
+      }
+    }
+  }, [modalType, selectedAccount, selectedExpense]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -66,7 +73,7 @@ const ExpenseModal = ({
   const handleConfirm = (date: Date) => {
     setDate(Number(date));
     hideDatePicker();
-    onDismissSingle;
+    onDismissSingle();
   };
 
   const onChangeTextAmount = (number: any) => {
@@ -77,41 +84,83 @@ const ExpenseModal = ({
         newText = newText + number[i];
       } else {
         alert("please enter number values only");
+        return;
       }
     }
-    setAmount(Number(newText));
+    setAmount(newText);
   };
 
-  const runAddExpense = () => {
-    if (label.length > 0 && amount > 0) {
-      setLabel(label);
-      setAmount(amount);
-      const newExpense = {
-        label: label,
-        saved: amount,
-        goal: amount,
-        date: date > 0 ? Number(date) : Date.now(),
-        id: uuid.v4().toString(),
-      };
-      dispatch(addExpense(newExpense));
-      dispatch(setExpenseModalVisibility(false));
+  const saveAccount = () => {
+    if (modalMode === "add") {
+      dispatch(
+        addAccount({
+          label: label,
+          saved: amount,
+          goal: amount,
+          date: date > 0 ? Number(date) : Date.now(),
+          id: uuid.v4().toString(),
+        })
+      );
+    } else {
+      if (selectedAccount) {
+        dispatch(
+          editAccount({
+            ...selectedAccount,
+            label,
+            saved: amount,
+            goal: amount,
+            date: date > 0 ? Number(date) : Date.now(),
+          })
+        );
+      }
+    }
+    setLabel("");
+    setAmount("");
+    dispatch(setExpenseModalVisibility(false));
+  };
+
+  const saveExpense = () => {
+    if (modalMode === "add") {
+      dispatch(
+        addExpense({
+          label: label,
+          saved: amount,
+          goal: amount,
+          date: date > 0 ? Number(date) : Date.now(),
+          id: uuid.v4().toString(),
+        })
+      );
+    } else {
+      if (selectedExpense) {
+        dispatch(
+          editExpense({
+            ...selectedExpense,
+            label: label,
+            saved: amount,
+            goal: amount,
+            date: date > 0 ? Number(date) : Date.now(),
+          })
+        );
+      }
+    }
+    setLabel("");
+    setAmount("");
+    dispatch(setExpenseModalVisibility(false));
+    dispatch(setExpenseDetailsModalVisiblity(false));
+  };
+
+  const onSubmit = () => {
+    if (label.length > 0 && +amount > 0) {
+      if (modalType === "account") {
+        saveAccount();
+      } else {
+        saveExpense();
+      }
     } else {
       alert("There is an empty value in one of the inputs");
     }
   };
-  const runEditExpense = () => {
-    const expenseUpdate: ExpenseType = {
-      ...expense,
-      label: label,
-      saved: amount,
-    };
-    dispatch(editExpense(expenseUpdate));
-    dispatch(setExpenseModalVisibility(false));
-  };
-  const runDeleteExpenses = () => {
-    dispatch(deleteExpense(expense.id));
-    dispatch(setExpenseDetailsModalVisiblity(false));
-  };
+
   const displayConfirm = () => (
     <Modal
       style={{ justifyContent: "center", alignItems: "center" }}
@@ -119,13 +168,25 @@ const ExpenseModal = ({
     >
       <View style={styles.confirmContainer}>
         <View>
-          <Text style={styles.buttonText}>Delete {expense.label}?</Text>
+          <Text style={styles.buttonText}>Delete {label}?</Text>
           <View>
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => {
-                runDeleteExpenses();
+                if (modalType === "account") {
+                  console.log({ selectedAccount });
+                  if (selectedAccount) {
+                    dispatch(deleteAccount(selectedAccount));
+                  }
+                } else {
+                  if (selectedExpense) {
+                    dispatch(deleteExpense(selectedExpense));
+                  }
+                }
                 setConfirm(false);
+                setLabel("");
+                setAmount("");
+                dispatch(setExpenseDetailsModalVisiblity(false));
               }}
             >
               <Text style={{ fontSize: 16, alignSelf: "center" }}>Ok</Text>
@@ -148,7 +209,7 @@ const ExpenseModal = ({
   return (
     <View style={styles.container}>
       {confirm && displayConfirm()}
-      <Modal visible={appData?.expenseModalVisibility} transparent={true}>
+      <Modal visible={appData?.expenseDetailsModalVisiblity} transparent={true}>
         {/* This is where the Form starts */}
         <View style={styles.modalSize}>
           <View style={styles.titleContainer}>
@@ -156,7 +217,7 @@ const ExpenseModal = ({
               <TouchableOpacity
                 style={styles.xIcon}
                 onPress={() => {
-                  dispatch(setExpenseModalVisibility(false));
+                  dispatch(setExpenseDetailsModalVisiblity(false));
                 }}
               >
                 <Feather
@@ -169,9 +230,9 @@ const ExpenseModal = ({
             </View>
             <View>
               <Text style={styles.titleText}>
-                {appData?.modalMode === "add"
-                  ? "Add Expense"
-                  : "Update Expense"}
+                {`${modalMode === "add" ? "Add" : "Update"} ${
+                  modalType === "expense" ? "Expense" : "Account"
+                }`}
               </Text>
             </View>
           </View>
@@ -193,9 +254,7 @@ const ExpenseModal = ({
             </Text>
             <TextInput
               style={styles.inputStyle}
-              value={
-                appData?.modalMode !== "add" ? amount?.toString() : undefined
-              }
+              value={amount.toString()}
               onChangeText={(number) => onChangeTextAmount(number)}
             />
           </View>
@@ -227,45 +286,22 @@ const ExpenseModal = ({
               </View>
             )}
           </View>
-          {appData?.modalMode === "add" ? (
+
+          <TouchableOpacity onPress={onSubmit} style={styles.buttonStyle}>
+            <Text style={{ fontSize: 16 }}>
+              {modalMode === "add" ? "Confirm" : "Update"}
+            </Text>
+          </TouchableOpacity>
+          {modalMode === "edit" && (
             <TouchableOpacity
+              style={styles.buttonStyle}
               onPress={() => {
-                runAddExpense();
-                setLabel("");
-                setAmount(0);
-                setDate(0);
+                setConfirm(true);
                 dispatch(setExpenseModalVisibility(false));
               }}
-              style={styles.buttonStyle}
             >
-              <Text style={{ fontSize: 16 }}>Confirm</Text>
+              <Text style={{ fontSize: 16, alignSelf: "center" }}>Delete</Text>
             </TouchableOpacity>
-          ) : (
-            <View style={styles.buttonWrap}>
-              <TouchableOpacity
-                onPress={() => {
-                  runEditExpense();
-                  setLabel("");
-                  setAmount(0);
-                  setDate(0);
-                  dispatch(setExpenseModalVisibility(false));
-                }}
-                style={styles.buttonStyle}
-              >
-                <Text style={{ fontSize: 16 }}>Update</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={() => {
-                  setConfirm(true);
-                  dispatch(setExpenseModalVisibility(false));
-                }}
-              >
-                <Text style={{ fontSize: 16, alignSelf: "center" }}>
-                  Delete
-                </Text>
-              </TouchableOpacity>
-            </View>
           )}
 
           {/* This is where the form ends */}
@@ -273,7 +309,7 @@ const ExpenseModal = ({
       </Modal>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -290,12 +326,12 @@ const styles = StyleSheet.create({
   inputStyle: {
     width: 150,
     height: 30,
-    borderWidth: 1,
-    borderColor: "#000",
     fontSize: 20,
     fontWeight: "bold",
-    backgroundColor: "#fff",
     paddingLeft: 10,
+    borderWidth: 1,
+    borderColor: "#000",
+    backgroundColor: "#fff",
   },
   xIcon: {
     alignSelf: "flex-end",
@@ -357,3 +393,4 @@ const styles = StyleSheet.create({
 });
 
 export default ExpenseModal;
+

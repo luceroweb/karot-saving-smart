@@ -23,6 +23,7 @@ import {
   setModalMode,
   setExpenseModalVisibility,
   setExpenseDetailsModalVisiblity,
+  setModalType,
 } from "../Utils/appSlice";
 
 export default function ExpenseDetailView() {
@@ -35,18 +36,21 @@ export default function ExpenseDetailView() {
   const selectedId = useSelector(
     (state: GlobalStateType) => state.expenses.selectedId
   );
-  const expenseLabel = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].label
+
+  const expenses = useSelector((state: GlobalStateType) => state.expenses.list);
+
+  const selectedExpense = expenses.find(
+    (expense) => selectedId && expense.id === selectedId.toString()
   );
-  const goalDate = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].date
-  );
-  const currentSaving = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].saved
-  );
-  const targetAmount = useSelector(
-    (state: GlobalStateType) => state.expenses.list[selectedId].goal
-  );
+
+  const expenseLabel = selectedExpense?.label || "";
+
+  const goalDate = selectedExpense?.date || 0;
+
+  const currentSaving = selectedExpense?.saved || 0;
+
+  const targetAmount = selectedExpense?.goal || 0;
+
   const moneyTotal = useSelector(
     (state: GlobalStateType) => state.budgets.remaining.accountsTotal
   );
@@ -70,6 +74,7 @@ export default function ExpenseDetailView() {
           onPress={() => {
             dispatch(setExpenseModalVisibility(true));
             dispatch(setModalMode("edit"));
+            dispatch(setModalType("expense"));
           }}
         >
           <Feather
@@ -78,7 +83,7 @@ export default function ExpenseDetailView() {
             size={24}
             color="#FFFFFF"
             onPress={() => {
-              dispatch(setSelectedId(-1));
+              dispatch(setSelectedId(undefined));
               dispatch(setExpenseDetailsModalVisiblity(false));
             }}
           />
@@ -107,7 +112,7 @@ export default function ExpenseDetailView() {
         </TouchableOpacity>
 
         <View style={styles.transactionsExpenses}>
-          <Text style={styles.RecentTransactions}> Recent Transactions </Text>
+          {/* <Text style={styles.RecentTransactions}> Recent Transactions </Text> */}
         </View>
       </LinearGradient>
     </View>

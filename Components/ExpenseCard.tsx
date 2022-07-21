@@ -42,9 +42,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 23,
     aspectRatio: 1,
-    margin: 8,
-    height: width / 2.5 > 180 ? 180 : width / 2.5 < 160 ? 160 : width / 2.5,
     width: width / 2.5 > 180 ? 180 : width / 2.5,
+    margin: 5,
   },
   expenseAmount: {
     textAlign: "center",
@@ -102,3 +101,4 @@ const styles = StyleSheet.create({
     bottom: 36,
   },
 });
+

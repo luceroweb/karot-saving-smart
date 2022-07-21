@@ -1,35 +1,31 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import React, { FC, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddAccountButton from "./AddAccountButton";
-import { AccountType, GlobalStateType } from "../Utils/types";
-import AccountModal from "./AccountModal";
+import { GlobalStateType } from "../Utils/types";
+import {
+  setExpenseModalVisibility,
+  setModalMode,
+  setModalType,
+  setSelectedAccount,
+} from "../Utils/appSlice";
 
 const AccountsDropDown: FC = () => {
-  const blankAccount: AccountType = {
-    label: "",
-    saved: 0,
-    goal: 0,
-    date: Date.now(),
-    id: "",
-  };
+  const dispatch = useDispatch();
 
   const listOfAccounts = useSelector(
     (state: GlobalStateType) => state.accounts.list
   );
-
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [account, setAccount] = useState<AccountType>(blankAccount);
-  const [mode, setMode] = useState<"edit" | "add">("add");
 
   const generateList = listOfAccounts.map((account) => (
     <TouchableOpacity
       key={account.id}
       style={styles.container}
       onPress={() => {
-        setMode("edit");
-        setAccount(account);
-        setIsVisible(true);
+        dispatch(setModalMode("edit"));
+        dispatch(setModalType("account"));
+        dispatch(setSelectedAccount(account));
+        dispatch(setExpenseModalVisibility(true));
       }}
     >
       <Text style={styles.label}>{account.label}</Text>
@@ -41,19 +37,8 @@ const AccountsDropDown: FC = () => {
     <View style={styles.dropDownWrapper}>
       <Text style={styles.heading}>Accounts</Text>
       {generateList}
-      <AccountModal
-        account={account}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        mode={mode}
-        setAccount={setAccount}
-      />
-      <AddAccountButton
-        setAccount={setAccount}
-        setIsVisible={setIsVisible}
-        setMode={setMode}
-        blankAccount={blankAccount}
-      />
+
+      <AddAccountButton />
     </View>
   );
 };

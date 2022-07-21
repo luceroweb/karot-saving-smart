@@ -1,27 +1,35 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import uuid from "react-native-uuid";
 import { AccountType } from "../Utils/types";
+import { useDispatch } from "react-redux";
+import {
+  setExpenseModalVisibility,
+  setModalMode,
+  setModalType,
+  setSelectedAccount,
+} from "../Utils/appSlice";
 
-interface Props {
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setAccount: React.Dispatch<React.SetStateAction<AccountType>>;
-  setMode: React.Dispatch<React.SetStateAction<"edit" | "add">>;
-  blankAccount: AccountType;
-}
-const AddAccountButton = ({
-  setIsVisible,
-  setAccount,
-  setMode,
-  blankAccount,
-}: Props) => {
+const AddAccountButton = () => {
+  const newAccount = {
+    label: "",
+    saved: 0,
+    goal: 0,
+    date: Date.now(),
+    id: uuid.v4().toString(),
+  };
+
+  const dispatch = useDispatch();
+
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          setIsVisible(true);
-          setAccount(blankAccount);
-          setMode("add");
+          dispatch(setModalMode("add"));
+          dispatch(setModalType("account"));
+          dispatch(setSelectedAccount(newAccount));
+          dispatch(setExpenseModalVisibility(true));
         }}
       >
         <AntDesign

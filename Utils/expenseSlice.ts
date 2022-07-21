@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ExpenseType } from "./types";
 
 interface InitialStateType {
   list: ExpenseType[];
-  selectedId: number;
+  selectedId: string | undefined;
 }
 
 const initialState: InitialStateType = {
   list: [],
-  selectedId: -1,
+  selectedId: undefined,
 };
 
 export const expenseSlice = createSlice({
@@ -18,7 +18,7 @@ export const expenseSlice = createSlice({
     addExpense: (state, action) => {
       state.list = [...state.list, action.payload];
     },
-    setSelectedId: (state, action) => {
+    setSelectedId: (state, action: PayloadAction<string | undefined>) => {
       state.selectedId = action.payload;
     },
     editExpense: (state, action) => {
@@ -27,9 +27,9 @@ export const expenseSlice = createSlice({
       );
       state.list = updateExpense;
     },
-    deleteExpense: (state, action) => {
+    deleteExpense: (state, action: PayloadAction<ExpenseType>) => {
       const filteredExpense = state.list.filter(
-        (expense) => expense.id !== action.payload
+        (expense) => expense.id !== action.payload.id
       );
       state.list = filteredExpense;
     },
@@ -40,3 +40,4 @@ export const { addExpense, setSelectedId, editExpense, deleteExpense } =
   expenseSlice.actions;
 
 export default expenseSlice.reducer;
+

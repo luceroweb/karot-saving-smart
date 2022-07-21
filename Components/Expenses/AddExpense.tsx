@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { setModalMode, setExpenseModalVisibility } from "../../Utils/appSlice";
 import { useDispatch } from "react-redux";

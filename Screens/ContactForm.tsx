@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,94 +6,89 @@ import {
   StyleSheet,
   Pressable,
   Linking,
+  Keyboard,
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'; 
-import { RootStackParamList } from "../Utils/types";
-
-type Props = NativeStackScreenProps<RootStackParamList, "ContactForm">
+import { AntDesign } from '@expo/vector-icons';
 
 
-const ContactForm:FC<Props> = ({ navigation }) => {
+const ContactForm = () => {
   const [email, setEmail] = useState<string>("");
-  const [subject, setSubject] = useState<string>("placeholder 1");
+  const [selectedItem, setSelectedItem] = useState<string>("");
   const [message, setMessage] = useState<string>("");
  
   
+
   const sendContactForm = () => {
-    if (!email.trim()) {
-      alert("Please Enter Email");
-      return;
-    }
-    if (!message.trim()) {
-      alert("Please Add Message");
-      return;
-    }
-    let mailto = `mailto:jlucero@alphaworks.tech`;
-    mailto += `?subject=${subject}`;
+    let mailto = `mailto=jlucero@alphaworks.tech`;
     mailto += `&body=${message}`;
     Linking.openURL(mailto);
-    alert("Message Sent!");
   };
 
-
-
   return (
-    <KeyboardAwareScrollView>
     <View style={styles.container}>
+      <View style={styles.backArrow}>
+      <AntDesign 
+        name="left" 
+        size={24} 
+        color="#FFFFFF"
+        onPress={()=>{}}
+      />
+      </View>
+      
+      
       <Text style={styles.header}>Contact Us</Text>
 
       {/* Subject Text Input */}
       <View>
-        <Text style={styles.inputHeaders}>Email</Text>
-        <TextInput
-          style={[styles.inputs,styles.email]}
-          onChangeText={(email) => setEmail(email)}
-          value={email}
-          placeholder="example@domain.com"
-        />
+    <Text style={styles.inputHeaders}>Email</Text>
+      <TextInput
+        style={[styles.inputs,styles.email]}
+        onChangeText={(email) => setEmail(email)}
+        value={email}
+      />
 
       {/* Dropdown Menu */}
-        <Text style={[styles.inputHeaders]}>Subject</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={subject}
-          onValueChange={
-            (value, index) =>
-            setSubject(value)
-          }
-        >
+      <Text style={[styles.inputHeaders]}>Subject</Text>
+      <Picker
+        style={styles.picker}
+        selectedValue={selectedItem}
+        onValueChange={
+          (value, index) =>
+          setSelectedItem(value)
+        }
+      >
         <Picker.Item 
           label="placeholder 1" 
           value="placeholder 1"
           />
         <Picker.Item 
           label="placeholder 2" 
-          value="placeholder 2"
+          value="jplaceholder 2"
           />
-        </Picker>
+      </Picker>
 
       {/* Message text input */}
-        <Text style={styles.inputHeaders}>Enter Message</Text>
-        <TextInput
-          style={[styles.inputs,styles.messageInput]}
-          onChangeText={(e) => setMessage(e)}
-          placeholder="Write your message here..."
-          value={message}
-          numberOfLines={7}
-          multiline={true}
-        />
+      <Text style={styles.inputHeaders}>Enter Message</Text>
+      <TextInput
+        style={[styles.inputs,styles.messageInput]}
+        onChangeText={(e) => setMessage(e)}
+        value={message}
+        numberOfLines={10}
+        multiline={true}
+        keyboardType="default"
+        returnKeyType="done"
+        onSubmitEditing={()=>{Keyboard.dismiss()}}
+      />
       </View>
 
       <Pressable 
         onPress={sendContactForm}
         style={styles.submitButton}
-      >
+        >
         <Text style={styles.buttonText}>Send</Text>
       </Pressable>
     </View>
-    </KeyboardAwareScrollView>
   );
 };
 
@@ -104,9 +99,14 @@ const styles = StyleSheet.create({
       height: "100%",
       width: "100%",
     },
+    backArrow: {
+      position: "absolute",
+      top: 20,
+      left: 20,
+    },
     header:{
       fontSize: 30,
-      marginTop: 25,
+      marginTop: 40,
       marginBottom: 25,
       color: "#FFFFFF",
       fontFamily: "Sarabun_700Bold"
@@ -147,17 +147,16 @@ const styles = StyleSheet.create({
       justifyContent: "center",
     },
     messageInput:{
-      height: 170,
+      height: 190,
       backgroundColor: '#FFFFFF',
       fontFamily: "Sarabun_600SemiBold",
       fontSize: 15,
-      paddingLeft: 10,
+      padding: 10,
     },
     submitButton:{
       marginTop: 30,
       marginLeft: 30,
       marginRight: 30,
-      marginBottom: 50,
       width: 118,
       height: 56,
       backgroundColor: '#FFFFFF',

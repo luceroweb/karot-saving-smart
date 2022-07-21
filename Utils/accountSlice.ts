@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { AccountType } from "./types";
 
 interface InitialStateType {
@@ -22,9 +23,9 @@ export const accountSlice = createSlice({
       );
       state.list = updatedAccounts;
     },
-    deleteAccount: (state, action) => {
+    deleteAccount: (state, action: PayloadAction<AccountType>) => {
       const filteredAccounts = state.list.filter(
-        (account) => account.id !== action.payload
+        (account) => account.id !== action.payload.id
       );
       state.list = filteredAccounts;
     },
