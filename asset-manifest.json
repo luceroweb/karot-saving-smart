@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/karot-saving-smart/static/js/app.8dc9f07a.chunk.js",
-    "app.js.map": "/karot-saving-smart/static/js/app.8dc9f07a.chunk.js.map",
+    "app.js": "/karot-saving-smart/static/js/app.2ce0bca8.chunk.js",
+    "app.js.map": "/karot-saving-smart/static/js/app.2ce0bca8.chunk.js.map",
     "runtime~app.js": "/karot-saving-smart/static/js/runtime~app.4a9843b1.js",
     "runtime~app.js.map": "/karot-saving-smart/static/js/runtime~app.4a9843b1.js.map",
     "static/js/2.e2148f4e.chunk.js": "/karot-saving-smart/static/js/2.e2148f4e.chunk.js",
@@ -46,6 +46,6 @@
   "entrypoints": [
     "static/js/runtime~app.4a9843b1.js",
     "static/js/2.e2148f4e.chunk.js",
-    "static/js/app.8dc9f07a.chunk.js"
+    "static/js/app.2ce0bca8.chunk.js"
   ]
 }
