@@ -22,7 +22,7 @@ const RootNavigation = () => {
     screens: {
       Login: `${rootPath}login`,
       Logout: `${rootPath}logout`,
-      Overview: `${rootPath}logout`,
+      Overview: `${rootPath}overview`,
       ContactForm: `${rootPath}contact`,
     },
   };
