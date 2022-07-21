@@ -16,12 +16,14 @@ const RootNavigation = () => {
     (state) => state.user.data.loggedIn
   );
 
+  const rootPath = "karot-saving-smart/";
+
   const config = {
     screens: {
-      Login: "login",
-      Logout: "logout",
-      Overview: "overview",
-      ContactForm: "contact",
+      Login: `${rootPath}login`,
+      Logout: `${rootPath}logout`,
+      Overview: `${rootPath}logout`,
+      ContactForm: `${rootPath}contact`,
     },
   };
 
