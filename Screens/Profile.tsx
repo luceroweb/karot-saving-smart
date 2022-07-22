@@ -8,10 +8,10 @@ const Profile: FC = () => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: userData.avatar }} style={styles.profileImage} />
-      <Text style={styles.userText}>
+      <Text style={styles.userName}>
         {userData.firstName} {userData.lastName}
       </Text>
-      <Text style={styles.userText}>{userData.email}</Text>
+      <Text style={styles.userEmail}>{userData.email}</Text>
     </View>
   );
 };
@@ -22,13 +22,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-    padding: 40,
+    paddingBottom: 40,
     minHeight: 180,
   },
-  userText: {
+  userName: {
     textAlign: "center",
     fontSize: 20,
-    fontFamily: "Sarabun_400Regular",
+    fontFamily: "Sarabun_600SemiBold",
+  },
+  userEmail: {
+    textAlign: "center",
+    fontSize: 15,
+    fontFamily: "Sarabun_300Light",
   },
   profileImage: {
     width: 96,
