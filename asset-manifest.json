@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/karot-saving-smart/static/js/app.2ce0bca8.chunk.js",
-    "app.js.map": "/karot-saving-smart/static/js/app.2ce0bca8.chunk.js.map",
+    "app.js": "/karot-saving-smart/static/js/app.f07c23d8.chunk.js",
+    "app.js.map": "/karot-saving-smart/static/js/app.f07c23d8.chunk.js.map",
     "runtime~app.js": "/karot-saving-smart/static/js/runtime~app.4a9843b1.js",
     "runtime~app.js.map": "/karot-saving-smart/static/js/runtime~app.4a9843b1.js.map",
-    "static/js/2.e2148f4e.chunk.js": "/karot-saving-smart/static/js/2.e2148f4e.chunk.js",
-    "static/js/2.e2148f4e.chunk.js.map": "/karot-saving-smart/static/js/2.e2148f4e.chunk.js.map",
+    "static/js/2.4ce62dfd.chunk.js": "/karot-saving-smart/static/js/2.4ce62dfd.chunk.js",
+    "static/js/2.4ce62dfd.chunk.js.map": "/karot-saving-smart/static/js/2.4ce62dfd.chunk.js.map",
     "fonts/AntDesign.ttf": "/karot-saving-smart/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/karot-saving-smart/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/karot-saving-smart/./fonts/Feather.ttf",
@@ -40,12 +40,13 @@
     "index.html": "/karot-saving-smart/index.html",
     "manifest.json": "/karot-saving-smart/manifest.json",
     "serve.json": "/karot-saving-smart/serve.json",
-    "static/js/2.e2148f4e.chunk.js.LICENSE.txt": "/karot-saving-smart/static/js/2.e2148f4e.chunk.js.LICENSE.txt",
+    "static/js/2.4ce62dfd.chunk.js.LICENSE.txt": "/karot-saving-smart/static/js/2.4ce62dfd.chunk.js.LICENSE.txt",
+    "static/media/btn_google_signin_dark_normal_web.png": "/karot-saving-smart/static/media/btn_google_signin_dark_normal_web.a8673c5e.png",
     "static/media/logo_combined.png": "/karot-saving-smart/static/media/logo_combined.0741e8aa.png"
   },
   "entrypoints": [
     "static/js/runtime~app.4a9843b1.js",
-    "static/js/2.e2148f4e.chunk.js",
-    "static/js/app.2ce0bca8.chunk.js"
+    "static/js/2.4ce62dfd.chunk.js",
+    "static/js/app.f07c23d8.chunk.js"
   ]
 }
