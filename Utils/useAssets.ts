@@ -28,7 +28,10 @@ export default function useAssets() {
           Sarabun_600SemiBold,
           Sarabun_700Bold,
         });
-        await Asset.loadAsync([require("../Images/logo/logo_combined.png")]);
+        await Asset.loadAsync([
+          require("../Images/logo/logo_combined.png"), 
+          require("../Images/btn_google_signin_dark_normal_web.png")
+      ]);
       } catch (e) {
         // handle errors
       } finally {

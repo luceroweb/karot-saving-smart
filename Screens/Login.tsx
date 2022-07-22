@@ -12,6 +12,7 @@ import {
   Platform,
 } from "react-native";
 import logoCombinedImage from "../Images/logo/logo_combined.png";
+import GoogleSignIn from "../Images/btn_google_signin_dark_normal_web.png";
 import { LinearGradient } from "expo-linear-gradient";
 import { GlobalStateType } from "../Utils/types";
 import { useSelector, useDispatch } from "react-redux";
@@ -144,7 +145,19 @@ const Login: FC = () => {
             }}
             style={styles.loginButton}
           >
-            <Text style={styles.textLogin}>Login</Text>
+            <Image
+              style={{
+                maxWidth: "90%",
+                width: 191,
+                height: 46,
+              }}
+              resizeMode="contain"
+              source={GoogleSignIn}
+              fadeDuration={0}
+              onLoadEnd={onLogoImageReady}
+              accessible
+              accessibilityLabel="Sign In with Google"
+            />
           </TouchableOpacity>
         </Animated.View>
       </LinearGradient>
@@ -172,16 +185,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     flexDirection: "column",
-    height: 40,
-    width: 80,
-    backgroundColor: "white",
     justifyContent: "center",
-    borderRadius: 10,
-  },
-  textLogin: {
-    textAlign: "center",
-    fontSize: 20,
-    fontFamily: "Sarabun_700Bold",
   },
   splashImageContainer: {
     width: "100%",
