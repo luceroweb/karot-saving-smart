@@ -9,8 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "deploy": "gh-pages -d web-build",
-    "predeploy": "expo build:web",
-    "postinstall": "patch-package"
+    "predeploy": "expo build:web"
   },
   "dependencies": {
     "@expo-google-fonts/raleway": "^0.2.2",
@@ -34,7 +33,6 @@
     "expo-web-browser": "~10.2.1",
     "gh-pages": "^4.0.0",
     "moment": "^2.29.3",
-    "patch-package": "^6.4.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
